@@ -21,6 +21,7 @@
 #include "TextureCombine.h"
 #include "TextureDepthCompositing.h"
 #include "compositing_gl/CompositingCalls.h"
+#include "Contours.h"
 
 namespace megamol::compositing_gl {
 class CompositingPluginInstance : public megamol::core::factories::AbstractPluginInstance {
@@ -49,6 +50,7 @@ public:
         this->module_descriptions.RegisterAutoDescription<megamol::compositing_gl::PNGDataSource>();
         this->module_descriptions.RegisterAutoDescription<megamol::compositing_gl::TexInspectModule>();
         this->module_descriptions.RegisterAutoDescription<megamol::compositing_gl::ScreenSpaceEdges>();
+        this->module_descriptions.RegisterAutoDescription<megamol::compositing_gl::Contours>();
 
         // register calls
         this->call_descriptions.RegisterAutoDescription<megamol::compositing_gl::CallTexture2D>();
