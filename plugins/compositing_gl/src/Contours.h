@@ -109,6 +109,11 @@ private:
      */
     void setGUIState(int mode);
 
+
+    void recalcMediaBufferSize();
+
+
+
     /** Slot for the output texture */
     core::CalleeSlot outputTexSlot_;
 
@@ -127,6 +132,8 @@ private:
     /** Param for pixel radius suggestive contours */
     core::param::ParamSlot radius_;
 
+    core::param::ParamSlot medianRadius_;
+
     /** Param for suggestive contour intensitiy threshold */
     core::param::ParamSlot suggestiveThreshold_;
 
@@ -143,11 +150,14 @@ private:
 
     std::unique_ptr<glowl::GLSLProgram> intensityShader_;
 
-    /** final output texture */
-    std::shared_ptr<glowl::Texture2D> outputTex_;
+    std::unique_ptr<glowl::GLSLProgram> medianFilter_;
+
 
     std::shared_ptr<glowl::Texture2D> intensityTex_;
 
+    std::shared_ptr<glowl::Texture2D> contoursTex_;
+    /** final output texture */
+    std::shared_ptr<glowl::Texture2D> outputTex_;
 
     };
 } // namespace megamol::compositing_gl

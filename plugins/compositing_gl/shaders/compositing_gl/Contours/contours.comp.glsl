@@ -46,13 +46,14 @@ void main() {
     float gx = applyFilter(sobel_kernel_x, target_res, pixel_coords);
     float gy = applyFilter(sobel_kernel_y, target_res, pixel_coords);
 
-    float gradient = sqrt(pow(gx, 2) + pow(gy, 2));
+    float gradient = pow(gx, 2) + pow(gy, 2);
     vec4 color_texture = texelFetch(color_tex_2D, pixel_coords, 0);
     vec4 color_black = vec4(0, 0, 0, 1);
+    vec4 color_white = vec4(1);
 
-    if(gradient > threshold) {
+    if(gradient > pow(threshold, 2)) {
         imageStore(target_tex, pixel_coords, color_black);
     } else {
-        imageStore(target_tex, pixel_coords, color_texture);
+        imageStore(target_tex, pixel_coords, color_white);
     }
 }

@@ -20,6 +20,7 @@ megamol::compositing_gl::Contours::Contours()
         , contoursShader_(nullptr)
         , suggestiveContoursShader_(nullptr)
         , intensityTex_(nullptr)
+        , contoursTex_(nullptr)
         , outputTex_(nullptr)
 
         , outputTexSlot_("OutputTexture", "Gives access to the resulting output texture.")
@@ -29,6 +30,7 @@ megamol::compositing_gl::Contours::Contours()
         , cameraSlot_("Camera", "Connects a (copy of) camera state.")
         , sobelThreshold_("Threshold", "Threshold, that determines which gradient values should be used as edge.")
         , radius_("Radius", "Radius for Valey detection inside suggestive contour algorithm.")
+        , medianRadius_("MediaRadius", "Radius for median Kernel")
         , suggestiveThreshold_("Suggestive_Threshold", "Threshold for p_max - p_i")
         , mode_("contourMode", "Sets Contour Mode to different algorithms.") 
 {
@@ -65,7 +67,11 @@ megamol::compositing_gl::Contours::Contours()
     this->MakeSlotAvailable(&radius_);
     radius_.ForceSetDirty();
 
-    suggestiveThreshold_.SetParameter(new core::param::FloatParam(0.1f, 0.0f, 2.f, 0.05f));
+    medianRadius_.SetParameter(new core::param::IntParam(2));
+    this->MakeSlotAvailable(&medianRadius_);
+    medianRadius_.ForceSetDirty();
+
+    suggestiveThreshold_.SetParameter(new core::param::FloatParam(0.1f, 0.0f, 2.f, 0.001f));
     this->MakeSlotAvailable(&suggestiveThreshold_);
     suggestiveThreshold_.ForceSetDirty();
 
@@ -94,6 +100,9 @@ bool megamol::compositing_gl::Contours::create() {
         suggestiveContoursShader_ = core::utility::make_glowl_shader(
             "suggestive contours", shdr_options, std::filesystem::path("compositing_gl/Contours/suggestive_contours.comp.glsl"));
 
+        medianFilter_ = core::utility::make_glowl_shader(
+            "median filter", shdr_options, std::filesystem::path("compositing_gl/Contours/contour_median_filter.comp.glsl"));
+
     } catch (glowl::GLSLProgramException const& ex) {
         megamol::core::utility::log::Log::DefaultLog.WriteError("[Contours] %s", ex.what());
     } catch (std::exception const& ex) {
@@ -105,8 +114,9 @@ bool megamol::compositing_gl::Contours::create() {
     }
 
     glowl::TextureLayout tx_layout{GL_RGBA16F, 1, 1, 1, GL_RGBA, GL_HALF_FLOAT, 1};
-    outputTex_ = std::make_shared<glowl::Texture2D>("contours_output", tx_layout, nullptr);
     intensityTex_ = std::make_shared<glowl::Texture2D>("intensity", tx_layout, nullptr);
+    contoursTex_ = std::make_shared<glowl::Texture2D>("contours", tx_layout, nullptr);
+    outputTex_ = std::make_shared<glowl::Texture2D>("contours_output", tx_layout, nullptr);
 
     return true;
 }
@@ -156,6 +166,7 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
                           radius_.IsDirty() ||
                           sobelThreshold_.IsDirty() ||
                           suggestiveThreshold_.IsDirty() ||
+                          medianRadius_.IsDirty() ||
                           mode_.IsDirty();
 
     if (incomingChange) {
@@ -165,10 +176,12 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
         radius_.ResetDirty();
         suggestiveThreshold_.ResetDirty();
         mode_.ResetDirty();
+        medianRadius_.ResetDirty();
 
         auto sobleThresholdVal = sobelThreshold_.Param<core::param::FloatParam>()->Value();
         auto radiusVal = radius_.Param<core::param::IntParam>()->Value();
         auto suggestiveThresholdVal = suggestiveThreshold_.Param<core::param::FloatParam>()->Value();
+        auto current_mode = mode_.Param<core::param::EnumParam>()->Value();
 
         auto normal_tex_2D = call_normal->getData();
         auto color_tex_2D = call_color->getData();
@@ -181,36 +194,34 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
 
         fitTextures(depth_tex_2D);
 
-        if(this->mode_.Param<core::param::EnumParam>()->Value() == 0) {
+        if(current_mode == 0) {
 
-            // sobelThreshold_.Param<megamol::core::param::FloatParam>()->SetGUIVisible(true);
-            // radius_.Param<megamol::core::param::FloatParam>()->SetGUIVisible(false);
-            // suggestiveThreshold_.Param<megamol::core::param::FloatParam>()->SetGUIVisible(false);
+            this->setGUIState(current_mode);
 
             if(contoursShader_ != nullptr) {
 
                 contoursShader_->use();
                 contoursShader_->setUniform("threshold", sobelThreshold_.Param<core::param::FloatParam>()->Value());
-                bindTexture(contoursShader_, depth_tex_2D, "depth_tex_2D", 0);
-                bindTexture(contoursShader_, color_tex_2D, "color_tex_2D", 1);
+                this->bindTexture(contoursShader_, depth_tex_2D, "depth_tex_2D", 0);
+                this->bindTexture(contoursShader_, color_tex_2D, "color_tex_2D", 1);
                 outputTex_->bindImage(0, GL_WRITE_ONLY);
 
                 glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
                     static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
 
                 glUseProgram(0);
+
+                glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
             }
 
-        } else if(this->mode_.Param<core::param::EnumParam>()->Value() == 1) {
+        } else if(current_mode == 1) {
             
-            // sobelThreshold_.Param<megamol::core::param::FloatParam>()->SetGUIVisible(false);
-            // radius_.Param<megamol::core::param::FloatParam>()->SetGUIVisible(true);
-            // suggestiveThreshold_.Param<megamol::core::param::FloatParam>()->SetGUIVisible(true);
+            this->setGUIState(current_mode);
 
             intensityShader_->use();
 
-            bindTexture(intensityShader_, depth_tex_2D, "depth_tex_2D", 0);
-            bindTexture(intensityShader_, normal_tex_2D, "normal_tex_2D", 1);
+            this->bindTexture(intensityShader_, depth_tex_2D, "depth_tex_2D", 0);
+            this->bindTexture(intensityShader_, normal_tex_2D, "normal_tex_2D", 1);
 
             glUniform3fv(intensityShader_->getUniformLocation("cam_pos"), 1, glm::value_ptr(cam_pose.position));
 
@@ -231,8 +242,8 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
 
             intensityTex_->bindImage(0, GL_WRITE_ONLY);
 
-            glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
-                static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
+            glDispatchCompute(static_cast<int>(std::ceil(intensityTex_->getWidth() / 8.0f)),
+                static_cast<int>(std::ceil(intensityTex_->getHeight() / 8.0f)), 1);
 
             glUseProgram(0);
 
@@ -243,8 +254,8 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
             suggestiveContoursShader_->setUniform("radius", radius_.Param<core::param::IntParam>()->Value());
             suggestiveContoursShader_->setUniform("threshold", suggestiveThreshold_.Param<core::param::FloatParam>()->Value());
 
-            bindTexture(suggestiveContoursShader_, color_tex_2D, "color_tex_2D", 0);
-            bindTexture(suggestiveContoursShader_, intensityTex_, "intensity_tex", 1);
+            this->bindTexture(suggestiveContoursShader_, color_tex_2D, "color_tex_2D", 0);
+            this->bindTexture(suggestiveContoursShader_, intensityTex_, "intensity_tex", 1);
             
             outputTex_->bindImage(0, GL_WRITE_ONLY);
 
@@ -253,7 +264,21 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
 
             glUseProgram(0);
 
-            glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
+            // glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
+
+            // medianFilter_->use();
+
+            // medianFilter_->setUniform("radius", medianRadius_.Param<core::param::IntParam>()->Value());
+            // this->bindTexture(medianFilter_, contoursTex_, "contours_tex", 0);
+            
+            // outputTex_->bindImage(0, GL_WRITE_ONLY);
+
+            // glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
+            //     static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
+
+            // glUseProgram(0);
+
+            // glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
         }
     }
 
@@ -268,7 +293,7 @@ bool megamol::compositing_gl::Contours::getMetaDataCallback(core::Call& caller) 
 
 void megamol::compositing_gl::Contours::fitTextures(std::shared_ptr<glowl::Texture2D> source) {
     std::pair<int, int> resolution(source->getWidth(), source->getHeight());
-    std::vector<std::shared_ptr<glowl::Texture2D>> texVec = {outputTex_, intensityTex_ };
+    std::vector<std::shared_ptr<glowl::Texture2D>> texVec = {outputTex_, intensityTex_, contoursTex_ };
     for (auto& tex : texVec) {
         if (tex->getWidth() != resolution.first || tex->getHeight() != resolution.second) {
             glowl::TextureLayout tx_layout{
@@ -288,4 +313,23 @@ void megamol::compositing_gl::Contours::bindTexture(
     glActiveTexture(glTex[num]);
     texture->bindTexture();
     glUniform1i(shader->getUniformLocation(tex_name), num);
+}
+
+void megamol::compositing_gl::Contours::setGUIState(int mode) {
+    switch (mode)
+    {
+    case 0:
+        sobelThreshold_.Param<core::param::FloatParam>()->SetGUIVisible(true);
+        radius_.Param<core::param::IntParam>()->SetGUIVisible(false);
+        suggestiveThreshold_.Param<megamol::core::param::FloatParam>()->SetGUIVisible(false);
+        break;
+    
+    case 1:
+        sobelThreshold_.Param<core::param::FloatParam>()->SetGUIVisible(false);
+        radius_.Param<core::param::IntParam>()->SetGUIVisible(true);
+        suggestiveThreshold_.Param<core::param::FloatParam>()->SetGUIVisible(true);
+
+    default:
+        break;
+    }
 }
