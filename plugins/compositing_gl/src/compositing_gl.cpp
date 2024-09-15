@@ -22,6 +22,7 @@
 #include "TextureDepthCompositing.h"
 #include "compositing_gl/CompositingCalls.h"
 #include "Contours.h"
+#include "MedianFilter.h"
 
 namespace megamol::compositing_gl {
 class CompositingPluginInstance : public megamol::core::factories::AbstractPluginInstance {
@@ -51,6 +52,7 @@ public:
         this->module_descriptions.RegisterAutoDescription<megamol::compositing_gl::TexInspectModule>();
         this->module_descriptions.RegisterAutoDescription<megamol::compositing_gl::ScreenSpaceEdges>();
         this->module_descriptions.RegisterAutoDescription<megamol::compositing_gl::Contours>();
+        this->module_descriptions.RegisterAutoDescription<megamol::compositing_gl::MedianFilter>();
 
         // register calls
         this->call_descriptions.RegisterAutoDescription<megamol::compositing_gl::CallTexture2D>();

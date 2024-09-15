@@ -12,6 +12,7 @@
 #include "mmcore/param/FloatParam.h"
 #include "mmcore/param/IntParam.h"
 #include "mmcore/param/EnumParam.h"
+#include "mmcore/param/BoolParam.h"
 #include "mmcore_gl/utility/ShaderFactory.h"
 
 megamol::compositing_gl::Contours::Contours()
@@ -30,7 +31,6 @@ megamol::compositing_gl::Contours::Contours()
         , cameraSlot_("Camera", "Connects a (copy of) camera state.")
         , sobelThreshold_("Threshold", "Threshold, that determines which gradient values should be used as edge.")
         , radius_("Radius", "Radius for Valey detection inside suggestive contour algorithm.")
-        , medianRadius_("MediaRadius", "Radius for median Kernel")
         , suggestiveThreshold_("Suggestive_Threshold", "Threshold for p_max - p_i")
         , mode_("contourMode", "Sets Contour Mode to different algorithms.") 
 {
@@ -63,15 +63,11 @@ megamol::compositing_gl::Contours::Contours()
     this->MakeSlotAvailable(&sobelThreshold_);
     sobelThreshold_.ForceSetDirty();
 
-    radius_.SetParameter(new core::param::IntParam(2));
+    radius_.SetParameter(new core::param::IntParam(3));
     this->MakeSlotAvailable(&radius_);
     radius_.ForceSetDirty();
 
-    medianRadius_.SetParameter(new core::param::IntParam(2));
-    this->MakeSlotAvailable(&medianRadius_);
-    medianRadius_.ForceSetDirty();
-
-    suggestiveThreshold_.SetParameter(new core::param::FloatParam(0.1f, 0.0f, 2.f, 0.001f));
+    suggestiveThreshold_.SetParameter(new core::param::FloatParam(0.430000f, 0.0f, 2.f, 0.001f));
     this->MakeSlotAvailable(&suggestiveThreshold_);
     suggestiveThreshold_.ForceSetDirty();
 
@@ -99,9 +95,6 @@ bool megamol::compositing_gl::Contours::create() {
 
         suggestiveContoursShader_ = core::utility::make_glowl_shader(
             "suggestive contours", shdr_options, std::filesystem::path("compositing_gl/Contours/suggestive_contours.comp.glsl"));
-
-        medianFilter_ = core::utility::make_glowl_shader(
-            "median filter", shdr_options, std::filesystem::path("compositing_gl/Contours/contour_median_filter.comp.glsl"));
 
     } catch (glowl::GLSLProgramException const& ex) {
         megamol::core::utility::log::Log::DefaultLog.WriteError("[Contours] %s", ex.what());
@@ -166,7 +159,6 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
                           radius_.IsDirty() ||
                           sobelThreshold_.IsDirty() ||
                           suggestiveThreshold_.IsDirty() ||
-                          medianRadius_.IsDirty() ||
                           mode_.IsDirty();
 
     if (incomingChange) {
@@ -176,7 +168,6 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
         radius_.ResetDirty();
         suggestiveThreshold_.ResetDirty();
         mode_.ResetDirty();
-        medianRadius_.ResetDirty();
 
         auto sobleThresholdVal = sobelThreshold_.Param<core::param::FloatParam>()->Value();
         auto radiusVal = radius_.Param<core::param::IntParam>()->Value();
@@ -263,22 +254,6 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
                 static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
 
             glUseProgram(0);
-
-            // glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
-
-            // medianFilter_->use();
-
-            // medianFilter_->setUniform("radius", medianRadius_.Param<core::param::IntParam>()->Value());
-            // this->bindTexture(medianFilter_, contoursTex_, "contours_tex", 0);
-            
-            // outputTex_->bindImage(0, GL_WRITE_ONLY);
-
-            // glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
-            //     static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
-
-            // glUseProgram(0);
-
-            // glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
         }
     }
 

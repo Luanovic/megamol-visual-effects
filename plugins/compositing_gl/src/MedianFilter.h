@@ -1,3 +1,4 @@
+
 /**
  * MegaMol
  * Copyright (c) 2023, MegaMol Dev Team
@@ -17,7 +18,7 @@
 
 namespace megamol::compositing_gl {
 
-class Contours : public mmstd_gl::ModuleGL {
+class MedianFilter : public mmstd_gl::ModuleGL {
 public:
     /**
      * Answer the name of this module.
@@ -25,7 +26,7 @@ public:
      * @return The name of this module.
      */
     static const char* ClassName() {
-        return "Contours";
+        return "MedianFilter";
     }
 
     /**
@@ -34,7 +35,7 @@ public:
      * @return A human readable description of this module.
      */
     static const char* Description() {
-        return "Compositing module that computes contours";
+        return "Compositing module that runs a 3x3 Median Filter over the image";
     }
 
     /**
@@ -47,10 +48,10 @@ public:
     }
 
     /** Ctor. */
-    Contours();
+    MedianFilter();
 
     /** Dtor. */
-    ~Contours() override;
+    ~MedianFilter() override;
 
 protected:
     /**
@@ -98,56 +99,22 @@ private:
     );
 
 
-    /**
-     * Sets GUI State for different modes
-     */
-    void setGUIState(int mode);
-
-
     void recalcMediaBufferSize();
-
-
 
     /** Slot for the output texture */
     core::CalleeSlot outputTexSlot_;
 
-    /** Slot receiving the input normal texture */
-    core::CallerSlot inputNormalSlot_;
     /** Slot receiving the input color texture */
     core::CallerSlot inputColorSlot_;
 
-    core::CallerSlot inputDepthSlot_;
-    /** Slot receiving the input depth texture */
-    core::CallerSlot cameraSlot_;
-
-    /** Param for Threshold Value in Sobel operator Contour Shader */
-    core::param::ParamSlot sobelThreshold_;
-
-    /** Param for pixel radius suggestive contours */
-    core::param::ParamSlot radius_;
-
-    /** Param for suggestive contour intensitiy threshold */
-    core::param::ParamSlot suggestiveThreshold_;
-
-    /** Mode (Sobel, Suggestive) */
-    core::param::ParamSlot mode_;
+    // core::param::ParamSlot windowSize_;
+    // core::param::ParamSlot beta;
 
     /** version identifier */
     uint32_t version_;
 
     /** shader performing the conotur calculations */
-    std::unique_ptr<glowl::GLSLProgram> contoursShader_;
-
-    std::unique_ptr<glowl::GLSLProgram> suggestiveContoursShader_;
-
-    std::unique_ptr<glowl::GLSLProgram> intensityShader_;
-
-    std::unique_ptr<glowl::GLSLProgram> medianFilter_;
-
-
-    std::shared_ptr<glowl::Texture2D> intensityTex_;
-
-    std::shared_ptr<glowl::Texture2D> contoursTex_;
+    std::unique_ptr<glowl::GLSLProgram> medianFilterProgram_;
     /** final output texture */
     std::shared_ptr<glowl::Texture2D> outputTex_;
 
