@@ -1,0 +1,160 @@
+[2024-09-11 19:48:31] (info)|Main: RuntimeConfig values: 
+	Executable directory: 
+		/home/masta76/Schreibtisch/Thesis/megamol-visual-effects/build/install/bin/
+	Program invocation: 
+		megamol 
+	Version: 3353360004ac8c61-dirty
+	Configuration files: 
+		/home/masta76/Schreibtisch/Thesis/megamol-visual-effects/build/install/bin/megamol_config.lua
+	Application directory: /home/masta76/Schreibtisch/Thesis/megamol-visual-effects/build/install/bin/../
+	Resource directories: 
+		/home/masta76/Schreibtisch/Thesis/megamol-visual-effects/build/install/bin/../share/resources
+	Shader directories: 
+		/home/masta76/Schreibtisch/Thesis/megamol-visual-effects/build/install/bin/../share/shaders
+	Log file: megamol_log.txt
+	Log level: info
+	Echo level: info
+	Project files: 
+	Lua host address: tcp://127.0.0.1:33333
+[2024-09-11 19:48:31] (info)|Main: 
+	Global Key-Values: 
+		MachineName : 76
+		MegaMol : Frontend3000
+		arcball : off
+[2024-09-11 19:48:31] (info)|LRH Server socket opened on "tcp://127.0.0.1:33333"
+[2024-09-11 19:48:31] (info)|Lua_Service_Wrapper: initialized successfully
+[2024-09-11 19:48:31] (info)|FrameStatistics_Service: initialized successfully
+[2024-09-11 19:48:31] (info)|ProjectLoader_Service: initialized successfully
+[2024-09-11 19:48:31] (info)|OpenGL_GLFW_Service: Requesting OpenGL 4.6 Compatibility Profile
+[2024-09-11 19:48:31] (info)|OpenGL_GLFW_Service: Create window with size w: 1920 h: 1080
+[2024-09-11 19:48:31] (info)|OpenGL_GLFW_Service: OpenGL Context Info
+	Version:  4.6.0 NVIDIA 560.35.03
+	Vendor:   NVIDIA Corporation
+	Renderer: NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2
+	GLSL:     4.60 NVIDIA
+[2024-09-11 19:48:31] (info)|OpenGL_GLFW_Service: initialized successfully
+[2024-09-11 19:48:31] (info)|ImagePresentation_Service: initialized successfully
+[2024-09-11 19:48:31] (info)|GUI_Service: initialized successfully
+[2024-09-11 19:48:31] (info)|Command_Service: initialized successfully
+[2024-09-11 19:48:31] (info)|Screenshot_Service: initialized successfully
+[2024-09-11 19:48:31] (info)|Plugin "astro" loaded: 8 Modules, 1 Calls
+[2024-09-11 19:48:31] (info)|Plugin "cinematic" loaded: 1 Modules, 1 Calls
+[2024-09-11 19:48:31] (info)|Plugin "cinematic_gl" loaded: 5 Modules, 0 Calls
+[2024-09-11 19:48:31] (info)|Plugin "cluster" loaded: 2 Modules, 3 Calls
+[2024-09-11 19:48:31] (info)|Plugin "compositing_gl" loaded: 14 Modules, 4 Calls
+[2024-09-11 19:48:31] (info)|Plugin "datatools" loaded: 81 Modules, 4 Calls
+[2024-09-11 19:48:31] (info)|Plugin "datatools_gl" loaded: 10 Modules, 0 Calls
+[2024-09-11 19:48:31] (info)|Plugin "geometry_calls" loaded: 0 Modules, 8 Calls
+[2024-09-11 19:48:31] (info)|Plugin "geometry_calls_gl" loaded: 0 Modules, 1 Calls
+[2024-09-11 19:48:31] (info)|Plugin "image_calls" loaded: 0 Modules, 1 Calls
+[2024-09-11 19:48:31] (info)|Plugin "image_gl" loaded: 2 Modules, 0 Calls
+[2024-09-11 19:48:31] (info)|Plugin "infovis" loaded: 6 Modules, 1 Calls
+[2024-09-11 19:48:31] (info)|Plugin "infovis_gl" loaded: 4 Modules, 0 Calls
+[2024-09-11 19:48:31] (info)|Plugin "mesh" loaded: 6 Modules, 6 Calls
+[2024-09-11 19:48:31] (info)|Plugin "mesh_gl" loaded: 6 Modules, 0 Calls
+[2024-09-11 19:48:31] (info)|Plugin "mmadios" loaded: 9 Modules, 1 Calls
+[2024-09-11 19:48:31] (info)|Plugin "mmstd" loaded: 20 Modules, 13 Calls
+[2024-09-11 19:48:31] (info)|Plugin "mmstd_gl" loaded: 17 Modules, 7 Calls
+[2024-09-11 19:48:31] (info)|Plugin "moldyn" loaded: 17 Modules, 2 Calls
+[2024-09-11 19:48:31] (info)|Plugin "moldyn_gl" loaded: 4 Modules, 0 Calls
+[2024-09-11 19:48:31] (info)|Plugin "protein" loaded: 26 Modules, 2 Calls
+[2024-09-11 19:48:31] (info)|Plugin "Protein_Calls" loaded: 0 Modules, 13 Calls
+[2024-09-11 19:48:31] (info)|Plugin "protein_gl" loaded: 18 Modules, 0 Calls
+[2024-09-11 19:48:31] (info)|Plugin "pwdemos_gl" loaded: 11 Modules, 3 Calls
+[2024-09-11 19:48:31] (info)|Plugin "thermodyn" loaded: 2 Modules, 1 Calls
+[2024-09-11 19:48:31] (info)|Plugin "thermodyn_gl" loaded: 1 Modules, 0 Calls
+[2024-09-11 19:48:31] (info)|Plugin "trisoup" loaded: 2 Modules, 2 Calls
+[2024-09-11 19:48:31] (info)|Plugin "trisoup_gl" loaded: 8 Modules, 0 Calls
+[2024-09-11 19:48:31] (info)|Plugin "volume" loaded: 4 Modules, 0 Calls
+[2024-09-11 19:48:31] (info)|Plugin "volume_gl" loaded: 3 Modules, 0 Calls
+[2024-09-11 19:48:31] (info)|[GUI] Reading 74 available calls ... DONE (duration: 0.000 seconds)
+[2024-09-11 19:48:31] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-11 19:48:31] (info)|The loader thread is exiting.
+[2024-09-11 19:48:31] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-11 19:48:31] (info)|The loader thread is exiting.
+[2024-09-11 19:48:31] (info)|[adiosWriter] Writer Closed
+[2024-09-11 19:48:31] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-11 19:48:31] (info)|The loader thread is exiting.
+[2024-09-11 19:48:31] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-11 19:48:31] (info)|The loader thread is exiting.
+[2024-09-11 19:48:31] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-11 19:48:31] (info)|The loader thread is exiting.
+[2024-09-11 19:48:31] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-11 19:48:31] (info)|The loader thread is exiting.
+[2024-09-11 19:48:31] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-11 19:48:31] (info)|The loader thread is exiting.
+[2024-09-11 19:48:31] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-11 19:48:31] (info)|The loader thread is exiting.
+[2024-09-11 19:48:31] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-11 19:48:31] (info)|The loader thread is exiting.
+[2024-09-11 19:48:31] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:48:31] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:48:31] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:48:31] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:48:31] (warning)|[FilePathParam] Omitting value 'colors.txt'. File does not exist.
+[2024-09-11 19:48:31] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:48:31] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:48:31] (warning)|[FilePathParam] Omitting value 'colors.txt'. File does not exist.
+[2024-09-11 19:48:31] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:48:31] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:48:31] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:48:31] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:48:31] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:48:31] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:48:31] (info)|[GUI] Reading 287 available modules ... DONE (duration: 0.113 seconds)
+[2024-09-11 19:48:31] (info)|[GUI] Initialized ImGui render backend for Open GL.
+[2024-09-11 19:49:17] (error)|MegaMolGraph: error. module factory could not find module class name: SimpleClusterView
+[2024-09-11 19:49:17] (error)|ProjectLoader_Service: failed to load file /home/masta76/Schreibtisch/Thesis/megamol-visual-effects/build/install/examples/simpleclusterview.lua
+	graph could not create module for: scv , SimpleClusterView , scview
+stack traceback:
+	[C]: in function 'mmCreateView'
+	[string "mmCreateView("scv", "SimpleClusterView", "scv..."]:1: in main chunk
+[2024-09-11 19:50:12] (info)|Created module "N7megamol8mmstd_gl4view8View3DGLE"
+[2024-09-11 19:50:12] (info)|MegaMolGraph: create module: ::view
+[2024-09-11 19:50:12] (info)|MegaMolGraph: set graph entry point: ::view
+[2024-09-11 19:50:12] (info)|Created module "N7megamol8mmstd_gl19BoundingBoxRendererE"
+[2024-09-11 19:50:12] (info)|MegaMolGraph: create module: ::bbox
+[2024-09-11 19:50:12] (info)|Created module "N7megamol4core4view5light12DistantLightE"
+[2024-09-11 19:50:12] (info)|MegaMolGraph: create module: ::distantlight
+[2024-09-11 19:50:12] (info)|Created module "N7megamol9moldyn_gl9rendering14SphereRendererE"
+[2024-09-11 19:50:12] (info)|MegaMolGraph: create module: ::renderer
+[2024-09-11 19:50:12] (info)|Created module "N7megamol6moldyn2io21TestSpheresDataSourceE"
+[2024-09-11 19:50:12] (info)|MegaMolGraph: create module: ::data
+[2024-09-11 19:50:12] (info)|MegaMolGraph: create call: ::view::rendering -> ::bbox::rendering (CallRender3DGL)
+[2024-09-11 19:50:12] (info)|MegaMolGraph: create call: ::bbox::chainRendering -> ::renderer::rendering (CallRender3DGL)
+[2024-09-11 19:50:12] (info)|MegaMolGraph: create call: ::renderer::getData -> ::data::getData (MultiParticleDataCall)
+[2024-09-11 19:50:12] (info)|MegaMolGraph: create call: ::renderer::lights -> ::distantlight::deployLightSlot (CallLight)
+[2024-09-11 19:50:12] (info)|ProjectLoader_Service: loaded file /home/masta76/Schreibtisch/Thesis/megamol-visual-effects/build/install/examples/testspheres.lua
+[2024-09-11 19:50:12] (warning)|The camera output file at '_cam.json' could not be opened.
+[2024-09-11 19:50:12] (info)|[SphereRenderer] Using render mode 'Simple'.
+[2024-09-11 19:50:12] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-11 19:50:12] (info)|[::data] Loading speed: 0.043881 ms/f (99)
+[2024-09-11 19:50:12] (info)|The loader thread is exiting.
+[2024-09-11 19:51:01] (info)|Screenshot_Service: write screenshot to megamol_screenshot_1.png
+[2024-09-11 19:51:01] (warning)|Screenshot: --- PRIVACY NOTE ---
+Please note that the complete MegaMol project is stored in the header of the screenshot image file. 
+Before giving away the screenshot, clear privacy relevant information in the project file before taking a screenshot (e.g. user name in file paths). 
+>>> In the file [megamol_config.lua] set mmSetCliOption("privacynote", "off") to permanently turn off privacy notifications for screenshots.
+[2024-09-11 19:51:56] (info)|FrontendServiceCollection: OpenGL_GLFW_Service requests shutdown
+[2024-09-11 19:51:56] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:51:56] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:51:56] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:51:56] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-11 19:51:56] (info)|Released module "N7megamol6moldyn2io21TestSpheresDataSourceE"
+[2024-09-11 19:51:56] (info)|MegaMolGraph: release module: ::data
+[2024-09-11 19:51:56] (warning)|Possible memory problem detected: NamedObjectContainer (::::::data) with children destructed
+[2024-09-11 19:51:56] (info)|Released module "N7megamol9moldyn_gl9rendering14SphereRendererE"
+[2024-09-11 19:51:56] (info)|MegaMolGraph: release module: ::renderer
+[2024-09-11 19:51:56] (warning)|Possible memory problem detected: NamedObjectContainer (::::::renderer) with children destructed
+[2024-09-11 19:51:56] (info)|Released module "N7megamol4core4view5light12DistantLightE"
+[2024-09-11 19:51:56] (info)|MegaMolGraph: release module: ::distantlight
+[2024-09-11 19:51:56] (warning)|Possible memory problem detected: NamedObjectContainer (::::::distantlight) with children destructed
+[2024-09-11 19:51:56] (info)|Released module "N7megamol8mmstd_gl19BoundingBoxRendererE"
+[2024-09-11 19:51:56] (info)|MegaMolGraph: release module: ::bbox
+[2024-09-11 19:51:56] (warning)|Possible memory problem detected: NamedObjectContainer (::::::bbox) with children destructed
+[2024-09-11 19:51:56] (info)|MegaMolGraph: remove graph entry point: ::view
+[2024-09-11 19:51:56] (info)|Released module "N7megamol8mmstd_gl4view8View3DGLE"
+[2024-09-11 19:51:56] (info)|MegaMolGraph: release module: ::view
+[2024-09-11 19:51:56] (warning)|Possible memory problem detected: NamedObjectContainer (::::::view) with children destructed
+[2024-09-11 19:51:56] (info)|LRH Server socket closed
+[2024-09-11 19:51:56] (info)|[GUI] Destroyed ImGui context.
