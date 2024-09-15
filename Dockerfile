@@ -30,7 +30,7 @@ USER ${USERNAME}
 WORKDIR /home/${USERNAME}/megamol
 
 CMD mkdir build || true && cd build && \ 
-    cmake -DCMAKE_CXX_COMPILE=/usr/bin/g++-13 -DCMAKE_C_COMPILER=/usr/bin/gcc-13 \
+    cmake -DCMAKE_CXX_COMPILER=/usr/bin/g++-13 -DCMAKE_C_COMPILER=/usr/bin/gcc-13 -DVCPKG_APPLOCAL_DEPS=OFF \
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_MAKE_PROGRAM=/usr/bin/make -DMEGAMOL_VCPKG_DOWNLOAD_CACHE=ON .. && \
     make -j 16 && make -j 16 install
 
