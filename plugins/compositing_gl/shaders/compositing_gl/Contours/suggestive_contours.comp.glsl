@@ -1,6 +1,6 @@
 #version 460
 #define OPTIMIZED 0
-#define USEROOT 0
+#define USEROOT 1
 
 uniform sampler2D color_tex_2D;
 uniform sampler2D intensity_tex;
@@ -100,7 +100,7 @@ bool optimizedValleyDetection(ivec2 center) {
     float p_i = texelFetch(intensity_tex, center, 0).x;
     float strictly_darker_count = 0;
 
-    while (x >= y) {
+    while (x > y) {
         vec3 span1 = spanIntensityCount(center, ivec2(x, y));
         vec3 span2 = spanIntensityCount(center, ivec2(y, x));
         vec3 span3 = spanIntensityCount(center, ivec2(y, -x));

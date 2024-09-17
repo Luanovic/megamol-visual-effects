@@ -3,6 +3,7 @@
 layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in; 
 
 uniform sampler2D color_tex_2D; 
+uniform sampler2D depth_tex_2D;
 layout(rgba16) writeonly uniform image2D output_tex;
 
 uniform float beta; 
@@ -74,6 +75,11 @@ void main() {
     }
 
 
-    // Store the best color in the output image
-    imageStore(output_tex, pixel_coords, vec4(medianPixel, 1.0));
+    vec4 currentColor = texelFetch(color_tex_2D, pixel_coords, 0);
+
+    if(texelFetch(depth_tex_2D, pixel_coords, 0).x > 0) {
+        imageStore(output_tex, pixel_coords, vec4(medianPixel, 1.0));
+    } else {
+        imageStore(output_tex, pixel_coords, currentColor);
+    }
 }

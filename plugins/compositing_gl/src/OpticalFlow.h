@@ -89,7 +89,10 @@ private:
      *
      * @param source The texture taken as template for the local ones
      */
-    void fitTextures(std::shared_ptr<glowl::Texture2D> source);
+    void fitTextures(
+        std::shared_ptr<glowl::Texture2D> source,
+        std::vector<std::shared_ptr<glowl::Texture2D>> goalTextures
+    );
 
 
     void bindTextureToShader(
@@ -102,18 +105,19 @@ private:
     bool isFirstCall_;
 
     /** Slot for the output texture */
-    core::CalleeSlot outputTexSlot_;
+    core::CalleeSlot flowFieldOutTexSlot;
+    core::CalleeSlot velocityOutTexSlot;
 
     /** Slot receiving the input color texture */
     core::CallerSlot inputTexSlot_;
 
     core::param::ParamSlot lambda_;
     core::param::ParamSlot theta_;
-    core::param::ParamSlot tau_;
-    core::param::ParamSlot tolerance_;
-    core::param::ParamSlot energyTolerance_;
-    core::param::ParamSlot maxIter_;
-    core::param::ParamSlot numLevels_;
+    // core::param::ParamSlot tau_;
+    // core::param::ParamSlot tolerance_;
+    // core::param::ParamSlot energyTolerance_;
+    // core::param::ParamSlot maxIter_;
+    // core::param::ParamSlot numLevels_;
 
     /** version identifier */
     uint32_t version_;
@@ -123,6 +127,7 @@ private:
     std::unique_ptr<glowl::GLSLProgram> updateUShader_;
     std::unique_ptr<glowl::GLSLProgram> updatePShader_;
     std::unique_ptr<glowl::GLSLProgram> computeChangeShader_;
+    std::unique_ptr<glowl::GLSLProgram> simpleOpticalFlowShader_;
 
     /** final output texture */
     std::shared_ptr<glowl::Texture2D> I0_;
