@@ -23,8 +23,8 @@ megamol::compositing_gl::MedianFilter::MedianFilter()
         , outputTexSlot_("OutputTexture", "Gives access to the resulting output texture.")
         , inputColorSlot_("ColorTexture", "Connects the color texture.")
         , medianFilterProgram_(nullptr)
-        // , beta("Threshold", "Threshold for Median Filter Algorithm")
-        // , windowSize("WindowSize", "Window size N of the filter with dimenstion NxN")
+        , beta_("Threshold", "Threshold for Median Filter Algorithm")
+        , windowSize_("WindowSize", "Window size N of the filter with dimenstion NxN")
 {
 
     outputTexSlot_.SetCallback(
@@ -39,13 +39,16 @@ megamol::compositing_gl::MedianFilter::MedianFilter()
     );
     this->MakeSlotAvailable(&outputTexSlot_);
 
-    // inputColorSlot_.SetCompatibleCall<CallTexture2DDescription>();
-    // this->MakeSlotAvailable(&inputColorSlot_);
+    inputColorSlot_.SetCompatibleCall<CallTexture2DDescription>();
+    this->MakeSlotAvailable(&inputColorSlot_);
 
-    // beta.SetParameter(new core::param::FloatParam(0.5f, 0.0f, 10.f, 0.1f));
-    // this->makeSlotAvailable(&this->beta);
+    beta_.SetParameter(new core::param::FloatParam(0.5f, 0.5f, 0.75f, 0.001f));
+    this->MakeSlotAvailable(&this->beta_);
+    beta_.ForceSetDirty();
 
-
+    windowSize_.SetParameter(new core::param::IntParam(3, 3, 9, 2));
+    this->MakeSlotAvailable(&this->windowSize_);
+    windowSize_.ForceSetDirty();
 }
 
 megamol::compositing_gl::MedianFilter::~MedianFilter() {
@@ -59,7 +62,7 @@ bool megamol::compositing_gl::MedianFilter::create() {
 
     try {
         medianFilterProgram_ = core::utility::make_glowl_shader(
-            "MedianFilter", shdr_options, std::filesystem::path("compositing_gl/median_filter.comp.glsl"));
+            "MedianFilter", shdr_options, std::filesystem::path("compositing_gl/MedianBlur/fast_vector_median_filter.comp.glsl"));
 
     } catch (glowl::GLSLProgramException const& ex) {
         megamol::core::utility::log::Log::DefaultLog.WriteError("[Contours] %s", ex.what());
@@ -72,7 +75,8 @@ bool megamol::compositing_gl::MedianFilter::create() {
     }
 
     glowl::TextureLayout tx_layout{GL_RGBA16F, 1, 1, 1, GL_RGBA, GL_HALF_FLOAT, 1};
-    outputTex_ = std::make_shared<glowl::Texture2D>("contours_output", tx_layout, nullptr);
+
+    outputTex_ = std::make_shared<glowl::Texture2D>("filtered_output", tx_layout, nullptr);
 
     return true;
 }
@@ -93,18 +97,27 @@ bool megamol::compositing_gl::MedianFilter::getDataCallback(core::Call& caller) 
         }
     }
 
-    bool incomingChange = call_color != nullptr && call_color->hasUpdate();
+    bool incomingChange = call_color != nullptr && call_color->hasUpdate() ||
+                          beta_.IsDirty() || windowSize_.IsDirty();
 
     if (incomingChange) {
         ++version_;
 
+        beta_.ResetDirty();
+        windowSize_.ResetDirty();
+
         auto color_tex_2D = call_color->getData();
+        auto betaThreshold = beta_.Param<core::param::FloatParam>()->Value();
+        auto windowSize = windowSize_.Param<core::param::IntParam>()->Value();
 
         fitTextures(color_tex_2D);
 
         if(medianFilterProgram_ != nullptr) {
             medianFilterProgram_->use(); 
+            medianFilterProgram_->setUniform("beta", betaThreshold);
+
             this->bindTexture(medianFilterProgram_, color_tex_2D, "color_tex_2D", 0);
+
             outputTex_->bindImage(0, GL_WRITE_ONLY);
 
             glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),

@@ -284,8 +284,7 @@ void megamol::compositing_gl::Contours::bindTexture(
     const char* tex_name,
     int num 
 ) {
-    std::vector<int> glTex = {GL_TEXTURE0, GL_TEXTURE1, GL_TEXTURE2, GL_TEXTURE3, GL_TEXTURE4 };
-    glActiveTexture(glTex[num]);
+    glActiveTexture(GL_TEXTURE0 + num);
     texture->bindTexture();
     glUniform1i(shader->getUniformLocation(tex_name), num);
 }

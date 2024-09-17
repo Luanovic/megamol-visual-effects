@@ -1,4 +1,5 @@
 
+
 /**
  * MegaMol
  * Copyright (c) 2023, MegaMol Dev Team
@@ -18,7 +19,7 @@
 
 namespace megamol::compositing_gl {
 
-class MedianFilter : public mmstd_gl::ModuleGL {
+class OpticalFlow : public mmstd_gl::ModuleGL {
 public:
     /**
      * Answer the name of this module.
@@ -26,7 +27,7 @@ public:
      * @return The name of this module.
      */
     static const char* ClassName() {
-        return "MedianFilter";
+        return "OpticalFlow";
     }
 
     /**
@@ -35,7 +36,7 @@ public:
      * @return A human readable description of this module.
      */
     static const char* Description() {
-        return "Compositing module that runs a 3x3 Median Filter over the image";
+        return "Compositing module that creates the optical Flow field of scenes";
     }
 
     /**
@@ -48,10 +49,10 @@ public:
     }
 
     /** Ctor. */
-    MedianFilter();
+    OpticalFlow();
 
     /** Dtor. */
-    ~MedianFilter() override;
+    ~OpticalFlow() override;
 
 protected:
     /**
@@ -91,34 +92,46 @@ private:
     void fitTextures(std::shared_ptr<glowl::Texture2D> source);
 
 
-    void bindTexture(
+    void bindTextureToShader(
         std::unique_ptr<glowl::GLSLProgram>& shader,
         std::shared_ptr<glowl::Texture2D> texture, 
         const char* tex_name, 
         int num
     );
 
-
-    void recalcMediaBufferSize();
+    bool isFirstCall_;
 
     /** Slot for the output texture */
     core::CalleeSlot outputTexSlot_;
 
     /** Slot receiving the input color texture */
-    core::CallerSlot inputColorSlot_;
+    core::CallerSlot inputTexSlot_;
 
-    core::param::ParamSlot windowSize_;
-    core::param::ParamSlot beta_;
+    core::param::ParamSlot lambda_;
+    core::param::ParamSlot theta_;
+    core::param::ParamSlot tau_;
+    core::param::ParamSlot tolerance_;
+    core::param::ParamSlot energyTolerance_;
+    core::param::ParamSlot maxIter_;
+    core::param::ParamSlot numLevels_;
 
     /** version identifier */
     uint32_t version_;
 
     /** shader performing the conotur calculations */
-    std::unique_ptr<glowl::GLSLProgram> medianFilterProgram_;
+    std::unique_ptr<glowl::GLSLProgram> updateVShader_;
+    std::unique_ptr<glowl::GLSLProgram> updateUShader_;
+    std::unique_ptr<glowl::GLSLProgram> updatePShader_;
+    std::unique_ptr<glowl::GLSLProgram> computeChangeShader_;
 
     /** final output texture */
+    std::shared_ptr<glowl::Texture2D> I0_;
+    std::shared_ptr<glowl::Texture2D> I1_;
+    std::shared_ptr<glowl::Texture2D> uTexture_;
+    std::shared_ptr<glowl::Texture2D> vTexture_;
+    std::shared_ptr<glowl::Texture2D> pTexture_;
+    std::shared_ptr<glowl::Texture2D> deltaUBuffer_;
     std::shared_ptr<glowl::Texture2D> outputTex_;
-
 
     };
 } 
