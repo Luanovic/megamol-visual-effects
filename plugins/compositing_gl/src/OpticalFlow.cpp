@@ -26,6 +26,7 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
         , deltaUBuffer_(nullptr)
         , isFirstCall_(true)
         , simpleOpticalFlowShader_(nullptr)
+        , passthroughShader_(nullptr)
 
         , inputTexSlot_("InputTexture", "Any Texture that should be used to calculate optical flow")
         , flowFieldOutTexSlot("FlowFieldTexture", "Gives access to the resulting flow field texture.")
@@ -69,12 +70,12 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
     this->MakeSlotAvailable(&inputTexSlot_);
 
     // Set up the regularization weight parameter lambda
-    lambda_.SetParameter(new core::param::FloatParam(1.f, 0.f, 5.f, 1.f));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
+    lambda_.SetParameter(new core::param::FloatParam(0.5f, 0.f, 5.f, 0.1f));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
     this->MakeSlotAvailable(&this->lambda_);
     lambda_.ForceSetDirty();
 
     // Set up the convex approximation parameter theta
-    theta_.SetParameter(new core::param::FloatParam(1.f, 0.f, 5.f, 1.f));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
+    theta_.SetParameter(new core::param::FloatParam(0.5f, 0.f, 5.f, 0.1f));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
     this->MakeSlotAvailable(&this->theta_);
     theta_.ForceSetDirty();
 
@@ -127,6 +128,8 @@ bool megamol::compositing_gl::OpticalFlow::create() {
 
         // computeChangeShader_ = core::utility::make_glowl_shader(
         //     "compute_change", shdr_options, std::filesystem::path("compositing_gl/OpticalFlow/compute_change.comp.glsl"));
+        passthroughShader_ = core::utility::make_glowl_shader(
+            "passthrough", shdr_options, std::filesystem::path("compositing_gl/passthrough.comp.glsl"));
         
         simpleOpticalFlowShader_ = core::utility::make_glowl_shader(
             "simple_optical_flow", shdr_options, std::filesystem::path("compositing_gl/OpticalFlow/simple_optical_flow.comp.glsl"));
@@ -213,13 +216,13 @@ bool megamol::compositing_gl::OpticalFlow::getDataCallback(core::Call& caller) {
         // auto maxIterVal = maxIter_.Param<core::param::IntParam>()->Value();
         // auto numLevels = numLevels_.Param<core::param::IntParam>()->Value();
 
-        if(isFirstCall_) {
-            isFirstCall_ = false;
-            I0_ = input_tex_2D;
-            return true;
-        } 
+        // if(isFirstCall_) {
+        //     isFirstCall_ = false;
+        //     textureCopy(input_tex_2D, I0_); 
+        //     return true;
+        // } 
 
-        I1_ = input_tex_2D;
+        textureCopy(input_tex_2D, I1_); 
 
         simpleOpticalFlowShader_->use();
         simpleOpticalFlowShader_->setUniform( "lambda", lambdaVal);
@@ -233,14 +236,15 @@ bool megamol::compositing_gl::OpticalFlow::getDataCallback(core::Call& caller) {
         glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
             static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
 
+
         glUseProgram(0);
 
+        textureCopy(I1_, I0_);
     }
 
     lhs_tc->setData(outputTex_, version_);
-    lhs_tc->setData(vTexture_, version_);
+    // lhs_tc->setData(vTexture_, version_);
 
-    I0_ = I1_;
 
     return true;
 }
@@ -272,4 +276,20 @@ void megamol::compositing_gl::OpticalFlow::bindTextureToShader(
     glActiveTexture(GL_TEXTURE0 + num);
     texture->bindTexture();
     glUniform1i(shader->getUniformLocation(tex_name), num);
+}
+
+void megamol::compositing_gl::OpticalFlow::textureCopy(
+    std::shared_ptr<glowl::Texture2D> inputTex, 
+    std::shared_ptr<glowl::Texture2D> outputTex
+) {
+    passthroughShader_->use();
+    glActiveTexture(GL_TEXTURE0);
+    inputTex->bindTexture();
+    glUniform1i(passthroughShader_->getUniformLocation("input_tex"), 0);
+    outputTex->bindImage(0, GL_WRITE_ONLY);
+
+    glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
+            static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
+
+    glUseProgram(0);
 }

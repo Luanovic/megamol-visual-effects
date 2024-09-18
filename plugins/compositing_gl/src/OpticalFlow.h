@@ -102,6 +102,11 @@ private:
         int num
     );
 
+    void textureCopy(
+        std::shared_ptr<glowl::Texture2D> inputTex, 
+        std::shared_ptr<glowl::Texture2D> outputTex 
+    );
+
     bool isFirstCall_;
 
     /** Slot for the output texture */
@@ -128,6 +133,7 @@ private:
     std::unique_ptr<glowl::GLSLProgram> updatePShader_;
     std::unique_ptr<glowl::GLSLProgram> computeChangeShader_;
     std::unique_ptr<glowl::GLSLProgram> simpleOpticalFlowShader_;
+    std::unique_ptr<glowl::GLSLProgram> passthroughShader_;
 
     /** final output texture */
     std::shared_ptr<glowl::Texture2D> I0_;

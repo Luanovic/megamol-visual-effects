@@ -12,7 +12,7 @@ uniform float lambda;
 
 // Binding point for output texture
 layout(rgba16f, binding = 0) writeonly uniform image2D flowOutput;
-layout(rgba16f, binding = 1) writeonly uniform image2D velocityOutput;
+// layout(rgba16f, binding = 1) writeonly uniform image2D velocityOutput;
 
 // Compute the optical flow at each pixel
 void main() {
@@ -28,13 +28,14 @@ void main() {
 
     ivec2 offsetX = ivec2(offset, 0);
     ivec2 offsetY = ivec2(0 , offset);
+    vec4 currentInput = texelFetch(I1, pixel_coords, 0);
 
     // Calculate image gradients using texelFetch
     vec4 gradX = (texelFetch(I1, pixel_coords + offsetX, level) - texelFetch(I1, pixel_coords - offsetX, level)) +
-                 (texelFetch(I0, pixel_coords + offsetX, level) - texelFetch(I0, pixel_coords - offsetX, level));
+                (texelFetch(I0, pixel_coords + offsetX, level) - texelFetch(I0, pixel_coords - offsetX, level));
 
     vec4 gradY = (texelFetch(I1, pixel_coords + offsetY, level) - texelFetch(I1, pixel_coords - offsetY, level)) +
-                 (texelFetch(I0, pixel_coords + offsetY, level) - texelFetch(I0, pixel_coords - offsetY, level));
+                (texelFetch(I0, pixel_coords + offsetY, level) - texelFetch(I0, pixel_coords - offsetY, level));
 
     // Compute gradient magnitude with regularization term
     vec4 gradMag = sqrt((gradX * gradX) + (gradY * gradY) + vec4(lambda));
@@ -45,7 +46,10 @@ void main() {
     // Calculate the optical flow vector components
     vec2 flow = vec2((diff * (gradX / gradMag)).x, (diff * (gradY / gradMag)).x);
 
-    imageStore(flowOutput, pixel_coords, texelFetch(I0, pixel_coords, 0));
-    imageStore(flowOutput, pixel_coords, vec4(flow, 0.0, 1.0)); 
-    imageStore(velocityOutput, pixel_coords, vec4(vec3(length(flow)), 1));
+    if(flow.x > 0) {
+        imageStore(flowOutput, pixel_coords, vec4(flow, 0.0, 1.0)); 
+    } else {
+        imageStore(flowOutput, pixel_coords, vec4(0)); 
+    }
+    // imageStore(velocityOutput, pixel_coords, vec4(vec3(length(flow)), 1));
 }
