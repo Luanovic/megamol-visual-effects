@@ -115,6 +115,7 @@ bool megamol::compositing_gl::MedianFilter::getDataCallback(core::Call& caller) 
         if(medianFilterProgram_ != nullptr) {
             medianFilterProgram_->use(); 
             medianFilterProgram_->setUniform("beta", betaThreshold);
+            medianFilterProgram_->setUniform("windowSize", windowSize);
 
             this->bindTexture(medianFilterProgram_, color_tex_2D, "color_tex_2D", 0);
 

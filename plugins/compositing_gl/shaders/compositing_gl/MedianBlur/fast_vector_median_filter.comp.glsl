@@ -1,17 +1,49 @@
 #version 460
 
-layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in; 
+layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
 
-uniform sampler2D color_tex_2D; 
+// Input textures
+uniform sampler2D color_tex_2D;
 uniform sampler2D depth_tex_2D;
+
+// Output texture
 layout(rgba16) writeonly uniform image2D output_tex;
 
+// Uniforms
 uniform float beta; 
 uniform int windowSize;
+uniform int mode;
 
-// Helper function to compute L1 distance between two color vectors
-float colorDistance(vec3 a, vec3 b) {
+float l1Distance(vec3 a, vec3 b) {
     return abs(a.r - b.r) + abs(a.g - b.g) + abs(a.b - b.b);
+}
+
+float euclideanDistance(vec3 a, vec3 b) {
+    return length(a - b);
+}
+
+float calcDistanceSum(ivec2 center_pixel, ivec2 current_pixel_coords, bool ignore_center_pixel, int windowSize) {
+
+    int halfWindow = windowSize / 2;
+    float sum_of_distances = 0.0;
+    vec4 current_color = texelFetch(color_tex_2D, current_pixel_coords, 0);
+
+    for (int x = -halfWindow; x <= halfWindow; x++) {
+        for (int y = -halfWindow; y <= halfWindow; y++) {
+            ivec2 coords_i = center_pixel + ivec2(x, y);
+
+            if(coords_i == current_pixel_coords) continue;
+            if(ignore_center_pixel && coords_i == center_pixel) continue;
+
+            vec4 color_i = texelFetch(color_tex_2D, coords_i, 0);
+            if(mode == 0) {
+                sum_of_distances += l1Distance(current_color.xyz, color_i.xyz);
+            } else {
+                sum_of_distances += euclideanDistance(current_color.xyz, color_i.xyz);
+            }
+        }
+    }
+    return sum_of_distances;
 }
 
 void main() {
@@ -19,67 +51,44 @@ void main() {
     ivec2 pixel_coords = ivec2(gID.xy);
     ivec2 imageSize = imageSize(output_tex);
 
-    if(pixel_coords.x > imageSize.x || pixel_coords.y > imageSize.y){
-        return;
+    if(pixel_coords.x >= imageSize.x || pixel_coords.y >= imageSize.y) {
+        return;  // Skip out-of-bounds pixels
     }
 
-    int windowSize = 3;
     const int halfWindow = windowSize / 2;
+    float min_distance = 1.0 / 0.0;  // Initialize to a large value
+    vec4 min_distance_color = vec4(0.0);
+    bool exclude_center_pixel = false;
 
-    float distances[9];
+    // Calculate the reference distance sum R0 for the center pixel
+    float R0 = calcDistanceSum(pixel_coords, pixel_coords, false, windowSize) - beta;
 
     // Loop over the window to compute distances
-    for (int wy = -halfWindow; wy <= halfWindow; wy++) {
-        for (int wx = -halfWindow; wx <= halfWindow; wx++) {
-            int index = (wy + halfWindow) * windowSize + (wx + halfWindow);
-            distances[index] = 0.0;
+    for (int x = -halfWindow; x <= halfWindow; x++) {
+        for (int y = -halfWindow; y <= halfWindow; y++) {
 
-            // Position of the current neighbor
-            ivec2 neighborPos = pixel_coords + ivec2(wx, wy);
-            
-            // Ensure neighbor is within the image bounds
-            if (neighborPos.x >= 0 && neighborPos.x < imageSize.x && neighborPos.y >= 0 && neighborPos.y < imageSize.y) {
-                vec3 currentColor = texelFetch(color_tex_2D, neighborPos, 0).rgb;
+            ivec2 current_coords = pixel_coords + ivec2(x, y);
 
-                // Calculate the sum of distances to all other pixels in the window
-                for (int ny = -halfWindow; ny <= halfWindow; ny++) {
-                    for (int nx = -halfWindow; nx <= halfWindow; nx++) {
-                        ivec2 otherNeighborPos = pixel_coords + ivec2(nx, ny);
-                        
-                        // Ensure the other neighbor is within the image bounds
-                        if (otherNeighborPos.x >= 0 && otherNeighborPos.x < imageSize.x && otherNeighborPos.y >= 0 && otherNeighborPos.y < imageSize.y) {
-                            vec3 otherColor = texelFetch(color_tex_2D, otherNeighborPos, 0).rgb;
-                            distances[index] += colorDistance(currentColor, otherColor);
-                        }
-                    }
-                }
-            } else {
-                distances[index] = 1e10; // Large value for out-of-bounds pixels
+            vec4 current_color = texelFetch(color_tex_2D, current_coords, 0);
+            float distance_sum = calcDistanceSum(pixel_coords, current_coords, exclude_center_pixel, windowSize);
+
+            // Recalculate with exclusion if necessary
+            if (distance_sum < R0) {
+                exclude_center_pixel = true;
+                distance_sum = calcDistanceSum(pixel_coords, current_coords, exclude_center_pixel, windowSize);
+            }
+
+            if (distance_sum < min_distance) {
+                min_distance = distance_sum;
+                min_distance_color = current_color;
             }
         }
     }
 
-    // Find the pixel with the minimum distance sum
-    float minDistance = distances[0];
-    vec3 medianPixel = texelFetch(color_tex_2D, pixel_coords, 0).rgb; // Default to the center pixel
-
-    for (int i = 1; i < windowSize * windowSize; i++) {
-        if (distances[i] < minDistance) {
-            minDistance = distances[i];
-            ivec2 offset = ivec2((i % windowSize) - halfWindow, (i / windowSize) - halfWindow);
-            ivec2 bestPos = pixel_coords + offset;
-            if (bestPos.x >= 0 && bestPos.x < imageSize.x && bestPos.y >= 0 && bestPos.y < imageSize.y) {
-                medianPixel = texelFetch(color_tex_2D, bestPos, 0).rgb;
-            }
-        }
-    }
-
-
-    vec4 currentColor = texelFetch(color_tex_2D, pixel_coords, 0);
-
-    if(texelFetch(depth_tex_2D, pixel_coords, 0).x > 0) {
-        imageStore(output_tex, pixel_coords, vec4(medianPixel, 1.0));
+    // Apply depth-based condition
+    if (texelFetch(depth_tex_2D, pixel_coords, 0).r > 0) {
+        imageStore(output_tex, pixel_coords, vec4(min_distance_color.xyz, 1.0));  // Apply the minimum distance color
     } else {
-        imageStore(output_tex, pixel_coords, currentColor);
+        imageStore(output_tex, pixel_coords, texelFetch(color_tex_2D, pixel_coords, 0));  // No change if depth is near 0
     }
 }
