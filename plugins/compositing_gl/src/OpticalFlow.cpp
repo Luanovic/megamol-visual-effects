@@ -20,25 +20,19 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
         , outputTex_(nullptr)
         , I0_(nullptr)
         , I1_(nullptr)
-        , uTexture_(nullptr)
         , vTexture_(nullptr)
-        , pTexture_(nullptr)
         , deltaUBuffer_(nullptr)
-        , isFirstCall_(true)
         , simpleOpticalFlowShader_(nullptr)
         , passthroughShader_(nullptr)
+        , isFirstCall_(true)
 
         , inputTexSlot_("InputTexture", "Any Texture that should be used to calculate optical flow")
         , flowFieldOutTexSlot("FlowFieldTexture", "Gives access to the resulting flow field texture.")
         , velocityOutTexSlot("VelocityTexture",  "Gives access to the resulting flow field texture.")
 
         , lambda_("Lambda", "controls trade off between data fidelity term and regularization term")
-        , theta_("Theta", "Convex approximation parameter, which affects speed and stability of convergence")
-        // , tau_("Tau", "Time step parameter used in fixed-point iteration for updating dual variables")
-        // , tolerance_("Tolerance", "Convergence tolerance for change in displacement field")
-        // , energyTolerance_("EnergyTolerance", "Convergence energy_tolerance for change in displacement field")
-        // , maxIter_("MaxIterations", "Maximum number of iterations")
-        // , numLevels_("NumberOfLevels", "Number of levels in image pyramid")  
+        , offset_("Theta", "Convex approximation parameter, which affects speed and stability of convergence")
+        , frameRateAdjust_("Framerate-Adjust", "Adjustment of the megamol framework pipeline velocity")
 {
 
     flowFieldOutTexSlot.SetCallback(
@@ -57,7 +51,7 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
     velocityOutTexSlot.SetCallback(
         CallTexture2D::ClassName(), 
         CallTexture2D::FunctionName(CallTexture2D::CallGetData), 
-        &OpticalFlow::getDataCallback
+        &OpticalFlow::getVelocityBuffer
     );
     velocityOutTexSlot.SetCallback(
         CallTexture2D::ClassName(), 
@@ -75,34 +69,14 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
     lambda_.ForceSetDirty();
 
     // Set up the convex approximation parameter theta
-    theta_.SetParameter(new core::param::FloatParam(0.5f, 0.f, 5.f, 0.1f));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
-    this->MakeSlotAvailable(&this->theta_);
-    theta_.ForceSetDirty();
+    offset_.SetParameter(new core::param::FloatParam(0.5f, 0.f, 100.f, 0.1f));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
+    this->MakeSlotAvailable(&this->offset_);
+    offset_.ForceSetDirty();
 
-    // // Set up the time step parameter tau
-    // tau_.SetParameter(new core::param::FloatParam(0.25f, 0.1f, 0.5f, 0.05f));  // Default: 0.25, Min: 0.1, Max: 0.5, Step: 0.05
-    // this->MakeSlotAvailable(&this->tau_);
-    // tau_.ForceSetDirty();
 
-    // // Set up the convergence tolerance parameter for change in displacement field u
-    // tolerance_.SetParameter(new core::param::FloatParam(1e-4f, 1e-6f, 1e-3f, 1e-1f));  // Default: 1e-4, Min: 1e-6, Max: 1e-3, Step: 1e-5
-    // this->MakeSlotAvailable(&this->tolerance_);
-    // tolerance_.ForceSetDirty();
-
-    // // Set up the convergence tolerance parameter for change in energy
-    // energyTolerance_.SetParameter(new core::param::FloatParam(1e-4f, 1e-6f, 1e-3f, 1e-1f));  // Default: 1e-4, Min: 1e-6, Max: 1e-3, Step: 1e-5
-    // this->MakeSlotAvailable(&this->energyTolerance_);
-    // energyTolerance_.ForceSetDirty();
-
-    // // Set up the maximum number of iterations parameter
-    // maxIter_.SetParameter(new core::param::IntParam(50, 10, 100, 1));  // Default: 100, Min: 10, Max: 500, Step: 10
-    // this->MakeSlotAvailable(&this->maxIter_);
-    // maxIter_.ForceSetDirty();
-
-    // // Set up the number of pyramid levels parameter
-    // numLevels_.SetParameter(new core::param::IntParam(5, 1, 10, 1));  // Default: 4, Min: 1, Max: 6, Step: 1
-    // this->MakeSlotAvailable(&this->numLevels_);
-    // numLevels_.ForceSetDirty();
+    frameRateAdjust_.SetParameter(new core::param::IntParam(60, 0, 500, 1));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
+    this->MakeSlotAvailable(&this->frameRateAdjust_);
+    frameRateAdjust_.ForceSetDirty();
 }
 
 megamol::compositing_gl::OpticalFlow::~OpticalFlow() {
@@ -116,18 +90,6 @@ bool megamol::compositing_gl::OpticalFlow::create() {
         frontend_resources.get<megamol::frontend_resources::RuntimeConfig>());
 
     try {
-        // // Initialize compute shaders
-        // updateVShader_ = core::utility::make_glowl_shader(
-        //     "update_v", shdr_options, std::filesystem::path("compositing_gl/OpicalFlow/update_v.comp.glsl"));
-
-        // updateUShader_ = core::utility::make_glowl_shader(
-        //     "update_u", shdr_options, std::filesystem::path("compositing_gl/OpticalFlow/update_u.comp.glsl"));
-
-        // updatePShader_ = core::utility::make_glowl_shader(
-        //     "update_p", shdr_options, std::filesystem::path("compositing_gl/OpticalFlow/update_p.comp.glsl"));
-
-        // computeChangeShader_ = core::utility::make_glowl_shader(
-        //     "compute_change", shdr_options, std::filesystem::path("compositing_gl/OpticalFlow/compute_change.comp.glsl"));
         passthroughShader_ = core::utility::make_glowl_shader(
             "passthrough", shdr_options, std::filesystem::path("compositing_gl/passthrough.comp.glsl"));
         
@@ -153,12 +115,7 @@ bool megamol::compositing_gl::OpticalFlow::create() {
     // Initialize input textures
     I0_ = std::make_shared<glowl::Texture2D>("I0", tex_layout, nullptr);
     I1_ = std::make_shared<glowl::Texture2D>("I1", tex_layout, nullptr);
-
-    // // Initialize textures for intermediate variables
-    // uTexture_ = std::make_shared<glowl::Texture2D>("u_texture", tex_layout, nullptr);
     vTexture_ = std::make_shared<glowl::Texture2D>("v_texture", tex_layout, nullptr);
-    // pTexture_ = std::make_shared<glowl::Texture2D>("p_texture", tex_layout, nullptr);
-    // deltaUBuffer_ = std::make_shared<glowl::Texture2D>("delta_u_buffer", tex_layout, nullptr);
 
     // Initialize the final output texture
     outputTex_ = std::make_shared<glowl::Texture2D>("output_texture", tex_layout, nullptr);
@@ -173,7 +130,6 @@ bool megamol::compositing_gl::OpticalFlow::getDataCallback(core::Call& caller) {
     auto lhs_tc = dynamic_cast<CallTexture2D*>(&caller);
     auto call_texture = inputTexSlot_.CallAs<CallTexture2D>();
 
-
     if (lhs_tc == nullptr) {
         return false;
     }
@@ -186,47 +142,40 @@ bool megamol::compositing_gl::OpticalFlow::getDataCallback(core::Call& caller) {
 
     // Check if any incoming data has changed
     bool incomingChange = call_texture != nullptr && call_texture->hasUpdate() ||
-                          lambda_.IsDirty() ||
-                          theta_.IsDirty(); 
-                        //   tau_.IsDirty() ||
-                        //   tolerance_.IsDirty() ||
-                        //   maxIter_.IsDirty() ||
-                        //   numLevels_.IsDirty();
+                            lambda_.IsDirty() ||
+                            offset_.IsDirty(); 
 
-    if (incomingChange) {
+    if(frameRateAdjust_.IsDirty()) {
+        counter = frameRateAdjust_.Param<core::param::IntParam>()->Value();
+        frameRateAdjust_.ResetDirty();
+    }
+
+    if (incomingChange && counter == 0) {
         ++version_;
-
 
         // Reset dirty flags
         lambda_.ResetDirty();
-        theta_.ResetDirty();
-        // tau_.ResetDirty();
-        // tolerance_.ResetDirty();
-        // maxIter_.ResetDirty();
-        // numLevels_.ResetDirty();
+        offset_.ResetDirty();
     
         auto input_tex_2D = call_texture->getData();
 
         fitTextures(input_tex_2D, {I0_, I1_, outputTex_});
 
         auto lambdaVal = lambda_.Param<core::param::FloatParam>()->Value();
-        auto thetaVal = theta_.Param<core::param::FloatParam>()->Value();
-        // auto tauVal = tau_.Param<core::param::FloatParam>()->Value();
-        // auto toleranceVal = tolerance_.Param<core::param::FloatParam>()->Value();
-        // auto maxIterVal = maxIter_.Param<core::param::IntParam>()->Value();
-        // auto numLevels = numLevels_.Param<core::param::IntParam>()->Value();
+        auto offsetVal = offset_.Param<core::param::FloatParam>()->Value();
+        auto frameRateVal = frameRateAdjust_.Param<core::param::IntParam>()->Value();
 
-        // if(isFirstCall_) {
-        //     isFirstCall_ = false;
-        //     textureCopy(input_tex_2D, I0_); 
-        //     return true;
-        // } 
+        if(isFirstCall_) {
+            isFirstCall_ = false;
+            textureCopy(input_tex_2D, I0_); 
+            return true;
+        } 
 
         textureCopy(input_tex_2D, I1_); 
 
         simpleOpticalFlowShader_->use();
         simpleOpticalFlowShader_->setUniform( "lambda", lambdaVal);
-        simpleOpticalFlowShader_->setUniform( "offset", thetaVal);
+        simpleOpticalFlowShader_->setUniform( "offset", offsetVal);
 
         bindTextureToShader(simpleOpticalFlowShader_, I0_, "I0", 0);
         bindTextureToShader(simpleOpticalFlowShader_, I1_, "I1", 1);
@@ -235,16 +184,14 @@ bool megamol::compositing_gl::OpticalFlow::getDataCallback(core::Call& caller) {
 
         glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
             static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
-
-
         glUseProgram(0);
 
         textureCopy(I1_, I0_);
+        counter = frameRateVal;
     }
+    counter--;
 
     lhs_tc->setData(outputTex_, version_);
-    // lhs_tc->setData(vTexture_, version_);
-
 
     return true;
 }
@@ -292,4 +239,15 @@ void megamol::compositing_gl::OpticalFlow::textureCopy(
             static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
 
     glUseProgram(0);
+}
+
+bool megamol::compositing_gl::OpticalFlow::getVelocityBuffer(core::Call& caller) {
+    auto ct = dynamic_cast<CallTexture2D*>(&caller);
+
+    if(ct == NULL) {
+        return false;
+    }
+
+    ct->setData(vTexture_, version_);
+    return true;
 }

@@ -83,6 +83,9 @@ protected:
      */
     bool getMetaDataCallback(core::Call& caller);
 
+
+    bool getVelocityBuffer(core::Call& caller);
+
 private:
     /**
      * Fits all internal textures of this module to the size of the given one
@@ -108,6 +111,7 @@ private:
     );
 
     bool isFirstCall_;
+    int counter;
 
     /** Slot for the output texture */
     core::CalleeSlot flowFieldOutTexSlot;
@@ -117,21 +121,13 @@ private:
     core::CallerSlot inputTexSlot_;
 
     core::param::ParamSlot lambda_;
-    core::param::ParamSlot theta_;
-    // core::param::ParamSlot tau_;
-    // core::param::ParamSlot tolerance_;
-    // core::param::ParamSlot energyTolerance_;
-    // core::param::ParamSlot maxIter_;
-    // core::param::ParamSlot numLevels_;
+    core::param::ParamSlot offset_;
+    core::param::ParamSlot frameRateAdjust_;
 
     /** version identifier */
     uint32_t version_;
 
     /** shader performing the conotur calculations */
-    std::unique_ptr<glowl::GLSLProgram> updateVShader_;
-    std::unique_ptr<glowl::GLSLProgram> updateUShader_;
-    std::unique_ptr<glowl::GLSLProgram> updatePShader_;
-    std::unique_ptr<glowl::GLSLProgram> computeChangeShader_;
     std::unique_ptr<glowl::GLSLProgram> simpleOpticalFlowShader_;
     std::unique_ptr<glowl::GLSLProgram> passthroughShader_;
 
