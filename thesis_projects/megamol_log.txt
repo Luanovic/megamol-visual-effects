@@ -1,9 +1,9 @@
-[2024-09-20 18:10:35] (info)|Main: RuntimeConfig values: 
+[2024-09-21 01:33:45] (info)|Main: RuntimeConfig values: 
 	Executable directory: 
 		/home/masta76/Schreibtisch/Thesis/megamol-visual-effects/build/install/bin/
 	Program invocation: 
 		megamol sphere_render_deferred.lua 
-	Version: de7bb0fdf27c02e6-dirty
+	Version: 326a9df827ac8027-dirty
 	Configuration files: 
 		/home/masta76/Schreibtisch/Thesis/megamol-visual-effects/build/install/bin/megamol_config.lua
 	Application directory: /home/masta76/Schreibtisch/Thesis/megamol-visual-effects/build/install/bin/../
@@ -17,140 +17,231 @@
 	Project files: 
 		sphere_render_deferred.lua
 	Lua host address: tcp://127.0.0.1:33333
-[2024-09-20 18:10:35] (info)|Main: 
+[2024-09-21 01:33:45] (info)|Main: 
 	Global Key-Values: 
 		MachineName : 76
 		MegaMol : Frontend3000
 		arcball : off
-[2024-09-20 18:10:35] (info)|LRH Server socket opened on "tcp://127.0.0.1:33333"
-[2024-09-20 18:10:35] (info)|Lua_Service_Wrapper: initialized successfully
-[2024-09-20 18:10:35] (info)|FrameStatistics_Service: initialized successfully
-[2024-09-20 18:10:35] (info)|ProjectLoader_Service: initialized successfully
-[2024-09-20 18:10:35] (info)|OpenGL_GLFW_Service: Requesting OpenGL 4.6 Compatibility Profile
-[2024-09-20 18:10:35] (info)|OpenGL_GLFW_Service: Create window with size w: 1920 h: 1080
-[2024-09-20 18:10:35] (info)|OpenGL_GLFW_Service: OpenGL Context Info
+[2024-09-21 01:33:45] (info)|LRH Server socket opened on "tcp://127.0.0.1:33333"
+[2024-09-21 01:33:45] (info)|Lua_Service_Wrapper: initialized successfully
+[2024-09-21 01:33:45] (info)|FrameStatistics_Service: initialized successfully
+[2024-09-21 01:33:45] (info)|ProjectLoader_Service: initialized successfully
+[2024-09-21 01:33:45] (info)|OpenGL_GLFW_Service: Requesting OpenGL 4.6 Compatibility Profile
+[2024-09-21 01:33:45] (info)|OpenGL_GLFW_Service: Create window with size w: 1920 h: 1080
+[2024-09-21 01:33:45] (info)|OpenGL_GLFW_Service: OpenGL Context Info
 	Version:  4.6.0 NVIDIA 560.35.03
 	Vendor:   NVIDIA Corporation
 	Renderer: NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2
 	GLSL:     4.60 NVIDIA
-[2024-09-20 18:10:36] (info)|OpenGL_GLFW_Service: initialized successfully
-[2024-09-20 18:10:36] (info)|ImagePresentation_Service: initialized successfully
-[2024-09-20 18:10:36] (info)|GUI_Service: initialized successfully
-[2024-09-20 18:10:36] (info)|Command_Service: initialized successfully
-[2024-09-20 18:10:36] (info)|Screenshot_Service: initialized successfully
-[2024-09-20 18:10:36] (info)|Plugin "astro" loaded: 8 Modules, 1 Calls
-[2024-09-20 18:10:36] (info)|Plugin "cinematic" loaded: 1 Modules, 1 Calls
-[2024-09-20 18:10:36] (info)|Plugin "cinematic_gl" loaded: 5 Modules, 0 Calls
-[2024-09-20 18:10:36] (info)|Plugin "cluster" loaded: 2 Modules, 3 Calls
-[2024-09-20 18:10:36] (info)|Plugin "compositing_gl" loaded: 17 Modules, 4 Calls
-[2024-09-20 18:10:36] (info)|Plugin "datatools" loaded: 81 Modules, 4 Calls
-[2024-09-20 18:10:36] (info)|Plugin "datatools_gl" loaded: 10 Modules, 0 Calls
-[2024-09-20 18:10:36] (info)|Plugin "geometry_calls" loaded: 0 Modules, 8 Calls
-[2024-09-20 18:10:36] (info)|Plugin "geometry_calls_gl" loaded: 0 Modules, 1 Calls
-[2024-09-20 18:10:36] (info)|Plugin "image_calls" loaded: 0 Modules, 1 Calls
-[2024-09-20 18:10:36] (info)|Plugin "image_gl" loaded: 2 Modules, 0 Calls
-[2024-09-20 18:10:36] (info)|Plugin "infovis" loaded: 6 Modules, 1 Calls
-[2024-09-20 18:10:36] (info)|Plugin "infovis_gl" loaded: 4 Modules, 0 Calls
-[2024-09-20 18:10:36] (info)|Plugin "mesh" loaded: 6 Modules, 6 Calls
-[2024-09-20 18:10:36] (info)|Plugin "mesh_gl" loaded: 6 Modules, 0 Calls
-[2024-09-20 18:10:36] (info)|Plugin "mmadios" loaded: 9 Modules, 1 Calls
-[2024-09-20 18:10:36] (info)|Plugin "mmstd" loaded: 20 Modules, 13 Calls
-[2024-09-20 18:10:36] (info)|Plugin "mmstd_gl" loaded: 17 Modules, 7 Calls
-[2024-09-20 18:10:36] (info)|Plugin "moldyn" loaded: 17 Modules, 2 Calls
-[2024-09-20 18:10:36] (info)|Plugin "moldyn_gl" loaded: 4 Modules, 0 Calls
-[2024-09-20 18:10:36] (info)|Plugin "protein" loaded: 26 Modules, 2 Calls
-[2024-09-20 18:10:36] (info)|Plugin "Protein_Calls" loaded: 0 Modules, 13 Calls
-[2024-09-20 18:10:36] (info)|Plugin "protein_gl" loaded: 18 Modules, 0 Calls
-[2024-09-20 18:10:36] (info)|Plugin "pwdemos_gl" loaded: 11 Modules, 3 Calls
-[2024-09-20 18:10:36] (info)|Plugin "thermodyn" loaded: 2 Modules, 1 Calls
-[2024-09-20 18:10:36] (info)|Plugin "thermodyn_gl" loaded: 1 Modules, 0 Calls
-[2024-09-20 18:10:36] (info)|Plugin "trisoup" loaded: 2 Modules, 2 Calls
-[2024-09-20 18:10:36] (info)|Plugin "trisoup_gl" loaded: 8 Modules, 0 Calls
-[2024-09-20 18:10:36] (info)|Plugin "volume" loaded: 4 Modules, 0 Calls
-[2024-09-20 18:10:36] (info)|Plugin "volume_gl" loaded: 3 Modules, 0 Calls
-[2024-09-20 18:10:36] (info)|[GUI] Reading 74 available calls ... DONE (duration: 0.000 seconds)
-[2024-09-20 18:10:36] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-20 18:10:36] (info)|The loader thread is exiting.
-[2024-09-20 18:10:36] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-20 18:10:36] (info)|The loader thread is exiting.
-[2024-09-20 18:10:36] (info)|[adiosWriter] Writer Closed
-[2024-09-20 18:10:36] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-20 18:10:36] (info)|The loader thread is exiting.
-[2024-09-20 18:10:36] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-20 18:10:36] (info)|The loader thread is exiting.
-[2024-09-20 18:10:36] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-20 18:10:36] (info)|The loader thread is exiting.
-[2024-09-20 18:10:36] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-20 18:10:36] (info)|The loader thread is exiting.
-[2024-09-20 18:10:36] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-20 18:10:36] (info)|The loader thread is exiting.
-[2024-09-20 18:10:36] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-20 18:10:36] (info)|The loader thread is exiting.
-[2024-09-20 18:10:36] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-20 18:10:36] (info)|The loader thread is exiting.
-[2024-09-20 18:10:36] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-20 18:10:36] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-20 18:10:36] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-20 18:10:36] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-20 18:10:36] (warning)|[FilePathParam] Omitting value 'colors.txt'. File does not exist.
-[2024-09-20 18:10:36] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-20 18:10:36] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-20 18:10:36] (warning)|[FilePathParam] Omitting value 'colors.txt'. File does not exist.
-[2024-09-20 18:10:36] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-20 18:10:36] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-20 18:10:36] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-20 18:10:36] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-20 18:10:36] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-20 18:10:36] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-20 18:10:36] (info)|[GUI] Reading 290 available modules ... DONE (duration: 0.105 seconds)
-[2024-09-20 18:10:36] (info)|[GUI] Initialized ImGui render backend for Open GL.
-[2024-09-20 18:10:36] (warning)|Version info in project (6bbd7ff697a02dc5-dirty) does not match MegaMol version (de7bb0fdf27c02e6-dirty)!
-[2024-09-20 18:10:36] (info)|Created module "N7megamol8mmstd_gl4view8View3DGLE"
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create module: ::Group_3::view
-[2024-09-20 18:10:36] (info)|MegaMolGraph: set graph entry point: ::Group_3::view
-[2024-09-20 18:10:36] (info)|Created module "N7megamol8mmstd_gl19BoundingBoxRendererE"
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create module: ::Group_3::bbox
-[2024-09-20 18:10:36] (info)|Created module "N7megamol4core4view5light12DistantLightE"
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create module: ::Group_2::distantlight
-[2024-09-20 18:10:36] (info)|Created module "N7megamol9moldyn_gl9rendering14SphereRendererE"
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create module: ::Group_2::renderer
-[2024-09-20 18:10:36] (info)|Created module "N7megamol6moldyn2io21TestSpheresDataSourceE"
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create module: ::Group_2::data
-[2024-09-20 18:10:36] (info)|Created module "N7megamol14compositing_gl18SimpleRenderTargetE"
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create module: ::Group_2::SimpleRenderTarget_1
-[2024-09-20 18:10:36] (info)|Created module "N7megamol14compositing_gl13LocalLightingE"
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create module: ::Group_1::LocalLighting_1
-[2024-09-20 18:10:36] (info)|Created module "N7megamol4core4view5light12AmbientLightE"
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create module: ::Group_1::AmbientLight_1
-[2024-09-20 18:10:36] (info)|Created module "N7megamol14compositing_gl12DrawToScreenE"
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create module: ::Group_3::DrawToScreen_1
-[2024-09-20 18:10:36] (info)|Created module "N7megamol4core4view5light12DistantLightE"
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create module: ::Group_1::DistantLight_1
-[2024-09-20 18:10:36] (info)|Created module "N7megamol14compositing_gl11OpticalFlowE"
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create module: ::Group_1::OpticalFlow_1
-[2024-09-20 18:10:36] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-20 18:10:36] (info)|[::Group_2::data] Loading speed: 0.046620 ms/f (99)
-[2024-09-20 18:10:36] (info)|The loader thread is exiting.
-[2024-09-20 18:10:36] (info)|Created module "N7megamol14compositing_gl10MotionBlurE"
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create module: ::Group_1::MotionBlur_1
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_3::view::rendering -> ::Group_3::bbox::rendering (CallRender3DGL)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_3::bbox::chainRendering -> ::Group_3::DrawToScreen_1::rendering (CallRender3DGL)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_2::renderer::getdata -> ::Group_2::data::getData (MultiParticleDataCall)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_2::renderer::lights -> ::Group_2::distantlight::deployLightSlot (CallLight)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_2::SimpleRenderTarget_1::chainRendering -> ::Group_2::renderer::rendering (CallRender3DGL)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::AlbedoTexture -> ::Group_2::SimpleRenderTarget_1::Color (CallTexture2D)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::NormalTexture -> ::Group_2::SimpleRenderTarget_1::Normals (CallTexture2D)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::DepthTexture -> ::Group_2::SimpleRenderTarget_1::Depth (CallTexture2D)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::lights -> ::Group_1::DistantLight_1::deployLightSlot (CallLight)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::Camera -> ::Group_2::SimpleRenderTarget_1::Camera (CallCamera)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_3::DrawToScreen_1::chainRendering -> ::Group_2::SimpleRenderTarget_1::rendering (CallRender3DGL)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_3::DrawToScreen_1::DepthTexture -> ::Group_2::SimpleRenderTarget_1::Depth (CallTexture2D)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_1::DistantLight_1::getLightSlot -> ::Group_1::AmbientLight_1::deployLightSlot (CallLight)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_1::OpticalFlow_1::InputTexture -> ::Group_1::LocalLighting_1::OutputTexture (CallTexture2D)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_1::MotionBlur_1::ColorTexture -> ::Group_2::SimpleRenderTarget_1::Color (CallTexture2D)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_1::MotionBlur_1::DepthTexture -> ::Group_2::SimpleRenderTarget_1::Depth (CallTexture2D)
-[2024-09-20 18:10:36] (info)|MegaMolGraph: create call: ::Group_1::MotionBlur_1::FlowTexture -> ::Group_1::OpticalFlow_1::FlowFieldTexture (CallTexture2D)
-[2024-09-20 18:10:36] (info)|ProjectLoader_Service: loaded file sphere_render_deferred.lua
-[2024-09-20 18:10:36] (warning)|The camera output file at 'sphere_render_deferred_cam.json' could not be opened.
-[2024-09-20 18:10:36] (info)|[SphereRenderer] Using render mode 'Simple'.
-[2024-09-20 18:10:41] (info)|MegaMolGraph: create call: ::Group_3::DrawToScreen_1::InputTexture -> ::Group_1::MotionBlur_1::OutputTexture (CallTexture2D)
+[2024-09-21 01:33:45] (info)|OpenGL_GLFW_Service: initialized successfully
+[2024-09-21 01:33:45] (info)|ImagePresentation_Service: initialized successfully
+[2024-09-21 01:33:45] (info)|GUI_Service: initialized successfully
+[2024-09-21 01:33:45] (info)|Command_Service: initialized successfully
+[2024-09-21 01:33:45] (info)|Screenshot_Service: initialized successfully
+[2024-09-21 01:33:45] (info)|Plugin "astro" loaded: 8 Modules, 1 Calls
+[2024-09-21 01:33:45] (info)|Plugin "cinematic" loaded: 1 Modules, 1 Calls
+[2024-09-21 01:33:45] (info)|Plugin "cinematic_gl" loaded: 5 Modules, 0 Calls
+[2024-09-21 01:33:45] (info)|Plugin "cluster" loaded: 2 Modules, 3 Calls
+[2024-09-21 01:33:45] (info)|Plugin "compositing_gl" loaded: 17 Modules, 4 Calls
+[2024-09-21 01:33:45] (info)|Plugin "datatools" loaded: 81 Modules, 4 Calls
+[2024-09-21 01:33:45] (info)|Plugin "datatools_gl" loaded: 10 Modules, 0 Calls
+[2024-09-21 01:33:45] (info)|Plugin "geometry_calls" loaded: 0 Modules, 8 Calls
+[2024-09-21 01:33:45] (info)|Plugin "geometry_calls_gl" loaded: 0 Modules, 1 Calls
+[2024-09-21 01:33:45] (info)|Plugin "image_calls" loaded: 0 Modules, 1 Calls
+[2024-09-21 01:33:45] (info)|Plugin "image_gl" loaded: 2 Modules, 0 Calls
+[2024-09-21 01:33:45] (info)|Plugin "infovis" loaded: 6 Modules, 1 Calls
+[2024-09-21 01:33:45] (info)|Plugin "infovis_gl" loaded: 4 Modules, 0 Calls
+[2024-09-21 01:33:45] (info)|Plugin "mesh" loaded: 6 Modules, 6 Calls
+[2024-09-21 01:33:45] (info)|Plugin "mesh_gl" loaded: 6 Modules, 0 Calls
+[2024-09-21 01:33:45] (info)|Plugin "mmadios" loaded: 9 Modules, 1 Calls
+[2024-09-21 01:33:45] (info)|Plugin "mmstd" loaded: 20 Modules, 13 Calls
+[2024-09-21 01:33:45] (info)|Plugin "mmstd_gl" loaded: 17 Modules, 7 Calls
+[2024-09-21 01:33:45] (info)|Plugin "moldyn" loaded: 17 Modules, 2 Calls
+[2024-09-21 01:33:45] (info)|Plugin "moldyn_gl" loaded: 4 Modules, 0 Calls
+[2024-09-21 01:33:45] (info)|Plugin "protein" loaded: 26 Modules, 2 Calls
+[2024-09-21 01:33:45] (info)|Plugin "Protein_Calls" loaded: 0 Modules, 13 Calls
+[2024-09-21 01:33:45] (info)|Plugin "protein_gl" loaded: 18 Modules, 0 Calls
+[2024-09-21 01:33:45] (info)|Plugin "pwdemos_gl" loaded: 11 Modules, 3 Calls
+[2024-09-21 01:33:45] (info)|Plugin "thermodyn" loaded: 2 Modules, 1 Calls
+[2024-09-21 01:33:45] (info)|Plugin "thermodyn_gl" loaded: 1 Modules, 0 Calls
+[2024-09-21 01:33:45] (info)|Plugin "trisoup" loaded: 2 Modules, 2 Calls
+[2024-09-21 01:33:45] (info)|Plugin "trisoup_gl" loaded: 8 Modules, 0 Calls
+[2024-09-21 01:33:45] (info)|Plugin "volume" loaded: 4 Modules, 0 Calls
+[2024-09-21 01:33:45] (info)|Plugin "volume_gl" loaded: 3 Modules, 0 Calls
+[2024-09-21 01:33:45] (info)|[GUI] Reading 74 available calls ... DONE (duration: 0.000 seconds)
+[2024-09-21 01:33:45] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:45] (info)|The loader thread is exiting.
+[2024-09-21 01:33:45] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:45] (info)|The loader thread is exiting.
+[2024-09-21 01:33:45] (info)|[adiosWriter] Writer Closed
+[2024-09-21 01:33:45] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:45] (info)|The loader thread is exiting.
+[2024-09-21 01:33:45] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:45] (info)|The loader thread is exiting.
+[2024-09-21 01:33:45] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:45] (info)|The loader thread is exiting.
+[2024-09-21 01:33:45] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:45] (info)|The loader thread is exiting.
+[2024-09-21 01:33:45] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:45] (info)|The loader thread is exiting.
+[2024-09-21 01:33:45] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:45] (info)|The loader thread is exiting.
+[2024-09-21 01:33:45] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:45] (info)|The loader thread is exiting.
+[2024-09-21 01:33:45] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:33:45] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:33:45] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:33:45] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:33:45] (warning)|[FilePathParam] Omitting value 'colors.txt'. File does not exist.
+[2024-09-21 01:33:45] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:33:45] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:33:45] (warning)|[FilePathParam] Omitting value 'colors.txt'. File does not exist.
+[2024-09-21 01:33:45] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:33:45] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:33:45] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:33:45] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:33:45] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:33:45] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:33:45] (info)|[GUI] Reading 290 available modules ... DONE (duration: 0.104 seconds)
+[2024-09-21 01:33:45] (info)|[GUI] Initialized ImGui render backend for Open GL.
+[2024-09-21 01:33:45] (info)|Created module "N7megamol8mmstd_gl4view8View3DGLE"
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create module: ::Group_3::view
+[2024-09-21 01:33:45] (info)|MegaMolGraph: set graph entry point: ::Group_3::view
+[2024-09-21 01:33:45] (info)|Created module "N7megamol8mmstd_gl19BoundingBoxRendererE"
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create module: ::Group_3::bbox
+[2024-09-21 01:33:45] (info)|Created module "N7megamol4core4view5light12DistantLightE"
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create module: ::Group_2::distantlight
+[2024-09-21 01:33:45] (info)|Created module "N7megamol9moldyn_gl9rendering14SphereRendererE"
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create module: ::Group_2::renderer
+[2024-09-21 01:33:45] (info)|Created module "N7megamol6moldyn2io21TestSpheresDataSourceE"
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create module: ::Group_2::data
+[2024-09-21 01:33:45] (info)|Created module "N7megamol14compositing_gl18SimpleRenderTargetE"
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create module: ::Group_2::SimpleRenderTarget_1
+[2024-09-21 01:33:45] (info)|Created module "N7megamol14compositing_gl13LocalLightingE"
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create module: ::Group_1::LocalLighting_1
+[2024-09-21 01:33:45] (info)|Created module "N7megamol4core4view5light12AmbientLightE"
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create module: ::Group_1::AmbientLight_1
+[2024-09-21 01:33:45] (info)|Created module "N7megamol14compositing_gl12DrawToScreenE"
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create module: ::Group_3::DrawToScreen_1
+[2024-09-21 01:33:45] (info)|Created module "N7megamol4core4view5light12DistantLightE"
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create module: ::Group_1::DistantLight_1
+[2024-09-21 01:33:45] (info)|Created module "N7megamol14compositing_gl11OpticalFlowE"
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create module: ::Group_1::OpticalFlow_1
+[2024-09-21 01:33:45] (info)|Created module "N7megamol14compositing_gl10MotionBlurE"
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create module: ::Group_1::MotionBlur_1
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_3::view::rendering -> ::Group_3::bbox::rendering (CallRender3DGL)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_3::bbox::chainRendering -> ::Group_3::DrawToScreen_1::rendering (CallRender3DGL)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_2::renderer::getdata -> ::Group_2::data::getData (MultiParticleDataCall)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_2::renderer::lights -> ::Group_2::distantlight::deployLightSlot (CallLight)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_2::SimpleRenderTarget_1::chainRendering -> ::Group_2::renderer::rendering (CallRender3DGL)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::AlbedoTexture -> ::Group_2::SimpleRenderTarget_1::Color (CallTexture2D)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::NormalTexture -> ::Group_2::SimpleRenderTarget_1::Normals (CallTexture2D)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::DepthTexture -> ::Group_2::SimpleRenderTarget_1::Depth (CallTexture2D)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::lights -> ::Group_1::DistantLight_1::deployLightSlot (CallLight)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::Camera -> ::Group_2::SimpleRenderTarget_1::Camera (CallCamera)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_3::DrawToScreen_1::chainRendering -> ::Group_2::SimpleRenderTarget_1::rendering (CallRender3DGL)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_3::DrawToScreen_1::InputTexture -> ::Group_1::MotionBlur_1::OutputTexture (CallTexture2D)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_3::DrawToScreen_1::DepthTexture -> ::Group_2::SimpleRenderTarget_1::Depth (CallTexture2D)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_1::DistantLight_1::getLightSlot -> ::Group_1::AmbientLight_1::deployLightSlot (CallLight)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_1::OpticalFlow_1::InputTexture -> ::Group_1::LocalLighting_1::OutputTexture (CallTexture2D)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_1::MotionBlur_1::ColorTexture -> ::Group_2::SimpleRenderTarget_1::Color (CallTexture2D)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_1::MotionBlur_1::DepthTexture -> ::Group_2::SimpleRenderTarget_1::Depth (CallTexture2D)
+[2024-09-21 01:33:45] (info)|MegaMolGraph: create call: ::Group_1::MotionBlur_1::FlowTexture -> ::Group_1::OpticalFlow_1::FlowFieldTexture (CallTexture2D)
+[2024-09-21 01:33:45] (info)|ProjectLoader_Service: loaded file sphere_render_deferred.lua
+[2024-09-21 01:33:45] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:45] (info)|[::Group_2::data] Loading speed: 0.051916 ms/f (99)
+[2024-09-21 01:33:45] (info)|The loader thread is exiting.
+[2024-09-21 01:33:45] (warning)|The camera output file at 'sphere_render_deferred_cam.json' could not be opened.
+[2024-09-21 01:33:45] (info)|[SphereRenderer] Using render mode 'Simple'.
+[2024-09-21 01:33:54] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:54] (info)|[::Group_2::data] Loading speed: 0.073587 ms/f (99)
+[2024-09-21 01:33:54] (info)|The loader thread is exiting.
+[2024-09-21 01:33:54] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:54] (info)|[::Group_2::data] Loading speed: 0.024438 ms/f (99)
+[2024-09-21 01:33:54] (info)|The loader thread is exiting.
+[2024-09-21 01:33:56] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:56] (info)|[::Group_2::data] Loading speed: 0.027882 ms/f (99)
+[2024-09-21 01:33:56] (info)|The loader thread is exiting.
+[2024-09-21 01:33:56] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:56] (info)|[::Group_2::data] Loading speed: 0.018344 ms/f (99)
+[2024-09-21 01:33:56] (info)|The loader thread is exiting.
+[2024-09-21 01:33:57] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:33:57] (info)|[::Group_2::data] Loading speed: 0.015259 ms/f (99)
+[2024-09-21 01:33:57] (info)|The loader thread is exiting.
+[2024-09-21 01:34:01] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:01] (info)|[::Group_2::data] Loading speed: 0.015054 ms/f (100)
+[2024-09-21 01:34:01] (info)|The loader thread is exiting.
+[2024-09-21 01:34:01] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:01] (info)|[::Group_2::data] Loading speed: 0.012926 ms/f (101)
+[2024-09-21 01:34:01] (info)|The loader thread is exiting.
+[2024-09-21 01:34:01] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:01] (info)|[::Group_2::data] Loading speed: 0.016163 ms/f (91)
+[2024-09-21 01:34:01] (info)|The loader thread is exiting.
+[2024-09-21 01:34:01] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:01] (info)|[::Group_2::data] Loading speed: 0.014991 ms/f (81)
+[2024-09-21 01:34:01] (info)|The loader thread is exiting.
+[2024-09-21 01:34:02] (info)|[::Group_2::data] Loading speed: 0.013965 ms/f (127)
+[2024-09-21 01:34:02] (info)|The loader thread is exiting.
+[2024-09-21 01:34:02] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:02] (info)|[::Group_2::data] Loading speed: 0.017141 ms/f (61)
+[2024-09-21 01:34:02] (info)|The loader thread is exiting.
+[2024-09-21 01:34:02] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:02] (info)|[::Group_2::data] Loading speed: 0.014617 ms/f (51)
+[2024-09-21 01:34:02] (info)|The loader thread is exiting.
+[2024-09-21 01:34:02] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:02] (info)|[::Group_2::data] Loading speed: 0.015684 ms/f (41)
+[2024-09-21 01:34:02] (info)|The loader thread is exiting.
+[2024-09-21 01:34:03] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:03] (info)|[::Group_2::data] Loading speed: 0.019559 ms/f (42)
+[2024-09-21 01:34:03] (info)|The loader thread is exiting.
+[2024-09-21 01:34:03] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:03] (info)|[::Group_2::data] Loading speed: 0.015296 ms/f (43)
+[2024-09-21 01:34:03] (info)|The loader thread is exiting.
+[2024-09-21 01:34:04] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:04] (info)|[::Group_2::data] Loading speed: 0.017236 ms/f (53)
+[2024-09-21 01:34:04] (info)|The loader thread is exiting.
+[2024-09-21 01:34:04] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:04] (info)|[::Group_2::data] Loading speed: 0.017334 ms/f (63)
+[2024-09-21 01:34:04] (info)|The loader thread is exiting.
+[2024-09-21 01:34:04] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:04] (info)|[::Group_2::data] Loading speed: 0.015427 ms/f (73)
+[2024-09-21 01:34:04] (info)|The loader thread is exiting.
+[2024-09-21 01:34:04] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:04] (info)|[::Group_2::data] Loading speed: 0.012824 ms/f (83)
+[2024-09-21 01:34:04] (info)|The loader thread is exiting.
+[2024-09-21 01:34:05] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:05] (info)|[::Group_2::data] Loading speed: 0.017203 ms/f (73)
+[2024-09-21 01:34:05] (info)|The loader thread is exiting.
+[2024-09-21 01:34:06] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:06] (info)|[::Group_2::data] Loading speed: 0.018435 ms/f (72)
+[2024-09-21 01:34:06] (info)|The loader thread is exiting.
+[2024-09-21 01:34:06] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:06] (info)|[::Group_2::data] Loading speed: 0.014310 ms/f (71)
+[2024-09-21 01:34:06] (info)|The loader thread is exiting.
+[2024-09-21 01:34:06] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:06] (info)|[::Group_2::data] Loading speed: 0.018922 ms/f (70)
+[2024-09-21 01:34:06] (info)|The loader thread is exiting.
+[2024-09-21 01:34:06] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:06] (info)|[::Group_2::data] Loading speed: 0.018056 ms/f (69)
+[2024-09-21 01:34:06] (info)|The loader thread is exiting.
+[2024-09-21 01:34:06] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:06] (info)|[::Group_2::data] Loading speed: 0.015357 ms/f (68)
+[2024-09-21 01:34:06] (info)|The loader thread is exiting.
+[2024-09-21 01:34:07] (info)|[::Group_2::data] Loading speed: 0.015854 ms/f (231)
+[2024-09-21 01:34:07] (info)|The loader thread is exiting.
+[2024-09-21 01:34:07] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:07] (info)|[::Group_2::data] Loading speed: 0.019007 ms/f (60)
+[2024-09-21 01:34:07] (info)|The loader thread is exiting.
+[2024-09-21 01:34:07] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:07] (info)|[::Group_2::data] Loading speed: 0.018905 ms/f (59)
+[2024-09-21 01:34:07] (info)|The loader thread is exiting.
+[2024-09-21 01:34:39] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:34:39] (info)|MegaMolGraph: create call: ::Group_3::DrawToScreen_1::InputTexture -> ::Group_1::LocalLighting_1::OutputTexture (CallTexture2D)
+[2024-09-21 01:34:59] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:34:59] (info)|[::Group_2::data] Loading speed: 0.009981 ms/f (124)
+[2024-09-21 01:34:59] (info)|The loader thread is exiting.
+[2024-09-21 01:35:04] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-21 01:35:04] (info)|[::Group_2::data] Loading speed: 0.008600 ms/f (193)
+[2024-09-21 01:35:04] (info)|The loader thread is exiting.
+[2024-09-21 01:35:15] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-21 01:35:15] (info)|MegaMolGraph: create call: ::Group_3::DrawToScreen_1::InputTexture -> ::Group_1::MotionBlur_1::OutputTexture (CallTexture2D)
