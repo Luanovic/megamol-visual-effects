@@ -33,7 +33,7 @@ megamol::compositing_gl::MotionBlur::MotionBlur()
         , maxBlurRadius_("MaxBlurRadius", "Maximal Blur Radius") 
         , sampleTaps_("NumSamples", "Number of Samples to be taken")
         , exposureTime_("ExposureTime", "Exposure Time")
-        , frameRate_("FrameRate", "Framerate")
+        , frameRate_("FrameRate", "Framerate of the animation")
 {
 
     outputTexSlot_.SetCallback(
@@ -57,7 +57,7 @@ megamol::compositing_gl::MotionBlur::MotionBlur()
     inputFlowSlot_.SetCompatibleCall<CallTexture2DDescription>();
     this->MakeSlotAvailable(&inputFlowSlot_);
 
-    maxBlurRadius_.SetParameter(new core::param::IntParam(3, 1, 21, 2));
+    maxBlurRadius_.SetParameter(new core::param::IntParam(3, 1, 100, 1));
     this->MakeSlotAvailable(&this->maxBlurRadius_);
     maxBlurRadius_.ForceSetDirty();
 
@@ -171,14 +171,18 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
         auto frameRateVal = frameRate_.Param<core::param::IntParam>()->Value();
         auto exposureTimeVal = exposureTime_.Param<core::param::FloatParam>()->Value();
 
+
+        fitTextures(color_tex_2D, {velocityBuffer_, tileMaxBuffer_, neighborMaxBuffer_, outputTex_});
+
         glowl::TextureLayout tile_layout{
             GL_RGBA16F, 
-            tileMaxBuffer_->getWidth() / maxBlurRadiusVal, 
-            tileMaxBuffer_->getHeight() /maxBlurRadiusVal, 
+            static_cast<int>(tileMaxBuffer_->getWidth() / maxBlurRadiusVal), 
+            static_cast<int>(tileMaxBuffer_->getHeight() / maxBlurRadiusVal), 
             1, GL_RGBA, GL_HALF_FLOAT, 1};
 
         tileMaxBuffer_->reload(tile_layout, nullptr);
         neighborMaxBuffer_->reload(tile_layout, nullptr);
+
 
         if(velocityShaderProgram_ != nullptr) {
             velocityShaderProgram_->use();
@@ -219,8 +223,8 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
 
             neighborMaxBuffer_->bindImage(0, GL_WRITE_ONLY);
 
-            glDispatchCompute(static_cast<int>(std::ceil(neighborMaxBuffer_->getWidth() / 8.0f)),
-                            static_cast<int>(std::ceil(neighborMaxBuffer_->getHeight() / 8.0f)), 1);
+            glDispatchCompute(static_cast<int>(std::ceil(tileMaxBuffer_->getWidth() / 8.0f)),
+                            static_cast<int>(std::ceil(tileMaxBuffer_->getHeight() / 8.0f)), 1);
 
             glUseProgram(0);
 
@@ -248,7 +252,7 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
         }
     }
 
-    lhs_tc->setData(outputTex_, version_);
+    lhs_tc->setData(neighborMaxBuffer_, version_);
 
     return true;
 }

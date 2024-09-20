@@ -15,28 +15,34 @@ ivec2 getTileCoordinates(ivec2 pixel_coords) {
 
 void main() {
     uvec3 gID = gl_GlobalInvocationID.xyz;
-    ivec2 pixel_coords = ivec2(gID.xy);
-    ivec2 target_res = imageSize(tileMaxBuffer);
+    ivec2 pixel_coords = ivec2(gID.xy); 
+    ivec2 target_res = imageSize(tileMaxBuffer); 
 
-    ivec2 transformed_pixel_coords = pixel_coords - ivec2(maxBlurRadius);
-
-    if(
-        pixel_coords.x > target_res.x || pixel_coords.y > target_res.y || pixel_coords.x < 0 || pixel_coords.y < 0
-    ){
+    // Bounds check to ensure we're within the valid range
+    if (pixel_coords.x >= target_res.x || pixel_coords.y >= target_res.y) {
         return;
     }
 
-    if(transformed_pixel_coords.x % maxBlurRadius != 0  || transformed_pixel_coords.y % maxBlurRadius != 0) {
+    // Check if the pixel is aligned to the start of a tile (tile boundary check)
+    int tileSize = maxBlurRadius * 2 + 1;
+    if (pixel_coords.x % tileSize != 0 || pixel_coords.y % tileSize != 0) {
         return;
     }
 
-    vec2 vmax = vec2(0);
-    for (int i = -maxBlurRadius; i <= maxBlurRadius; i++) {
-        for (int j = -maxBlurRadius; j <= maxBlurRadius; j++) {
+    // Compute the maximum velocity in the current tile
+    vec2 vmax = vec2(0.0);
+    for (int i = 0; i <= tileSize; i++) {
+        for (int j = 0; j <= tileSize; j++) {
             ivec2 current_pixel = pixel_coords + ivec2(i, j);
-            vec2 v_current = texelFetch(velocityBuffer, current_pixel, 0).xy;
-            vmax = max(v_current, vmax);
+
+            ivec2 velocity_res = textureSize(velocityBuffer, 0);
+            if (current_pixel.x >= 0 && current_pixel.y >= 0 &&
+                current_pixel.x < velocity_res.x && current_pixel.y < velocity_res.y) {
+                vec2 v_current = texelFetch(velocityBuffer, current_pixel, 0).xy;
+                vmax = max(v_current, vmax); 
+            }
         }
     }
-    imageStore(tileMaxBuffer, getTileCoordinates(pixel_coords), vec4(vmax, 0, 1));
+
+    imageStore(tileMaxBuffer, getTileCoordinates(pixel_coords), vec4(vmax, 0.0, 1.0));
 }

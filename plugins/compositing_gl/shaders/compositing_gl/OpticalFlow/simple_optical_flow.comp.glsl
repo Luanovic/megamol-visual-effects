@@ -7,7 +7,7 @@ layout(local_size_x = 8, local_size_y = 8) in;
 layout(binding = 0) uniform sampler2D I0;
 layout(binding = 1) uniform sampler2D I1;
 
-uniform float offset;
+uniform int offset; 
 uniform float lambda;
 
 // Binding point for output texture
@@ -47,7 +47,7 @@ void main() {
 
 
     if(flow.x != 0 || flow.y != 0) {
-        imageStore(flowOutput, pixel_coords, vec4(flow, 0.0, 1.0)); 
+        imageStore(flowOutput, pixel_coords, vec4(flow, length(flow), 1.0)); 
     } else {
         imageStore(flowOutput, pixel_coords, vec4(0, 0, 0, 0));
     }

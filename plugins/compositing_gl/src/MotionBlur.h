@@ -34,7 +34,7 @@ public:
      * @return A human readable description of this module.
      */
     static const char* Description() {
-        return "Compositing module that runs a 3x3 Median Filter over the image";
+        return "Module implementin Motion Blur";
     }
 
     /**
@@ -133,8 +133,6 @@ private:
 
     /** final output texture */
     std::shared_ptr<glowl::Texture2D> outputTex_;
-
-
     };
 } 
 

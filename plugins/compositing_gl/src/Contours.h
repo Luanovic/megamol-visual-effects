@@ -97,15 +97,10 @@ private:
         int num
     );
 
-
     /**
      * Sets GUI State for different modes
      */
     void setGUIState(int mode);
-
-
-    void recalcMediaBufferSize();
-
 
 
     /** Slot for the output texture */

@@ -19,7 +19,7 @@ void main() {
         return;
     }
 
-    vec2 velocity = clamp(0.5 * texelFetch(flow_tex_2D, pixel_coords, 0).xy * frameRate * exposureTime, 0.5, maxBlurRadius);
+    vec2 velocity = clamp(0.5 * texelFetch(flow_tex_2D, pixel_coords, 0).xy * frameRate * exposureTime, 0.5, float(maxBlurRadius));
 
-    imageStore(velocityBuffer, pixel_coords, vec4(velocity, 0, 1));
+    imageStore(velocityBuffer, pixel_coords, vec4(velocity, length(velocity), 1));
 }

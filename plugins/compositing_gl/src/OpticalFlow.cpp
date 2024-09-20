@@ -64,17 +64,17 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
     this->MakeSlotAvailable(&inputTexSlot_);
 
     // Set up the regularization weight parameter lambda
-    lambda_.SetParameter(new core::param::FloatParam(0.5f, 0.f, 5.f, 0.1f));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
+    lambda_.SetParameter(new core::param::FloatParam(1e-8, 1e-8f, 1e-7, 1e-8));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
     this->MakeSlotAvailable(&this->lambda_);
     lambda_.ForceSetDirty();
 
     // Set up the convex approximation parameter theta
-    offset_.SetParameter(new core::param::FloatParam(0.5f, 0.f, 100.f, 0.1f));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
+    offset_.SetParameter(new core::param::IntParam(1, 1, 50, 1));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
     this->MakeSlotAvailable(&this->offset_);
     offset_.ForceSetDirty();
 
 
-    frameRateAdjust_.SetParameter(new core::param::IntParam(60, 0, 500, 1));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
+    frameRateAdjust_.SetParameter(new core::param::IntParam(10, 0, 50, 1));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
     this->MakeSlotAvailable(&this->frameRateAdjust_);
     frameRateAdjust_.ForceSetDirty();
 }
@@ -162,7 +162,7 @@ bool megamol::compositing_gl::OpticalFlow::getDataCallback(core::Call& caller) {
         fitTextures(input_tex_2D, {I0_, I1_, outputTex_});
 
         auto lambdaVal = lambda_.Param<core::param::FloatParam>()->Value();
-        auto offsetVal = offset_.Param<core::param::FloatParam>()->Value();
+        auto offsetVal = offset_.Param<core::param::IntParam>()->Value();
         auto frameRateVal = frameRateAdjust_.Param<core::param::IntParam>()->Value();
 
         if(isFirstCall_) {
