@@ -28,7 +28,6 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
 
         , inputTexSlot_("InputTexture", "Any Texture that should be used to calculate optical flow")
         , flowFieldOutTexSlot("FlowFieldTexture", "Gives access to the resulting flow field texture.")
-        , velocityOutTexSlot("VelocityTexture",  "Gives access to the resulting flow field texture.")
 
         , lambda_("Lambda", "controls trade off between data fidelity term and regularization term")
         , offset_("Theta", "Convex approximation parameter, which affects speed and stability of convergence")
@@ -47,18 +46,6 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
     );
     this->MakeSlotAvailable(&flowFieldOutTexSlot);
 
-
-    velocityOutTexSlot.SetCallback(
-        CallTexture2D::ClassName(), 
-        CallTexture2D::FunctionName(CallTexture2D::CallGetData), 
-        &OpticalFlow::getVelocityBuffer
-    );
-    velocityOutTexSlot.SetCallback(
-        CallTexture2D::ClassName(), 
-        CallTexture2D::FunctionName(CallTexture2D::CallGetMetaData), 
-        &OpticalFlow::getMetaDataCallback
-    );
-    this->MakeSlotAvailable(&velocityOutTexSlot);
 
     inputTexSlot_.SetCompatibleCall<CallTexture2DDescription>();
     this->MakeSlotAvailable(&inputTexSlot_);
@@ -239,15 +226,4 @@ void megamol::compositing_gl::OpticalFlow::textureCopy(
             static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
 
     glUseProgram(0);
-}
-
-bool megamol::compositing_gl::OpticalFlow::getVelocityBuffer(core::Call& caller) {
-    auto ct = dynamic_cast<CallTexture2D*>(&caller);
-
-    if(ct == NULL) {
-        return false;
-    }
-
-    ct->setData(vTexture_, version_);
-    return true;
 }

@@ -31,8 +31,8 @@ void main() {
 
     // Compute the maximum velocity in the current tile
     vec2 vmax = vec2(0.0);
-    for (int i = 0; i <= tileSize; i++) {
-        for (int j = 0; j <= tileSize; j++) {
+    for (int i = 0; i <= tileSize - 1 ; i++) {
+        for (int j = 0; j <= tileSize - 1 ; j++) {
             ivec2 current_pixel = pixel_coords + ivec2(i, j);
 
             ivec2 velocity_res = textureSize(velocityBuffer, 0);
@@ -44,5 +44,5 @@ void main() {
         }
     }
 
-    imageStore(tileMaxBuffer, getTileCoordinates(pixel_coords), vec4(vmax, 0.0, 1.0));
+    imageStore(tileMaxBuffer, getTileCoordinates(pixel_coords), vec4(vmax, length(vmax), 1.0));
 }

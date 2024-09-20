@@ -83,9 +83,6 @@ protected:
      */
     bool getMetaDataCallback(core::Call& caller);
 
-
-    bool getVelocityBuffer(core::Call& caller);
-
 private:
     /**
      * Fits all internal textures of this module to the size of the given one
@@ -115,7 +112,6 @@ private:
 
     /** Slot for the output texture */
     core::CalleeSlot flowFieldOutTexSlot;
-    core::CalleeSlot velocityOutTexSlot;
 
     /** Slot receiving the input color texture */
     core::CallerSlot inputTexSlot_;

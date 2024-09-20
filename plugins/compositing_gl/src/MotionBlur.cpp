@@ -24,6 +24,7 @@ megamol::compositing_gl::MotionBlur::MotionBlur()
         , tileMaxBuffer_(nullptr)
         , neighborMaxBuffer_(nullptr)
         , velocityShaderProgram_(nullptr)
+        , upscaleShader_(nullptr)
 
         , outputTexSlot_("OutputTexture", "Gives access to the resulting output texture.")
         , inputColorSlot_("ColorTexture", "Connects the color texture.")
@@ -96,6 +97,9 @@ bool megamol::compositing_gl::MotionBlur::create() {
 
         neighborMaxShaderProgram_ = core::utility::make_glowl_shader(
             "NeighborMax", shdr_options, std::filesystem::path("compositing_gl/MotionBlur/neighbor_max_calc.comp.glsl"));
+
+        upscaleShader_ = core::utility::make_glowl_shader(
+            "Upscale", shdr_options, std::filesystem::path("compositing_gl/MotionBlur/upscale.comp.glsl"));
 
     } catch (glowl::GLSLProgramException const& ex) {
         megamol::core::utility::log::Log::DefaultLog.WriteError("[Contours] %s", ex.what());
@@ -174,15 +178,6 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
 
         fitTextures(color_tex_2D, {velocityBuffer_, tileMaxBuffer_, neighborMaxBuffer_, outputTex_});
 
-        glowl::TextureLayout tile_layout{
-            GL_RGBA16F, 
-            static_cast<int>(tileMaxBuffer_->getWidth() / maxBlurRadiusVal), 
-            static_cast<int>(tileMaxBuffer_->getHeight() / maxBlurRadiusVal), 
-            1, GL_RGBA, GL_HALF_FLOAT, 1};
-
-        tileMaxBuffer_->reload(tile_layout, nullptr);
-        neighborMaxBuffer_->reload(tile_layout, nullptr);
-
 
         if(velocityShaderProgram_ != nullptr) {
             velocityShaderProgram_->use();
@@ -201,6 +196,15 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
             glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
         }
 
+        glowl::TextureLayout tile_layout{
+            GL_RGBA16F, 
+            static_cast<int>(velocityBuffer_->getWidth() / (maxBlurRadiusVal * 2 + 1)), 
+            static_cast<int>(velocityBuffer_->getHeight() / (maxBlurRadiusVal * 2 + 1)), 
+            1, GL_RGBA, GL_HALF_FLOAT, 1};
+
+        tileMaxBuffer_->reload(tile_layout, nullptr);
+        neighborMaxBuffer_->reload(tile_layout, nullptr);
+
         if(tileMaxShaderProgram_ != nullptr) {
             tileMaxShaderProgram_->use();
             tileMaxShaderProgram_->setUniform("maxBlurRadius", maxBlurRadiusVal);
@@ -208,51 +212,64 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
 
             tileMaxBuffer_->bindImage(0, GL_WRITE_ONLY);
 
-            glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
-                            static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
+            glDispatchCompute(static_cast<int>(std::ceil(velocityBuffer_->getWidth() / 8.0f)),
+                            static_cast<int>(std::ceil(velocityBuffer_->getHeight() / 8.0f)), 1);
 
             glUseProgram(0);
 
             glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
+
+            if(upscaleShader_ != nullptr) {
+                upscaleShader_->use();
+                upscaleShader_->setUniform("maxBlurRadius", maxBlurRadiusVal);
+                bindTextureToShader(upscaleShader_, tileMaxBuffer_, "neighborMaxBuffer", 0);
+
+                outputTex_->bindImage(0, GL_WRITE_ONLY);
+
+                glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
+                                static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
+
+                glUseProgram(0);
+            }
         }
 
         if(neighborMaxShaderProgram_ != nullptr) {
-            neighborMaxShaderProgram_->use();
-            neighborMaxShaderProgram_->setUniform("maxBlurRadius", maxBlurRadiusVal);
-            bindTextureToShader(neighborMaxShaderProgram_, tileMaxBuffer_, "tileMaxBuffer", 0);
+            // neighborMaxShaderProgram_->use();
+            // neighborMaxShaderProgram_->setUniform("maxBlurRadius", maxBlurRadiusVal);
+            // bindTextureToShader(neighborMaxShaderProgram_, tileMaxBuffer_, "tileMaxBuffer", 0);
 
-            neighborMaxBuffer_->bindImage(0, GL_WRITE_ONLY);
+            // neighborMaxBuffer_->bindImage(0, GL_WRITE_ONLY);
 
-            glDispatchCompute(static_cast<int>(std::ceil(tileMaxBuffer_->getWidth() / 8.0f)),
-                            static_cast<int>(std::ceil(tileMaxBuffer_->getHeight() / 8.0f)), 1);
+            // glDispatchCompute(static_cast<int>(std::ceil(tileMaxBuffer_->getWidth() / 8.0f)),
+            //                 static_cast<int>(std::ceil(tileMaxBuffer_->getHeight() / 8.0f)), 1);
 
-            glUseProgram(0);
+            // glUseProgram(0);
 
-            glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
+            // glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
         } 
 
         if(blurShaderProgram_ != nullptr) {
-            blurShaderProgram_->use();
-            blurShaderProgram_->setUniform("maxBlurRadius", maxBlurRadiusVal);
-            blurShaderProgram_->setUniform("numSamples", sampleTapsVal);
-            blurShaderProgram_->setUniform("exposureTime", exposureTimeVal);
-            blurShaderProgram_->setUniform("frameRate", frameRateVal);
+            // blurShaderProgram_->use();
+            // blurShaderProgram_->setUniform("maxBlurRadius", maxBlurRadiusVal);
+            // blurShaderProgram_->setUniform("numSamples", sampleTapsVal);
+            // blurShaderProgram_->setUniform("exposureTime", exposureTimeVal);
+            // blurShaderProgram_->setUniform("frameRate", frameRateVal);
 
-            bindTextureToShader(blurShaderProgram_, color_tex_2D, "colorBuffer", 0);
-            bindTextureToShader(blurShaderProgram_, depth_tex_2D, "depthBuffer", 1);
-            bindTextureToShader(blurShaderProgram_, velocityBuffer_, "velocityBuffer", 2);
-            bindTextureToShader(blurShaderProgram_, neighborMaxBuffer_, "neighborMaxBuffer", 3);
+            // bindTextureToShader(blurShaderProgram_, color_tex_2D, "colorBuffer", 0);
+            // bindTextureToShader(blurShaderProgram_, depth_tex_2D, "depthBuffer", 1);
+            // bindTextureToShader(blurShaderProgram_, velocityBuffer_, "velocityBuffer", 2);
+            // bindTextureToShader(blurShaderProgram_, neighborMaxBuffer_, "neighborMaxBuffer", 3);
 
-            outputTex_->bindImage(0, GL_WRITE_ONLY);
+            // outputTex_->bindImage(0, GL_WRITE_ONLY);
 
-            glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
-                            static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
+            // glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
+            //                 static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
 
-            glUseProgram(0);
+            // glUseProgram(0);
         }
     }
 
-    lhs_tc->setData(neighborMaxBuffer_, version_);
+    lhs_tc->setData(outputTex_, version_);
 
     return true;
 }

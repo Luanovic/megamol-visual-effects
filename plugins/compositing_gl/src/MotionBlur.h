@@ -121,6 +121,7 @@ private:
     std::unique_ptr<glowl::GLSLProgram> velocityShaderProgram_;
     std::unique_ptr<glowl::GLSLProgram> tileMaxShaderProgram_;
     std::unique_ptr<glowl::GLSLProgram> neighborMaxShaderProgram_;
+    std::unique_ptr<glowl::GLSLProgram> upscaleShader_;
 
 
     std::shared_ptr<glowl::Texture2D> velocityBuffer_;
