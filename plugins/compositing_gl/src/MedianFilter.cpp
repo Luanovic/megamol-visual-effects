@@ -62,7 +62,7 @@ bool megamol::compositing_gl::MedianFilter::create() {
 
     try {
         medianFilterProgram_ = core::utility::make_glowl_shader(
-            "MedianFilter", shdr_options, std::filesystem::path("compositing_gl/MedianBlur/fast_vector_median_filter.comp.glsl"));
+            "MedianFilter", shdr_options, std::filesystem::path("compositing_gl/MedianFilter/fast_vector_median_filter.comp.glsl"));
 
     } catch (glowl::GLSLProgramException const& ex) {
         megamol::core::utility::log::Log::DefaultLog.WriteError("[Contours] %s", ex.what());

@@ -24,6 +24,7 @@
 #include "Contours.h"
 #include "MedianFilter.h"
 #include "OpticalFlow.h"
+#include "MotionBlur.h"
 
 namespace megamol::compositing_gl {
 class CompositingPluginInstance : public megamol::core::factories::AbstractPluginInstance {
@@ -55,6 +56,7 @@ public:
         this->module_descriptions.RegisterAutoDescription<megamol::compositing_gl::Contours>();
         this->module_descriptions.RegisterAutoDescription<megamol::compositing_gl::MedianFilter>();
         this->module_descriptions.RegisterAutoDescription<megamol::compositing_gl::OpticalFlow>();
+        this->module_descriptions.RegisterAutoDescription<megamol::compositing_gl::MotionBlur>();
 
         // register calls
         this->call_descriptions.RegisterAutoDescription<megamol::compositing_gl::CallTexture2D>();

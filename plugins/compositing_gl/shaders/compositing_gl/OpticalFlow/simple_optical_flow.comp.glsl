@@ -1,4 +1,4 @@
-#version 430
+#version 460
 
 // Define local work group size
 layout(local_size_x = 8, local_size_y = 8) in;
@@ -24,19 +24,17 @@ void main() {
         return;
     }
 
-    int level = 0;
-
     ivec2 offsetX = ivec2(offset, 0);
     ivec2 offsetY = ivec2(0 , offset);
     vec4 currentInput = texelFetch(I1, pixel_coords, 0);
     vec4 prevInput = texelFetch(I0, pixel_coords, 0); 
 
     // Calculate image gradients using texelFetch
-    vec4 gradX = (texelFetch(I1, pixel_coords + offsetX, level) - texelFetch(I1, pixel_coords - offsetX, level)) +
-                (texelFetch(I0, pixel_coords + offsetX, level) - texelFetch(I0, pixel_coords - offsetX, level));
+    vec4 gradX = (texelFetch(I1, pixel_coords + offsetX, 0) - texelFetch(I1, pixel_coords - offsetX, 0)) +
+                (texelFetch(I0, pixel_coords + offsetX, 0) - texelFetch(I0, pixel_coords - offsetX, 0));
 
-    vec4 gradY = (texelFetch(I1, pixel_coords + offsetY, level) - texelFetch(I1, pixel_coords - offsetY, level)) +
-                (texelFetch(I0, pixel_coords + offsetY, level) - texelFetch(I0, pixel_coords - offsetY, level));
+    vec4 gradY = (texelFetch(I1, pixel_coords + offsetY, 0) - texelFetch(I1, pixel_coords - offsetY, 0)) +
+                (texelFetch(I0, pixel_coords + offsetY, 0) - texelFetch(I0, pixel_coords - offsetY, 0));
 
     // Compute gradient magnitude with regularization term
     vec4 gradMag = sqrt((gradX * gradX) + (gradY * gradY) + vec4(lambda));
