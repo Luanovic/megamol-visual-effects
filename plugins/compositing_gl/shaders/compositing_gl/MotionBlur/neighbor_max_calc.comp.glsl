@@ -23,13 +23,14 @@ void main() {
     }
 
     vec2 vmax = vec2(0.0);
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-
-            ivec2 current_pixel = pixel_coords + ivec2(i, j); 
-            vec2 v_current = texelFetch(tileMaxBuffer, current_pixel, 0).xy;
-            vmax = max(v_current, vmax); 
-
+    for (int i = - 1; i <= 1 ; i++) {
+        for (int j = - 1; j <= 1 ; j++) {
+            ivec2 current_pixel = pixel_coords + ivec2(i, j) * tileSize;
+            if (current_pixel.x >= 0 && current_pixel.y >= 0 &&
+                current_pixel.x < target_res.x && current_pixel.y < target_res.y) {
+                vec2 v_current = texelFetch(tileMaxBuffer, current_pixel, 0).xy;
+                vmax = max(v_current, vmax);
+            }
         }
     }
 

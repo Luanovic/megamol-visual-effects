@@ -6,16 +6,13 @@ layout(binding = 0) uniform sampler2D colorBuffer;
 layout(binding = 1) uniform sampler2D depthBuffer; 
 layout(binding = 2) uniform sampler2D neighborMaxBuffer;
 
-uniform int maxBlurRadius;       
 uniform int numSamples;          
-uniform float exposureTime;      
-uniform int frameRate;           
 
 layout(rgba16f, binding = 0) writeonly uniform image2D outputTex;
 
 float softDepthCompare(float depthA, float depthB) {
-    const float SOFT_Z_EXTENT = 0.01;
-    return clamp(1.0 - abs(depthA - depthB) / SOFT_Z_EXTENT, 0.0, 1.0);
+    const float SOFT_Z_EXTENT = 0.001;
+    return clamp(1.0 - (depthA - depthB) / SOFT_Z_EXTENT, 0.0, 1.0);
 }
 
 float random(vec2 st) {
@@ -32,18 +29,18 @@ float cylinder(vec2 X, vec2 Y, vec2 velocity) {
     return 1.0 - smoothstep(0.95 * length(velocity), 1.05 * length(velocity), length(X - Y));
 }
 
-vec4 applyMotionBlur(ivec2 pixelCoords) {
+vec3 applyMotionBlur(ivec2 pixelCoords) {
 
     vec2 velocity = texelFetch(neighborMaxBuffer, pixelCoords, 0).xy;
-    vec4 color = texelFetch(colorBuffer, pixelCoords, 0);
+    vec3 color = texelFetch(colorBuffer, pixelCoords, 0).xyz;
     float depth = texelFetch(depthBuffer, pixelCoords, 0).r;
 
     if (length(velocity) < 0.5) {
         return color;
     }
 
-    vec4 sumColor = vec4(0.0);
-    float totalWeight = 0.0;
+    float weight = 1 / length(velocity);
+    vec3 sum = color * weight;
 
     // Jitter for anti-ghosting (random jitter to avoid visible artifacts)
     float jitter = random(vec2(pixelCoords));
@@ -53,35 +50,29 @@ vec4 applyMotionBlur(ivec2 pixelCoords) {
 
         // Calculate the sample position along the velocity vector
         float t = mix(-1.0, 1.0, (float(i) + jitter + 1.0) / float(numSamples + 1));
-        vec2 sampleOffset = floor(velocity * t * exposureTime * float(frameRate) + 0.5);
-        ivec2 sampleCoords = pixelCoords + ivec2(sampleOffset);
+        ivec2 sampleCoords = ivec2(pixelCoords + velocity * t + vec2(0.5));
 
-        if (any(lessThan(sampleCoords, ivec2(0))) || any(greaterThanEqual(sampleCoords, imageSize(outputTex)))) {
-            continue; 
-        }
+        float sampleDepth = texelFetch(depthBuffer, sampleCoords, 0).x;
+        vec3 sampleColor = texelFetch(colorBuffer, sampleCoords, 0).xyz;
+        vec2 sampleVelocity = texelFetch(neighborMaxBuffer, sampleCoords, 0).xy;
 
-        vec4 sampleColor = texelFetch(colorBuffer, sampleCoords, 0);
-        float sampleDepth = texelFetch(depthBuffer, sampleCoords, 0).r;
 
-        // Calculate the contribution from the three cases (Case 1, Case 2, Case 3)
-        // Case 1: Blurry Y in front of X
-        float frontContribution = softDepthCompare(sampleDepth, depth) * cone(vec2(pixelCoords), vec2(sampleCoords), velocity);
-        // Case 2: X is blurry, sample Y is behind X (background estimation)
-        float backContribution = softDepthCompare(depth, sampleDepth) * cone(vec2(sampleCoords), vec2(pixelCoords), velocity);
-        // Case 3: Both X and Y are blurry and within each other's spread
-        float simultaneousBlurContribution = cylinder(vec2(pixelCoords), vec2(sampleCoords), velocity) * 2.0;
-        // Total alpha contribution (sum of the three cases)
-        float alpha_Y = frontContribution + backContribution + simultaneousBlurContribution;
+        float frontContribution = softDepthCompare(depth, sampleDepth);
+        float backContribution = softDepthCompare(sampleDepth, depth);
 
-        sumColor += sampleColor * alpha_Y;
-        totalWeight += alpha_Y;
+        float alpha_y = frontContribution * cone(sampleCoords, pixelCoords, sampleVelocity) 
+                        + backContribution * cone(pixelCoords, sampleCoords, velocity) 
+                        + cylinder(sampleCoords, pixelCoords, sampleVelocity) * cylinder(pixelCoords, sampleCoords, velocity) * 2.0;
+
+
+        sum += sampleColor * alpha_y;
+        weight += alpha_y;
     }
 
-    // Normalize the accumulated color by the total weight
-    if (totalWeight < 0.0) {
-        return sumColor / totalWeight;
+    if(weight > 0) {
+        return sum / weight;
     } else {
-        return color; 
+        return color;
     }
 }
 
@@ -93,5 +84,11 @@ void main() {
         return;
     }
 
-    imageStore(outputTex, pixel_coords, applyMotionBlur(pixel_coords));
+    float depth = texelFetch(depthBuffer, pixel_coords, 0).x;
+
+    if(depth > 0) {
+        imageStore(outputTex, pixel_coords, vec4(applyMotionBlur(pixel_coords), 1));
+    } else {
+        imageStore(outputTex, pixel_coords, texelFetch(colorBuffer, pixel_coords, 0));
+    }
 }

@@ -217,7 +217,7 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
             neighborMaxShaderProgram_->setUniform("maxBlurRadius", maxBlurRadiusVal);
             bindTextureToShader(neighborMaxShaderProgram_, tileMaxBuffer_, "tileMaxBuffer", 0);
 
-            outputTex_->bindImage(0, GL_WRITE_ONLY);
+            neighborMaxBuffer_->bindImage(0, GL_WRITE_ONLY);
 
             glDispatchCompute(static_cast<int>(std::ceil(neighborMaxBuffer_->getWidth() / 8.0)),
                             static_cast<int>(std::ceil(neighborMaxBuffer_->getHeight() / 8.0)), 1);
@@ -229,11 +229,7 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
 
         if(blurShaderProgram_ != nullptr) {
             blurShaderProgram_->use();
-            blurShaderProgram_->setUniform("maxBlurRadius", maxBlurRadiusVal);
             blurShaderProgram_->setUniform("numSamples", sampleTapsVal);
-            blurShaderProgram_->setUniform("exposureTime", exposureTimeVal);
-            blurShaderProgram_->setUniform("frameRate", frameRateVal);
-
             bindTextureToShader(blurShaderProgram_, color_tex_2D, "colorBuffer", 0);
             bindTextureToShader(blurShaderProgram_, depth_tex_2D, "depthBuffer", 1);
             bindTextureToShader(blurShaderProgram_, neighborMaxBuffer_, "neighborMaxBuffer", 2);
