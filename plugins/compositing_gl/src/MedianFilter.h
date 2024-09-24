@@ -109,6 +109,7 @@ private:
 
     core::param::ParamSlot windowSize_;
     core::param::ParamSlot beta_;
+    core::param::ParamSlot mode_;
 
     /** version identifier */
     uint32_t version_;

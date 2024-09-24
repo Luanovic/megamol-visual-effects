@@ -4,7 +4,6 @@ layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
 
 // Input textures
 uniform sampler2D color_tex_2D;
-uniform sampler2D depth_tex_2D;
 
 // Output texture
 layout(rgba16) writeonly uniform image2D output_tex;
@@ -24,12 +23,11 @@ float euclideanDistance(vec3 a, vec3 b) {
 
 float calcDistanceSum(ivec2 center_pixel, ivec2 current_pixel_coords, bool ignore_center_pixel, int windowSize) {
 
-    int halfWindow = windowSize / 2;
     float sum_of_distances = 0.0;
     vec4 current_color = texelFetch(color_tex_2D, current_pixel_coords, 0);
 
-    for (int x = -halfWindow; x <= halfWindow; x++) {
-        for (int y = -halfWindow; y <= halfWindow; y++) {
+    for (int x = -windowSize; x <= windowSize; x++) {
+        for (int y = -windowSize; y <= windowSize; y++) {
             ivec2 coords_i = center_pixel + ivec2(x, y);
 
             if(coords_i == current_pixel_coords) continue;
@@ -55,7 +53,6 @@ void main() {
         return;  // Skip out-of-bounds pixels
     }
 
-    const int halfWindow = windowSize / 2;
     float min_distance = 1.0 / 0.0;  // Initialize to a large value
     vec4 min_distance_color = vec4(0.0);
     bool exclude_center_pixel = false;
@@ -64,8 +61,8 @@ void main() {
     float R0 = calcDistanceSum(pixel_coords, pixel_coords, false, windowSize) - beta;
 
     // Loop over the window to compute distances
-    for (int x = -halfWindow; x <= halfWindow; x++) {
-        for (int y = -halfWindow; y <= halfWindow; y++) {
+    for (int x = -windowSize; x <= windowSize; x++) {
+        for (int y = -windowSize; y <= windowSize; y++) {
 
             ivec2 current_coords = pixel_coords + ivec2(x, y);
 
@@ -85,10 +82,9 @@ void main() {
         }
     }
 
-    // Apply depth-based condition
-    if (texelFetch(depth_tex_2D, pixel_coords, 0).r > 0) {
-        imageStore(output_tex, pixel_coords, vec4(min_distance_color.xyz, 1.0));  // Apply the minimum distance color
+    if(!exclude_center_pixel) {
+        imageStore(output_tex, pixel_coords, texelFetch(color_tex_2D, pixel_coords, 0));
     } else {
-        imageStore(output_tex, pixel_coords, texelFetch(color_tex_2D, pixel_coords, 0));  // No change if depth is near 0
+        imageStore(output_tex, pixel_coords, vec4(min_distance_color.xyz, 1.0));  
     }
 }

@@ -116,7 +116,6 @@ private:
     /** Slot receiving the input color texture */
     core::CallerSlot inputTexSlot_;
 
-    core::param::ParamSlot lambda_;
     core::param::ParamSlot offset_;
     core::param::ParamSlot frameRateAdjust_;
 
@@ -127,14 +126,8 @@ private:
     std::unique_ptr<glowl::GLSLProgram> simpleOpticalFlowShader_;
     std::unique_ptr<glowl::GLSLProgram> passthroughShader_;
 
-    /** final output texture */
     std::shared_ptr<glowl::Texture2D> I0_;
     std::shared_ptr<glowl::Texture2D> I1_;
-    std::shared_ptr<glowl::Texture2D> uTexture_;
-    std::shared_ptr<glowl::Texture2D> vTexture_;
-    std::shared_ptr<glowl::Texture2D> pTexture_;
-    std::shared_ptr<glowl::Texture2D> deltaUBuffer_;
     std::shared_ptr<glowl::Texture2D> outputTex_;
-
     };
 } 

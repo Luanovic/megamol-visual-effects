@@ -186,13 +186,12 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
         fitTextures(depth_tex_2D);
 
         if(current_mode == 0) {
-
             this->setGUIState(current_mode);
 
             if(contoursShader_ != nullptr) {
 
                 contoursShader_->use();
-                contoursShader_->setUniform("threshold", sobelThreshold_.Param<core::param::FloatParam>()->Value());
+                contoursShader_->setUniform("threshold", sobleThresholdVal);
                 this->bindTexture(contoursShader_, depth_tex_2D, "depth_tex_2D", 0);
                 this->bindTexture(contoursShader_, color_tex_2D, "color_tex_2D", 1);
                 outputTex_->bindImage(0, GL_WRITE_ONLY);

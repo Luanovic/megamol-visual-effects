@@ -11,7 +11,7 @@ uniform int numSamples;
 layout(rgba16f, binding = 0) writeonly uniform image2D outputTex;
 
 float softDepthCompare(float depthA, float depthB) {
-    const float SOFT_Z_EXTENT = 0.001;
+    const float SOFT_Z_EXTENT = 0.1;
     return clamp(1.0 - (depthA - depthB) / SOFT_Z_EXTENT, 0.0, 1.0);
 }
 
@@ -68,7 +68,6 @@ vec3 applyMotionBlur(ivec2 pixelCoords) {
         sum += sampleColor * alpha_y;
         weight += alpha_y;
     }
-
     if(weight > 0) {
         return sum / weight;
     } else {
@@ -84,11 +83,11 @@ void main() {
         return;
     }
 
-    float depth = texelFetch(depthBuffer, pixel_coords, 0).x;
-
-    if(depth > 0) {
+    vec4 color = texelFetch(colorBuffer, pixel_coords, 0);
+    float depth = texelFetch(depthBuffer, pixel_coords, 0).r;
+    if(depth < 1) {
         imageStore(outputTex, pixel_coords, vec4(applyMotionBlur(pixel_coords), 1));
     } else {
-        imageStore(outputTex, pixel_coords, texelFetch(colorBuffer, pixel_coords, 0));
+        imageStore(outputTex, pixel_coords, color);
     }
 }

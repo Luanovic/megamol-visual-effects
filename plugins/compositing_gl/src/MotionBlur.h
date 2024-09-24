@@ -134,6 +134,9 @@ private:
 
     /** final output texture */
     std::shared_ptr<glowl::Texture2D> outputTex_;
+
+
+    glm::ivec2 m_last_tex_size = glm::ivec2(0, 0);
     };
 } 
 

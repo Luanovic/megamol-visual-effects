@@ -25,6 +25,7 @@ megamol::compositing_gl::MedianFilter::MedianFilter()
         , medianFilterProgram_(nullptr)
         , beta_("Threshold", "Threshold for Median Filter Algorithm")
         , windowSize_("WindowSize", "Window size N of the filter with dimenstion NxN")
+        , mode_("DistanceMode", "Switch between different distance calculations")
 {
 
     outputTexSlot_.SetCallback(
@@ -42,13 +43,19 @@ megamol::compositing_gl::MedianFilter::MedianFilter()
     inputColorSlot_.SetCompatibleCall<CallTexture2DDescription>();
     this->MakeSlotAvailable(&inputColorSlot_);
 
-    beta_.SetParameter(new core::param::FloatParam(0.5f, 0.5f, 0.75f, 0.001f));
+    beta_.SetParameter(new core::param::FloatParam(0.5f, 0.f, 2.f, 0.01f));
     this->MakeSlotAvailable(&this->beta_);
     beta_.ForceSetDirty();
 
-    windowSize_.SetParameter(new core::param::IntParam(3, 3, 9, 2));
+    windowSize_.SetParameter(new core::param::IntParam(1, 1, 5, 1));
     this->MakeSlotAvailable(&this->windowSize_);
     windowSize_.ForceSetDirty();
+
+    this->mode_ << new megamol::core::param::EnumParam(0);
+    this->mode_.Param<megamol::core::param::EnumParam>()->SetTypePair(0, "Euclidean-Distance");
+    this->mode_.Param<megamol::core::param::EnumParam>()->SetTypePair(1, "L1-Distance");
+    this->MakeSlotAvailable(&this->mode_);
+    this->mode_.ForceSetDirty();
 }
 
 megamol::compositing_gl::MedianFilter::~MedianFilter() {
@@ -98,7 +105,7 @@ bool megamol::compositing_gl::MedianFilter::getDataCallback(core::Call& caller) 
     }
 
     bool incomingChange = call_color != nullptr && call_color->hasUpdate() ||
-                          beta_.IsDirty() || windowSize_.IsDirty();
+                        beta_.IsDirty() || windowSize_.IsDirty() || mode_.IsDirty();
 
     if (incomingChange) {
         ++version_;
@@ -109,6 +116,7 @@ bool megamol::compositing_gl::MedianFilter::getDataCallback(core::Call& caller) 
         auto color_tex_2D = call_color->getData();
         auto betaThreshold = beta_.Param<core::param::FloatParam>()->Value();
         auto windowSize = windowSize_.Param<core::param::IntParam>()->Value();
+        auto modeVal = mode_.Param<core::param::EnumParam>()->Value();
 
         fitTextures(color_tex_2D);
 
@@ -116,6 +124,7 @@ bool megamol::compositing_gl::MedianFilter::getDataCallback(core::Call& caller) 
             medianFilterProgram_->use(); 
             medianFilterProgram_->setUniform("beta", betaThreshold);
             medianFilterProgram_->setUniform("windowSize", windowSize);
+            medianFilterProgram_->setUniform("mode", modeVal);
 
             this->bindTexture(medianFilterProgram_, color_tex_2D, "color_tex_2D", 0);
 

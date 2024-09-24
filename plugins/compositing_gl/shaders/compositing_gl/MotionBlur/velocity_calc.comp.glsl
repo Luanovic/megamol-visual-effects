@@ -20,7 +20,7 @@ void main() {
     }
 
     vec2 q_x = 0.5 * texelFetch(flow_tex_2D, pixel_coords, 0).xy * frameRate * exposureTime;
-    vec2 velocity = (q_x * max(0.5, min(maxBlurRadius, length(q_x)))) / length(q_x) + 1e-8;
+    vec2 velocity = (q_x * max(0.5, min(maxBlurRadius, length(q_x)))) / (length(q_x) + 1e-8);
 
     imageStore(velocityBuffer, pixel_coords, vec4(velocity, length(velocity), 1));
 }

@@ -20,8 +20,6 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
         , outputTex_(nullptr)
         , I0_(nullptr)
         , I1_(nullptr)
-        , vTexture_(nullptr)
-        , deltaUBuffer_(nullptr)
         , simpleOpticalFlowShader_(nullptr)
         , passthroughShader_(nullptr)
         , isFirstCall_(true)
@@ -29,7 +27,6 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
         , inputTexSlot_("InputTexture", "Any Texture that should be used to calculate optical flow")
         , flowFieldOutTexSlot("FlowFieldTexture", "Gives access to the resulting flow field texture.")
 
-        , lambda_("Lambda", "controls trade off between data fidelity term and regularization term")
         , offset_("Theta", "Convex approximation parameter, which affects speed and stability of convergence")
         , frameRateAdjust_("Framerate-Adjust", "Adjustment of the megamol framework pipeline velocity")
 {
@@ -46,20 +43,13 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
     );
     this->MakeSlotAvailable(&flowFieldOutTexSlot);
 
-
     inputTexSlot_.SetCompatibleCall<CallTexture2DDescription>();
     this->MakeSlotAvailable(&inputTexSlot_);
-
-    // Set up the regularization weight parameter lambda
-    lambda_.SetParameter(new core::param::FloatParam(1e-8, 1e-8f, 1e-7, 1e-8));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
-    this->MakeSlotAvailable(&this->lambda_);
-    lambda_.ForceSetDirty();
 
     // Set up the convex approximation parameter theta
     offset_.SetParameter(new core::param::IntParam(1, 1, 50, 1));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
     this->MakeSlotAvailable(&this->offset_);
     offset_.ForceSetDirty();
-
 
     frameRateAdjust_.SetParameter(new core::param::IntParam(10, 0, 50, 1));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
     this->MakeSlotAvailable(&this->frameRateAdjust_);
@@ -102,7 +92,6 @@ bool megamol::compositing_gl::OpticalFlow::create() {
     // Initialize input textures
     I0_ = std::make_shared<glowl::Texture2D>("I0", tex_layout, nullptr);
     I1_ = std::make_shared<glowl::Texture2D>("I1", tex_layout, nullptr);
-    vTexture_ = std::make_shared<glowl::Texture2D>("v_texture", tex_layout, nullptr);
 
     // Initialize the final output texture
     outputTex_ = std::make_shared<glowl::Texture2D>("output_texture", tex_layout, nullptr);
@@ -128,53 +117,48 @@ bool megamol::compositing_gl::OpticalFlow::getDataCallback(core::Call& caller) {
     }
 
     // Check if any incoming data has changed
-    bool incomingChange = call_texture != nullptr && call_texture->hasUpdate() ||
-                            lambda_.IsDirty() ||
-                            offset_.IsDirty(); 
+    bool incomingChange = call_texture != nullptr && call_texture->hasUpdate() || offset_.IsDirty(); 
 
     if(frameRateAdjust_.IsDirty()) {
         counter = frameRateAdjust_.Param<core::param::IntParam>()->Value();
         frameRateAdjust_.ResetDirty();
     }
 
-    if (incomingChange && counter == 0) {
+    if (incomingChange) {
         ++version_;
 
-        // Reset dirty flags
-        lambda_.ResetDirty();
-        offset_.ResetDirty();
-    
         auto input_tex_2D = call_texture->getData();
-
         fitTextures(input_tex_2D, {I0_, I1_, outputTex_});
 
-        auto lambdaVal = lambda_.Param<core::param::FloatParam>()->Value();
+        offset_.ResetDirty();
+
         auto offsetVal = offset_.Param<core::param::IntParam>()->Value();
         auto frameRateVal = frameRateAdjust_.Param<core::param::IntParam>()->Value();
 
         if(isFirstCall_) {
             isFirstCall_ = false;
             textureCopy(input_tex_2D, I0_); 
+            textureCopy(input_tex_2D, outputTex_);
             return true;
         } 
 
-        textureCopy(input_tex_2D, I1_); 
+        if(counter == 0) {
+            textureCopy(input_tex_2D, I1_); 
 
-        simpleOpticalFlowShader_->use();
-        simpleOpticalFlowShader_->setUniform( "lambda", lambdaVal);
-        simpleOpticalFlowShader_->setUniform( "offset", offsetVal);
+            simpleOpticalFlowShader_->use();
+            simpleOpticalFlowShader_->setUniform( "offset", offsetVal);
 
-        bindTextureToShader(simpleOpticalFlowShader_, I0_, "I0", 0);
-        bindTextureToShader(simpleOpticalFlowShader_, I1_, "I1", 1);
-        outputTex_->bindImage(0, GL_WRITE_ONLY);
-        vTexture_->bindImage(1, GL_WRITE_ONLY);
+            bindTextureToShader(simpleOpticalFlowShader_, I0_, "I0", 0);
+            bindTextureToShader(simpleOpticalFlowShader_, I1_, "I1", 1);
+            outputTex_->bindImage(0, GL_WRITE_ONLY);
 
-        glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
-            static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
-        glUseProgram(0);
+            glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
+                static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
+            glUseProgram(0);
 
-        textureCopy(I1_, I0_);
-        counter = frameRateVal;
+            textureCopy(I1_, I0_);
+            counter = frameRateVal;
+        }
     }
     counter--;
 

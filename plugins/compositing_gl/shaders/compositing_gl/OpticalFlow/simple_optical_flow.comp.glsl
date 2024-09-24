@@ -8,7 +8,6 @@ layout(binding = 0) uniform sampler2D I0;
 layout(binding = 1) uniform sampler2D I1;
 
 uniform int offset; 
-uniform float lambda;
 
 // Binding point for output texture
 layout(rgba16f, binding = 0) writeonly uniform image2D flowOutput;
@@ -37,7 +36,7 @@ void main() {
                 (texelFetch(I0, pixel_coords + offsetY, 0) - texelFetch(I0, pixel_coords - offsetY, 0));
 
     // Compute gradient magnitude with regularization term
-    vec4 gradMag = sqrt((gradX * gradX) + (gradY * gradY) + vec4(lambda));
+    vec4 gradMag = sqrt((gradX * gradX) + (gradY * gradY) + vec4(1e-8));
 
     // Compute the difference between the next and past frames using texelFetch
     vec4 diff = currentInput - prevInput;

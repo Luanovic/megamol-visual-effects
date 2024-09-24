@@ -98,8 +98,6 @@ bool megamol::compositing_gl::MotionBlur::create() {
         neighborMaxShaderProgram_ = core::utility::make_glowl_shader(
             "NeighborMax", shdr_options, std::filesystem::path("compositing_gl/MotionBlur/neighbor_max_calc.comp.glsl"));
 
-        upscaleShader_ = core::utility::make_glowl_shader(
-            "Upscale", shdr_options, std::filesystem::path("compositing_gl/MotionBlur/upscale.comp.glsl"));
 
     } catch (glowl::GLSLProgramException const& ex) {
         megamol::core::utility::log::Log::DefaultLog.WriteError("[Contours] %s", ex.what());
@@ -151,7 +149,6 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
         }
     }
 
-
     bool incomingChange = call_color != nullptr && call_color->hasUpdate() ||
                         call_depth != nullptr && call_depth->hasUpdate() ||
                         call_flow != nullptr && call_flow->hasUpdate() ||
@@ -170,6 +167,10 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
         auto depth_tex_2D = call_depth->getData();
         auto flow_tex_2D = call_flow->getData();
 
+        if(!color_tex_2D || !depth_tex_2D || !flow_tex_2D) {
+            return false;
+        }
+
         auto maxBlurRadiusVal = maxBlurRadius_.Param<core::param::IntParam>()->Value();
         auto sampleTapsVal = sampleTaps_.Param<core::param::IntParam>()->Value();
         auto frameRateVal = frameRate_.Param<core::param::IntParam>()->Value();
@@ -177,7 +178,10 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
         int tileSize = maxBlurRadiusVal * 2 + 1;
 
 
-        fitTextures(color_tex_2D, {velocityBuffer_, outputTex_, tileMaxBuffer_, neighborMaxBuffer_});
+        if (m_last_tex_size != glm::ivec2(color_tex_2D->getWidth(), color_tex_2D->getHeight())) {
+            m_last_tex_size = glm::ivec2(color_tex_2D->getWidth(), color_tex_2D->getHeight());
+            fitTextures(color_tex_2D, {velocityBuffer_, outputTex_, tileMaxBuffer_, neighborMaxBuffer_});
+        }
 
         if(velocityShaderProgram_ != nullptr) {
             velocityShaderProgram_->use();
