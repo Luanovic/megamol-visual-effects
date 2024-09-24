@@ -13,6 +13,7 @@ uniform int offset;
 layout(rgba16f, binding = 0) writeonly uniform image2D flowOutput;
 layout(rgba16f, binding = 1) writeonly uniform image2D velocityOutput;
 
+
 // Compute the optical flow at each pixel
 void main() {
     uvec3 gID = gl_GlobalInvocationID.xyz;

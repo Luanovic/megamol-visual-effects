@@ -124,6 +124,7 @@ private:
 
     /** shader performing the conotur calculations */
     std::unique_ptr<glowl::GLSLProgram> simpleOpticalFlowShader_;
+    std::unique_ptr<glowl::GLSLProgram> lukasKanadeShader_;
     std::unique_ptr<glowl::GLSLProgram> passthroughShader_;
 
     std::shared_ptr<glowl::Texture2D> I0_;

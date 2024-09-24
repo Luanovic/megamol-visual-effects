@@ -22,6 +22,7 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
         , I1_(nullptr)
         , simpleOpticalFlowShader_(nullptr)
         , passthroughShader_(nullptr)
+        , lukasKanadeShader_(nullptr)
         , isFirstCall_(true)
 
         , inputTexSlot_("InputTexture", "Any Texture that should be used to calculate optical flow")
@@ -72,6 +73,9 @@ bool megamol::compositing_gl::OpticalFlow::create() {
         
         simpleOpticalFlowShader_ = core::utility::make_glowl_shader(
             "simple_optical_flow", shdr_options, std::filesystem::path("compositing_gl/OpticalFlow/simple_optical_flow.comp.glsl"));
+
+        lukasKanadeShader_ = core::utility::make_glowl_shader(
+            "simple_optical_flow", shdr_options, std::filesystem::path("compositing_gl/OpticalFlow/lukas_kanade_method.comp.glsl"));
 
     } catch (glowl::GLSLProgramException const& ex) {
         megamol::core::utility::log::Log::DefaultLog.WriteError("[TVL1OpticalFlow] Shader compilation error: %s", ex.what());
@@ -145,11 +149,11 @@ bool megamol::compositing_gl::OpticalFlow::getDataCallback(core::Call& caller) {
         if(counter == 0) {
             textureCopy(input_tex_2D, I1_); 
 
-            simpleOpticalFlowShader_->use();
-            simpleOpticalFlowShader_->setUniform( "offset", offsetVal);
+            lukasKanadeShader_->use();
+            lukasKanadeShader_->setUniform( "offset", offsetVal);
 
-            bindTextureToShader(simpleOpticalFlowShader_, I0_, "I0", 0);
-            bindTextureToShader(simpleOpticalFlowShader_, I1_, "I1", 1);
+            bindTextureToShader(lukasKanadeShader_, I0_, "prev_frame", 0);
+            bindTextureToShader(lukasKanadeShader_, I1_, "next_frame", 1);
             outputTex_->bindImage(0, GL_WRITE_ONLY);
 
             glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
@@ -158,6 +162,20 @@ bool megamol::compositing_gl::OpticalFlow::getDataCallback(core::Call& caller) {
 
             textureCopy(I1_, I0_);
             counter = frameRateVal;
+
+            // simpleOpticalFlowShader_->use();
+            // simpleOpticalFlowShader_->setUniform( "offset", offsetVal);
+
+            // bindTextureToShader(simpleOpticalFlowShader_, I0_, "I0", 0);
+            // bindTextureToShader(simpleOpticalFlowShader_, I1_, "I1", 1);
+            // outputTex_->bindImage(0, GL_WRITE_ONLY);
+
+            // glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
+            //     static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
+            // glUseProgram(0);
+
+            // textureCopy(I1_, I0_);
+            // counter = frameRateVal;
         }
     }
     counter--;
