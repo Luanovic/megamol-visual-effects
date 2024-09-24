@@ -118,6 +118,7 @@ private:
 
     core::param::ParamSlot offset_;
     core::param::ParamSlot frameRateAdjust_;
+    core::param::ParamSlot windowSize_;
 
     /** version identifier */
     uint32_t version_;

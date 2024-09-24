@@ -9,7 +9,7 @@ layout(binding = 1) uniform sampler2D next_frame;
 // Output texture: flow vectors (2D texture storing the u and v flow components)
 layout(rgba16f, binding = 0) uniform writeonly image2D flow_texture;
 
-uniform int window_size = 2;
+uniform int windowSize;
 uniform int offset;    
 
 // Calculate the pixel difference (for temporal gradient)
@@ -31,12 +31,12 @@ void main() {
     ivec2 uv = ivec2(pixel_coords);
 
     // Initialize matrices for least-squares estimation
-    mat2 A = mat2(0.0);  // Matrix A for spatial gradients
-    vec2 b = vec2(0.0);  // Vector b for temporal gradients
+    mat2 ATA = mat2(0.0);  // Matrix A^T A
+    vec2 ATb = vec2(0.0);  // Vector A^T b
 
 
-    for (int i = -window_size; i <= window_size; ++i) {
-        for (int j = -window_size; j <= window_size; ++j) {
+    for (int i = -windowSize; i <= windowSize; ++i) {
+        for (int j = -windowSize; j <= windowSize; ++j) {
             ivec2 offset_uv = uv + ivec2(i, j); 
 
             // Compute spatial gradients (Ix and Iy) using central differences
@@ -51,16 +51,16 @@ void main() {
             // Compute temporal gradient (It) as the difference between the two frames
             float gradT = pixelDifference(offset_uv, next_frame, prev_frame).r;
 
-            // Update A matrix and b vector for least-squares solution
-            A += mat2(gradX * gradX, gradX * gradY, gradX * gradY, gradY * gradY);
-            b += vec2(gradX * gradT, gradY * gradT);
+         // Update ATA (A^T A) and ATb (A^T b) matrices for least-squares solution
+            ATA += mat2(gradX * gradX, gradX * gradY, gradX * gradY, gradY * gradY);  // Update A^T A
+            ATb += vec2(gradX * gradT, gradY * gradT);   
         }
     }
 
     vec2 flow = vec2(0.0);
 
-    if (determinant(A) > 0.0001) {  // Ensure A is invertible
-        flow = inverse(A) * -b;      // Solve for [u, v]
+    if (determinant(ATA) > 0.0001) {  // Ensure A is invertible
+        flow = inverse(ATA) * -ATb;      // Solve for [u, v]
     }
 
     // Write the flow vector to the output texture

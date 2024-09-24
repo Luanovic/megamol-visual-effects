@@ -28,8 +28,9 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
         , inputTexSlot_("InputTexture", "Any Texture that should be used to calculate optical flow")
         , flowFieldOutTexSlot("FlowFieldTexture", "Gives access to the resulting flow field texture.")
 
-        , offset_("Theta", "Convex approximation parameter, which affects speed and stability of convergence")
+        , offset_("Offset", "Convex approximation parameter, which affects speed and stability of convergence")
         , frameRateAdjust_("Framerate-Adjust", "Adjustment of the megamol framework pipeline velocity")
+        , windowSize_("WindowSize", "Size of the window for Lukas Kanade Method")
 {
 
     flowFieldOutTexSlot.SetCallback(
@@ -48,13 +49,17 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
     this->MakeSlotAvailable(&inputTexSlot_);
 
     // Set up the convex approximation parameter theta
-    offset_.SetParameter(new core::param::IntParam(1, 1, 50, 1));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
+    offset_.SetParameter(new core::param::IntParam(1, 1, 5, 1));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
     this->MakeSlotAvailable(&this->offset_);
     offset_.ForceSetDirty();
 
     frameRateAdjust_.SetParameter(new core::param::IntParam(10, 0, 50, 1));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
     this->MakeSlotAvailable(&this->frameRateAdjust_);
     frameRateAdjust_.ForceSetDirty();
+
+    windowSize_.SetParameter(new core::param::IntParam(1, 1, 10, 1));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
+    this->MakeSlotAvailable(&this->windowSize_);
+    windowSize_.ForceSetDirty();
 }
 
 megamol::compositing_gl::OpticalFlow::~OpticalFlow() {
@@ -138,6 +143,7 @@ bool megamol::compositing_gl::OpticalFlow::getDataCallback(core::Call& caller) {
 
         auto offsetVal = offset_.Param<core::param::IntParam>()->Value();
         auto frameRateVal = frameRateAdjust_.Param<core::param::IntParam>()->Value();
+        auto windowSizeVal = windowSize_.Param<core::param::IntParam>()->Value();
 
         if(isFirstCall_) {
             isFirstCall_ = false;
@@ -151,6 +157,7 @@ bool megamol::compositing_gl::OpticalFlow::getDataCallback(core::Call& caller) {
 
             lukasKanadeShader_->use();
             lukasKanadeShader_->setUniform( "offset", offsetVal);
+            lukasKanadeShader_->setUniform( "windowSize", windowSizeVal);
 
             bindTextureToShader(lukasKanadeShader_, I0_, "prev_frame", 0);
             bindTextureToShader(lukasKanadeShader_, I1_, "next_frame", 1);
