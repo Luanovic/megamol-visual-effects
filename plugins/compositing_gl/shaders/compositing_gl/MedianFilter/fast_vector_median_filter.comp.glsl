@@ -25,6 +25,7 @@ float calcDistanceSum(ivec2 center_pixel, ivec2 current_pixel_coords, bool ignor
 
     float sum_of_distances = 0.0;
     vec4 current_color = texelFetch(color_tex_2D, current_pixel_coords, 0);
+    current_color /= length(current_color);
 
     for (int x = -windowSize; x <= windowSize; x++) {
         for (int y = -windowSize; y <= windowSize; y++) {
@@ -58,7 +59,7 @@ void main() {
     bool exclude_center_pixel = false;
 
     // Calculate the reference distance sum R0 for the center pixel
-    float R0 = calcDistanceSum(pixel_coords, pixel_coords, false, windowSize) - beta;
+    float R0 = calcDistanceSum(pixel_coords, pixel_coords, false, windowSize) - beta * (2* windowSize + 1);
 
     // Loop over the window to compute distances
     for (int x = -windowSize; x <= windowSize; x++) {

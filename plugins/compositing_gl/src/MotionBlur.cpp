@@ -58,7 +58,7 @@ megamol::compositing_gl::MotionBlur::MotionBlur()
     inputFlowSlot_.SetCompatibleCall<CallTexture2DDescription>();
     this->MakeSlotAvailable(&inputFlowSlot_);
 
-    maxBlurRadius_.SetParameter(new core::param::IntParam(3, 1, 100, 1));
+    maxBlurRadius_.SetParameter(new core::param::IntParam(3, 0, 30, 1));
     this->MakeSlotAvailable(&this->maxBlurRadius_);
     maxBlurRadius_.ForceSetDirty();
 

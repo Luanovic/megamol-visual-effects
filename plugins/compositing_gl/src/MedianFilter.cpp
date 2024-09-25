@@ -43,11 +43,11 @@ megamol::compositing_gl::MedianFilter::MedianFilter()
     inputColorSlot_.SetCompatibleCall<CallTexture2DDescription>();
     this->MakeSlotAvailable(&inputColorSlot_);
 
-    beta_.SetParameter(new core::param::FloatParam(0.5f, 0.f, 2.f, 0.01f));
+    beta_.SetParameter(new core::param::FloatParam(0.5f, 0.f, 10.f, 0.1f));
     this->MakeSlotAvailable(&this->beta_);
     beta_.ForceSetDirty();
 
-    windowSize_.SetParameter(new core::param::IntParam(1, 1, 5, 1));
+    windowSize_.SetParameter(new core::param::IntParam(1, 1, 3, 1));
     this->MakeSlotAvailable(&this->windowSize_);
     windowSize_.ForceSetDirty();
 
