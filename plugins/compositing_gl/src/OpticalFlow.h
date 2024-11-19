@@ -104,7 +104,8 @@ private:
 
     void textureCopy(
         std::shared_ptr<glowl::Texture2D> inputTex, 
-        std::shared_ptr<glowl::Texture2D> outputTex 
+        std::shared_ptr<glowl::Texture2D> outputTex,
+        bool useCalcLuminance
     );
 
     bool isFirstCall_;
@@ -116,9 +117,9 @@ private:
     /** Slot receiving the input color texture */
     core::CallerSlot inputTexSlot_;
 
-    core::param::ParamSlot offset_;
     core::param::ParamSlot frameRateAdjust_;
     core::param::ParamSlot windowSize_;
+    core::param::ParamSlot threshold_;
 
     /** version identifier */
     uint32_t version_;

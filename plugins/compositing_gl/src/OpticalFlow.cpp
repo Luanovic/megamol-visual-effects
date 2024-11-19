@@ -28,9 +28,9 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
         , inputTexSlot_("InputTexture", "Any Texture that should be used to calculate optical flow")
         , flowFieldOutTexSlot("FlowFieldTexture", "Gives access to the resulting flow field texture.")
 
-        , offset_("Offset", "Convex approximation parameter, which affects speed and stability of convergence")
         , frameRateAdjust_("Framerate-Adjust", "Adjustment of the megamol framework pipeline velocity")
         , windowSize_("WindowSize", "Size of the window for Lukas Kanade Method")
+        , threshold_("Threshold", "Threshold for eigenvalues of Lucas Kanade Method, skaled by pow(0.1, threshold)")
 {
 
     flowFieldOutTexSlot.SetCallback(
@@ -48,18 +48,17 @@ megamol::compositing_gl::OpticalFlow::OpticalFlow()
     inputTexSlot_.SetCompatibleCall<CallTexture2DDescription>();
     this->MakeSlotAvailable(&inputTexSlot_);
 
-    // Set up the convex approximation parameter theta
-    offset_.SetParameter(new core::param::IntParam(1, 1, 5, 1));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
-    this->MakeSlotAvailable(&this->offset_);
-    offset_.ForceSetDirty();
-
-    frameRateAdjust_.SetParameter(new core::param::IntParam(10, 0, 50, 1));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
+    frameRateAdjust_.SetParameter(new core::param::IntParam(10, 0, 50, 1));  
     this->MakeSlotAvailable(&this->frameRateAdjust_);
     frameRateAdjust_.ForceSetDirty();
 
-    windowSize_.SetParameter(new core::param::IntParam(1, 1, 10, 1));  // Default: 10, Min: 0.01, Max: 100, Step: 0.1
+    windowSize_.SetParameter(new core::param::IntParam(1, 1, 10, 1)); 
     this->MakeSlotAvailable(&this->windowSize_);
     windowSize_.ForceSetDirty();
+
+    threshold_.SetParameter(new core::param::FloatParam(0.0001, 0.0, 1.0, 0.0005)); 
+    this->MakeSlotAvailable(&this->threshold_);
+    threshold_.ForceSetDirty();
 }
 
 megamol::compositing_gl::OpticalFlow::~OpticalFlow() {
@@ -80,7 +79,7 @@ bool megamol::compositing_gl::OpticalFlow::create() {
             "simple_optical_flow", shdr_options, std::filesystem::path("compositing_gl/OpticalFlow/simple_optical_flow.comp.glsl"));
 
         lukasKanadeShader_ = core::utility::make_glowl_shader(
-            "simple_optical_flow", shdr_options, std::filesystem::path("compositing_gl/OpticalFlow/lukas_kanade_method.comp.glsl"));
+            "simple_optical_flow", shdr_options, std::filesystem::path("compositing_gl/OpticalFlow/lucas_kanade_method.comp.glsl"));
 
     } catch (glowl::GLSLProgramException const& ex) {
         megamol::core::utility::log::Log::DefaultLog.WriteError("[TVL1OpticalFlow] Shader compilation error: %s", ex.what());
@@ -126,7 +125,9 @@ bool megamol::compositing_gl::OpticalFlow::getDataCallback(core::Call& caller) {
     }
 
     // Check if any incoming data has changed
-    bool incomingChange = call_texture != nullptr && call_texture->hasUpdate() || offset_.IsDirty(); 
+    bool incomingChange = call_texture != nullptr && call_texture->hasUpdate() 
+                        || windowSize_.IsDirty()
+                        || threshold_.IsDirty(); 
 
     if(frameRateAdjust_.IsDirty()) {
         counter = frameRateAdjust_.Param<core::param::IntParam>()->Value();
@@ -139,50 +140,37 @@ bool megamol::compositing_gl::OpticalFlow::getDataCallback(core::Call& caller) {
         auto input_tex_2D = call_texture->getData();
         fitTextures(input_tex_2D, {I0_, I1_, outputTex_});
 
-        offset_.ResetDirty();
+        threshold_.ResetDirty();
+        windowSize_.ResetDirty();
 
-        auto offsetVal = offset_.Param<core::param::IntParam>()->Value();
         auto frameRateVal = frameRateAdjust_.Param<core::param::IntParam>()->Value();
         auto windowSizeVal = windowSize_.Param<core::param::IntParam>()->Value();
+        auto thresholdVal = threshold_.Param<core::param::FloatParam>()->Value();
 
         if(isFirstCall_) {
             isFirstCall_ = false;
-            textureCopy(input_tex_2D, I0_); 
-            textureCopy(input_tex_2D, outputTex_);
+            textureCopy(input_tex_2D, I0_, false); 
+            textureCopy(input_tex_2D, outputTex_, false);
             return true;
         } 
 
         if(counter == 0) {
-            textureCopy(input_tex_2D, I1_); 
+            textureCopy(input_tex_2D, I1_, true); 
 
             lukasKanadeShader_->use();
-            lukasKanadeShader_->setUniform( "offset", offsetVal);
-            lukasKanadeShader_->setUniform( "windowSize", windowSizeVal);
+            lukasKanadeShader_->setUniform("windowSize", windowSizeVal);
+            lukasKanadeShader_->setUniform("threshold", thresholdVal);
 
-            bindTextureToShader(lukasKanadeShader_, I0_, "prev_frame", 0);
-            bindTextureToShader(lukasKanadeShader_, I1_, "next_frame", 1);
+            bindTextureToShader(lukasKanadeShader_, I0_, "previous_frame", 0);
+            bindTextureToShader(lukasKanadeShader_, I1_, "current_frame", 1);
             outputTex_->bindImage(0, GL_WRITE_ONLY);
 
             glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
                 static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
             glUseProgram(0);
 
-            textureCopy(I1_, I0_);
+            textureCopy(I1_, I0_, false);
             counter = frameRateVal;
-
-            // simpleOpticalFlowShader_->use();
-            // simpleOpticalFlowShader_->setUniform( "offset", offsetVal);
-
-            // bindTextureToShader(simpleOpticalFlowShader_, I0_, "I0", 0);
-            // bindTextureToShader(simpleOpticalFlowShader_, I1_, "I1", 1);
-            // outputTex_->bindImage(0, GL_WRITE_ONLY);
-
-            // glDispatchCompute(static_cast<int>(std::ceil(outputTex_->getWidth() / 8.0f)),
-            //     static_cast<int>(std::ceil(outputTex_->getHeight() / 8.0f)), 1);
-            // glUseProgram(0);
-
-            // textureCopy(I1_, I0_);
-            // counter = frameRateVal;
         }
     }
     counter--;
@@ -223,9 +211,11 @@ void megamol::compositing_gl::OpticalFlow::bindTextureToShader(
 
 void megamol::compositing_gl::OpticalFlow::textureCopy(
     std::shared_ptr<glowl::Texture2D> inputTex, 
-    std::shared_ptr<glowl::Texture2D> outputTex
+    std::shared_ptr<glowl::Texture2D> outputTex,
+    bool useCalcLuminace 
 ) {
     passthroughShader_->use();
+    passthroughShader_->setUniform("useCalcLuminance", useCalcLuminace);
     glActiveTexture(GL_TEXTURE0);
     inputTex->bindTexture();
     glUniform1i(passthroughShader_->getUniformLocation("input_tex"), 0);

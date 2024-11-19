@@ -1,9 +1,9 @@
-[2024-09-25 16:03:20] (info)|Main: RuntimeConfig values: 
+[2024-09-29 22:57:49] (info)|Main: RuntimeConfig values: 
 	Executable directory: 
 		/home/masta76/Schreibtisch/Thesis/megamol-visual-effects/build/install/bin/
 	Program invocation: 
-		megamol sphere_renderer_blur.lua 
-	Version: 852622f72f52449f-dirty
+		megamol gitf_thesis.lua 
+	Version: b14d04adcd5fb6ca-dirty
 	Configuration files: 
 		/home/masta76/Schreibtisch/Thesis/megamol-visual-effects/build/install/bin/megamol_config.lua
 	Application directory: /home/masta76/Schreibtisch/Thesis/megamol-visual-effects/build/install/bin/../
@@ -15,245 +15,220 @@
 	Log level: info
 	Echo level: info
 	Project files: 
-		sphere_renderer_blur.lua
+		gitf_thesis.lua
 	Lua host address: tcp://127.0.0.1:33333
-[2024-09-25 16:03:20] (info)|Main: 
+[2024-09-29 22:57:49] (info)|Main: 
 	Global Key-Values: 
 		MachineName : 76
 		MegaMol : Frontend3000
 		arcball : off
-[2024-09-25 16:03:20] (info)|LRH Server socket opened on "tcp://127.0.0.1:33333"
-[2024-09-25 16:03:20] (info)|Lua_Service_Wrapper: initialized successfully
-[2024-09-25 16:03:20] (info)|FrameStatistics_Service: initialized successfully
-[2024-09-25 16:03:20] (info)|ProjectLoader_Service: initialized successfully
-[2024-09-25 16:03:20] (info)|OpenGL_GLFW_Service: Requesting OpenGL 4.6 Compatibility Profile
-[2024-09-25 16:03:20] (info)|OpenGL_GLFW_Service: Create window with size w: 1920 h: 1080
-[2024-09-25 16:03:20] (info)|OpenGL_GLFW_Service: OpenGL Context Info
+[2024-09-29 22:57:49] (info)|LRH Server socket opened on "tcp://127.0.0.1:33333"
+[2024-09-29 22:57:49] (info)|Lua_Service_Wrapper: initialized successfully
+[2024-09-29 22:57:49] (info)|FrameStatistics_Service: initialized successfully
+[2024-09-29 22:57:49] (info)|ProjectLoader_Service: initialized successfully
+[2024-09-29 22:57:49] (info)|OpenGL_GLFW_Service: Requesting OpenGL 4.6 Compatibility Profile
+[2024-09-29 22:57:49] (info)|OpenGL_GLFW_Service: Create window with size w: 1920 h: 1080
+[2024-09-29 22:57:49] (info)|OpenGL_GLFW_Service: OpenGL Context Info
 	Version:  4.6.0 NVIDIA 560.35.03
 	Vendor:   NVIDIA Corporation
 	Renderer: NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2
 	GLSL:     4.60 NVIDIA
-[2024-09-25 16:03:20] (info)|OpenGL_GLFW_Service: initialized successfully
-[2024-09-25 16:03:20] (info)|ImagePresentation_Service: initialized successfully
-[2024-09-25 16:03:20] (info)|GUI_Service: initialized successfully
-[2024-09-25 16:03:20] (info)|Command_Service: initialized successfully
-[2024-09-25 16:03:20] (info)|Screenshot_Service: initialized successfully
-[2024-09-25 16:03:20] (info)|Plugin "astro" loaded: 8 Modules, 1 Calls
-[2024-09-25 16:03:20] (info)|Plugin "cinematic" loaded: 1 Modules, 1 Calls
-[2024-09-25 16:03:20] (info)|Plugin "cinematic_gl" loaded: 5 Modules, 0 Calls
-[2024-09-25 16:03:20] (info)|Plugin "cluster" loaded: 2 Modules, 3 Calls
-[2024-09-25 16:03:20] (info)|Plugin "compositing_gl" loaded: 17 Modules, 4 Calls
-[2024-09-25 16:03:20] (info)|Plugin "datatools" loaded: 81 Modules, 4 Calls
-[2024-09-25 16:03:20] (info)|Plugin "datatools_gl" loaded: 10 Modules, 0 Calls
-[2024-09-25 16:03:20] (info)|Plugin "geometry_calls" loaded: 0 Modules, 8 Calls
-[2024-09-25 16:03:20] (info)|Plugin "geometry_calls_gl" loaded: 0 Modules, 1 Calls
-[2024-09-25 16:03:20] (info)|Plugin "image_calls" loaded: 0 Modules, 1 Calls
-[2024-09-25 16:03:20] (info)|Plugin "image_gl" loaded: 2 Modules, 0 Calls
-[2024-09-25 16:03:20] (info)|Plugin "infovis" loaded: 6 Modules, 1 Calls
-[2024-09-25 16:03:20] (info)|Plugin "infovis_gl" loaded: 4 Modules, 0 Calls
-[2024-09-25 16:03:20] (info)|Plugin "mesh" loaded: 6 Modules, 6 Calls
-[2024-09-25 16:03:20] (info)|Plugin "mesh_gl" loaded: 6 Modules, 0 Calls
-[2024-09-25 16:03:20] (info)|Plugin "mmadios" loaded: 9 Modules, 1 Calls
-[2024-09-25 16:03:20] (info)|Plugin "mmstd" loaded: 20 Modules, 13 Calls
-[2024-09-25 16:03:20] (info)|Plugin "mmstd_gl" loaded: 17 Modules, 7 Calls
-[2024-09-25 16:03:20] (info)|Plugin "moldyn" loaded: 17 Modules, 2 Calls
-[2024-09-25 16:03:20] (info)|Plugin "moldyn_gl" loaded: 4 Modules, 0 Calls
-[2024-09-25 16:03:20] (info)|Plugin "protein" loaded: 26 Modules, 2 Calls
-[2024-09-25 16:03:20] (info)|Plugin "Protein_Calls" loaded: 0 Modules, 13 Calls
-[2024-09-25 16:03:20] (info)|Plugin "protein_gl" loaded: 18 Modules, 0 Calls
-[2024-09-25 16:03:20] (info)|Plugin "pwdemos_gl" loaded: 11 Modules, 3 Calls
-[2024-09-25 16:03:20] (info)|Plugin "thermodyn" loaded: 2 Modules, 1 Calls
-[2024-09-25 16:03:20] (info)|Plugin "thermodyn_gl" loaded: 1 Modules, 0 Calls
-[2024-09-25 16:03:20] (info)|Plugin "trisoup" loaded: 2 Modules, 2 Calls
-[2024-09-25 16:03:20] (info)|Plugin "trisoup_gl" loaded: 8 Modules, 0 Calls
-[2024-09-25 16:03:20] (info)|Plugin "volume" loaded: 4 Modules, 0 Calls
-[2024-09-25 16:03:20] (info)|Plugin "volume_gl" loaded: 3 Modules, 0 Calls
-[2024-09-25 16:03:20] (info)|[GUI] Reading 74 available calls ... DONE (duration: 0.000 seconds)
-[2024-09-25 16:03:20] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:20] (info)|The loader thread is exiting.
-[2024-09-25 16:03:20] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:20] (info)|The loader thread is exiting.
-[2024-09-25 16:03:20] (info)|[adiosWriter] Writer Closed
-[2024-09-25 16:03:20] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:20] (info)|The loader thread is exiting.
-[2024-09-25 16:03:20] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:20] (info)|The loader thread is exiting.
-[2024-09-25 16:03:20] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:20] (info)|The loader thread is exiting.
-[2024-09-25 16:03:20] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:20] (info)|The loader thread is exiting.
-[2024-09-25 16:03:20] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:20] (info)|The loader thread is exiting.
-[2024-09-25 16:03:20] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:20] (info)|The loader thread is exiting.
-[2024-09-25 16:03:20] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:20] (info)|The loader thread is exiting.
-[2024-09-25 16:03:20] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 16:03:20] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 16:03:20] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 16:03:20] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 16:03:20] (warning)|[FilePathParam] Omitting value 'colors.txt'. File does not exist.
-[2024-09-25 16:03:20] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 16:03:20] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 16:03:20] (warning)|[FilePathParam] Omitting value 'colors.txt'. File does not exist.
-[2024-09-25 16:03:20] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 16:03:20] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 16:03:20] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 16:03:20] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 16:03:20] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 16:03:20] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 16:03:20] (info)|[GUI] Reading 290 available modules ... DONE (duration: 0.102 seconds)
-[2024-09-25 16:03:20] (info)|[GUI] Initialized ImGui render backend for Open GL.
-[2024-09-25 16:03:20] (info)|Created module "N7megamol8mmstd_gl4view8View3DGLE"
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create module: ::Group_3::view
-[2024-09-25 16:03:20] (info)|MegaMolGraph: set graph entry point: ::Group_3::view
-[2024-09-25 16:03:20] (info)|Created module "N7megamol8mmstd_gl19BoundingBoxRendererE"
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create module: ::Group_3::bbox
-[2024-09-25 16:03:20] (info)|Created module "N7megamol4core4view5light12DistantLightE"
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create module: ::Group_2::distantlight
-[2024-09-25 16:03:20] (info)|Created module "N7megamol9moldyn_gl9rendering14SphereRendererE"
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create module: ::Group_2::renderer
-[2024-09-25 16:03:20] (info)|Created module "N7megamol6moldyn2io21TestSpheresDataSourceE"
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create module: ::Group_2::data
-[2024-09-25 16:03:20] (info)|Created module "N7megamol14compositing_gl18SimpleRenderTargetE"
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create module: ::Group_2::SimpleRenderTarget_1
-[2024-09-25 16:03:20] (info)|Created module "N7megamol14compositing_gl13LocalLightingE"
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create module: ::Group_1::LocalLighting_1
-[2024-09-25 16:03:20] (info)|Created module "N7megamol4core4view5light12AmbientLightE"
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create module: ::Group_1::AmbientLight_1
-[2024-09-25 16:03:20] (info)|Created module "N7megamol14compositing_gl12DrawToScreenE"
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create module: ::Group_3::DrawToScreen_1
-[2024-09-25 16:03:20] (info)|Created module "N7megamol4core4view5light12DistantLightE"
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create module: ::Group_1::DistantLight_1
-[2024-09-25 16:03:20] (info)|Created module "N7megamol14compositing_gl11OpticalFlowE"
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create module: ::Group_1::OpticalFlow_1
-[2024-09-25 16:03:20] (info)|Created module "N7megamol14compositing_gl10MotionBlurE"
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create module: ::Group_1::MotionBlur_1
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_3::view::rendering -> ::Group_3::bbox::rendering (CallRender3DGL)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_3::bbox::chainRendering -> ::Group_3::DrawToScreen_1::rendering (CallRender3DGL)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_2::renderer::getdata -> ::Group_2::data::getData (MultiParticleDataCall)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_2::renderer::lights -> ::Group_2::distantlight::deployLightSlot (CallLight)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_2::SimpleRenderTarget_1::chainRendering -> ::Group_2::renderer::rendering (CallRender3DGL)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::AlbedoTexture -> ::Group_2::SimpleRenderTarget_1::Color (CallTexture2D)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::NormalTexture -> ::Group_2::SimpleRenderTarget_1::Normals (CallTexture2D)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::DepthTexture -> ::Group_2::SimpleRenderTarget_1::Depth (CallTexture2D)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::lights -> ::Group_1::DistantLight_1::deployLightSlot (CallLight)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_1::LocalLighting_1::Camera -> ::Group_2::SimpleRenderTarget_1::Camera (CallCamera)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_3::DrawToScreen_1::chainRendering -> ::Group_2::SimpleRenderTarget_1::rendering (CallRender3DGL)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_3::DrawToScreen_1::InputTexture -> ::Group_1::MotionBlur_1::OutputTexture (CallTexture2D)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_3::DrawToScreen_1::DepthTexture -> ::Group_2::SimpleRenderTarget_1::Depth (CallTexture2D)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_1::DistantLight_1::getLightSlot -> ::Group_1::AmbientLight_1::deployLightSlot (CallLight)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_1::OpticalFlow_1::InputTexture -> ::Group_1::LocalLighting_1::OutputTexture (CallTexture2D)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_1::MotionBlur_1::ColorTexture -> ::Group_2::SimpleRenderTarget_1::Color (CallTexture2D)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_1::MotionBlur_1::DepthTexture -> ::Group_2::SimpleRenderTarget_1::Depth (CallTexture2D)
-[2024-09-25 16:03:20] (info)|MegaMolGraph: create call: ::Group_1::MotionBlur_1::FlowTexture -> ::Group_1::OpticalFlow_1::FlowFieldTexture (CallTexture2D)
-[2024-09-25 16:03:20] (info)|ProjectLoader_Service: loaded file sphere_renderer_blur.lua
-[2024-09-25 16:03:20] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:20] (info)|[::Group_2::data] Loading speed: 0.038736 ms/f (99)
-[2024-09-25 16:03:20] (info)|The loader thread is exiting.
-[2024-09-25 16:03:20] (warning)|The camera output file at 'sphere_renderer_blur_cam.json' could not be opened.
-[2024-09-25 16:03:20] (info)|[SphereRenderer] Using render mode 'Simple'.
-[2024-09-25 16:03:21] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:21] (info)|[::Group_2::data] Loading speed: 0.245665 ms/f (250)
-[2024-09-25 16:03:21] (info)|The loader thread is exiting.
-[2024-09-25 16:03:47] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:47] (info)|[::Group_2::data] Loading speed: 0.267560 ms/f (297)
-[2024-09-25 16:03:47] (info)|The loader thread is exiting.
-[2024-09-25 16:03:47] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:47] (info)|[::Group_2::data] Loading speed: 0.268092 ms/f (41)
-[2024-09-25 16:03:47] (info)|The loader thread is exiting.
-[2024-09-25 16:03:47] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:47] (info)|[::Group_2::data] Loading speed: 0.263317 ms/f (42)
-[2024-09-25 16:03:47] (info)|The loader thread is exiting.
-[2024-09-25 16:03:47] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:47] (info)|[::Group_2::data] Loading speed: 0.252129 ms/f (43)
-[2024-09-25 16:03:47] (info)|The loader thread is exiting.
-[2024-09-25 16:03:47] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:47] (info)|[::Group_2::data] Loading speed: 0.267592 ms/f (44)
-[2024-09-25 16:03:47] (info)|The loader thread is exiting.
-[2024-09-25 16:03:48] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:48] (info)|[::Group_2::data] Loading speed: 0.278112 ms/f (45)
-[2024-09-25 16:03:48] (info)|The loader thread is exiting.
-[2024-09-25 16:03:48] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:48] (info)|[::Group_2::data] Loading speed: 0.249491 ms/f (55)
-[2024-09-25 16:03:48] (info)|The loader thread is exiting.
-[2024-09-25 16:03:50] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:50] (info)|[::Group_2::data] Loading speed: 0.254808 ms/f (59)
-[2024-09-25 16:03:50] (info)|The loader thread is exiting.
-[2024-09-25 16:03:55] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:55] (info)|[::Group_2::data] Loading speed: 0.304209 ms/f (59)
-[2024-09-25 16:03:55] (info)|The loader thread is exiting.
-[2024-09-25 16:03:55] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:55] (info)|[::Group_2::data] Loading speed: 0.288829 ms/f (59)
-[2024-09-25 16:03:55] (info)|The loader thread is exiting.
-[2024-09-25 16:03:55] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:55] (info)|[::Group_2::data] Loading speed: 0.215952 ms/f (59)
-[2024-09-25 16:03:55] (info)|The loader thread is exiting.
-[2024-09-25 16:03:55] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:55] (info)|[::Group_2::data] Loading speed: 0.246495 ms/f (59)
-[2024-09-25 16:03:55] (info)|The loader thread is exiting.
-[2024-09-25 16:03:56] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:56] (info)|[::Group_2::data] Loading speed: 0.278031 ms/f (59)
-[2024-09-25 16:03:56] (info)|The loader thread is exiting.
-[2024-09-25 16:03:56] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
-[2024-09-25 16:03:56] (info)|[::Group_2::data] Loading speed: 0.312799 ms/f (59)
-[2024-09-25 16:03:56] (info)|The loader thread is exiting.
-[2024-09-25 16:12:29] (info)|[GUI] Successfully saved project 'Project_1'.
-[2024-09-25 20:52:10] (info)|FrontendServiceCollection: OpenGL_GLFW_Service requests shutdown
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|destructed call "N7megamol4core4CallE"
-[2024-09-25 20:52:10] (info)|Released module "N7megamol14compositing_gl10MotionBlurE"
-[2024-09-25 20:52:10] (info)|MegaMolGraph: release module: ::Group_1::MotionBlur_1
-[2024-09-25 20:52:10] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_1::MotionBlur_1) with children destructed
-[2024-09-25 20:52:10] (info)|Released module "N7megamol14compositing_gl11OpticalFlowE"
-[2024-09-25 20:52:10] (info)|MegaMolGraph: release module: ::Group_1::OpticalFlow_1
-[2024-09-25 20:52:10] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_1::OpticalFlow_1) with children destructed
-[2024-09-25 20:52:10] (info)|Released module "N7megamol4core4view5light12DistantLightE"
-[2024-09-25 20:52:10] (info)|MegaMolGraph: release module: ::Group_1::DistantLight_1
-[2024-09-25 20:52:10] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_1::DistantLight_1) with children destructed
-[2024-09-25 20:52:10] (info)|Released module "N7megamol14compositing_gl12DrawToScreenE"
-[2024-09-25 20:52:10] (info)|MegaMolGraph: release module: ::Group_3::DrawToScreen_1
-[2024-09-25 20:52:10] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_3::DrawToScreen_1) with children destructed
-[2024-09-25 20:52:10] (info)|Released module "N7megamol4core4view5light12AmbientLightE"
-[2024-09-25 20:52:10] (info)|MegaMolGraph: release module: ::Group_1::AmbientLight_1
-[2024-09-25 20:52:10] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_1::AmbientLight_1) with children destructed
-[2024-09-25 20:52:10] (info)|Released module "N7megamol14compositing_gl13LocalLightingE"
-[2024-09-25 20:52:10] (info)|MegaMolGraph: release module: ::Group_1::LocalLighting_1
-[2024-09-25 20:52:10] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_1::LocalLighting_1) with children destructed
-[2024-09-25 20:52:10] (info)|Released module "N7megamol14compositing_gl18SimpleRenderTargetE"
-[2024-09-25 20:52:10] (info)|MegaMolGraph: release module: ::Group_2::SimpleRenderTarget_1
-[2024-09-25 20:52:10] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_2::SimpleRenderTarget_1) with children destructed
-[2024-09-25 20:52:10] (info)|Released module "N7megamol6moldyn2io21TestSpheresDataSourceE"
-[2024-09-25 20:52:10] (info)|MegaMolGraph: release module: ::Group_2::data
-[2024-09-25 20:52:10] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_2::data) with children destructed
-[2024-09-25 20:52:10] (info)|Released module "N7megamol9moldyn_gl9rendering14SphereRendererE"
-[2024-09-25 20:52:10] (info)|MegaMolGraph: release module: ::Group_2::renderer
-[2024-09-25 20:52:10] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_2::renderer) with children destructed
-[2024-09-25 20:52:10] (info)|Released module "N7megamol4core4view5light12DistantLightE"
-[2024-09-25 20:52:10] (info)|MegaMolGraph: release module: ::Group_2::distantlight
-[2024-09-25 20:52:10] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_2::distantlight) with children destructed
-[2024-09-25 20:52:10] (info)|Released module "N7megamol8mmstd_gl19BoundingBoxRendererE"
-[2024-09-25 20:52:10] (info)|MegaMolGraph: release module: ::Group_3::bbox
-[2024-09-25 20:52:10] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_3::bbox) with children destructed
-[2024-09-25 20:52:10] (info)|MegaMolGraph: remove graph entry point: ::Group_3::view
-[2024-09-25 20:52:10] (info)|Released module "N7megamol8mmstd_gl4view8View3DGLE"
-[2024-09-25 20:52:10] (info)|MegaMolGraph: release module: ::Group_3::view
-[2024-09-25 20:52:10] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_3::view) with children destructed
-[2024-09-25 20:52:10] (info)|LRH Server socket closed
-[2024-09-25 20:52:10] (info)|[GUI] Destroyed ImGui context.
+[2024-09-29 22:57:49] (info)|OpenGL_GLFW_Service: initialized successfully
+[2024-09-29 22:57:49] (info)|ImagePresentation_Service: initialized successfully
+[2024-09-29 22:57:49] (info)|GUI_Service: initialized successfully
+[2024-09-29 22:57:49] (info)|Command_Service: initialized successfully
+[2024-09-29 22:57:49] (info)|Screenshot_Service: initialized successfully
+[2024-09-29 22:57:49] (info)|Plugin "astro" loaded: 8 Modules, 1 Calls
+[2024-09-29 22:57:49] (info)|Plugin "cinematic" loaded: 1 Modules, 1 Calls
+[2024-09-29 22:57:49] (info)|Plugin "cinematic_gl" loaded: 5 Modules, 0 Calls
+[2024-09-29 22:57:49] (info)|Plugin "cluster" loaded: 2 Modules, 3 Calls
+[2024-09-29 22:57:49] (info)|Plugin "compositing_gl" loaded: 17 Modules, 4 Calls
+[2024-09-29 22:57:49] (info)|Plugin "datatools" loaded: 81 Modules, 4 Calls
+[2024-09-29 22:57:49] (info)|Plugin "datatools_gl" loaded: 10 Modules, 0 Calls
+[2024-09-29 22:57:49] (info)|Plugin "geometry_calls" loaded: 0 Modules, 8 Calls
+[2024-09-29 22:57:49] (info)|Plugin "geometry_calls_gl" loaded: 0 Modules, 1 Calls
+[2024-09-29 22:57:49] (info)|Plugin "image_calls" loaded: 0 Modules, 1 Calls
+[2024-09-29 22:57:49] (info)|Plugin "image_gl" loaded: 2 Modules, 0 Calls
+[2024-09-29 22:57:49] (info)|Plugin "infovis" loaded: 6 Modules, 1 Calls
+[2024-09-29 22:57:49] (info)|Plugin "infovis_gl" loaded: 4 Modules, 0 Calls
+[2024-09-29 22:57:49] (info)|Plugin "mesh" loaded: 6 Modules, 6 Calls
+[2024-09-29 22:57:49] (info)|Plugin "mesh_gl" loaded: 6 Modules, 0 Calls
+[2024-09-29 22:57:49] (info)|Plugin "mmadios" loaded: 9 Modules, 1 Calls
+[2024-09-29 22:57:49] (info)|Plugin "mmstd" loaded: 20 Modules, 13 Calls
+[2024-09-29 22:57:49] (info)|Plugin "mmstd_gl" loaded: 17 Modules, 7 Calls
+[2024-09-29 22:57:49] (info)|Plugin "moldyn" loaded: 17 Modules, 2 Calls
+[2024-09-29 22:57:49] (info)|Plugin "moldyn_gl" loaded: 4 Modules, 0 Calls
+[2024-09-29 22:57:49] (info)|Plugin "protein" loaded: 26 Modules, 2 Calls
+[2024-09-29 22:57:49] (info)|Plugin "Protein_Calls" loaded: 0 Modules, 13 Calls
+[2024-09-29 22:57:49] (info)|Plugin "protein_gl" loaded: 18 Modules, 0 Calls
+[2024-09-29 22:57:49] (info)|Plugin "pwdemos_gl" loaded: 11 Modules, 3 Calls
+[2024-09-29 22:57:49] (info)|Plugin "thermodyn" loaded: 2 Modules, 1 Calls
+[2024-09-29 22:57:49] (info)|Plugin "thermodyn_gl" loaded: 1 Modules, 0 Calls
+[2024-09-29 22:57:49] (info)|Plugin "trisoup" loaded: 2 Modules, 2 Calls
+[2024-09-29 22:57:49] (info)|Plugin "trisoup_gl" loaded: 8 Modules, 0 Calls
+[2024-09-29 22:57:49] (info)|Plugin "volume" loaded: 4 Modules, 0 Calls
+[2024-09-29 22:57:49] (info)|Plugin "volume_gl" loaded: 3 Modules, 0 Calls
+[2024-09-29 22:57:49] (info)|[GUI] Reading 74 available calls ... DONE (duration: 0.000 seconds)
+[2024-09-29 22:57:49] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-29 22:57:49] (info)|The loader thread is exiting.
+[2024-09-29 22:57:49] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-29 22:57:49] (info)|The loader thread is exiting.
+[2024-09-29 22:57:49] (info)|[adiosWriter] Writer Closed
+[2024-09-29 22:57:49] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-29 22:57:49] (info)|The loader thread is exiting.
+[2024-09-29 22:57:49] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-29 22:57:49] (info)|The loader thread is exiting.
+[2024-09-29 22:57:49] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-29 22:57:49] (info)|The loader thread is exiting.
+[2024-09-29 22:57:49] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-29 22:57:49] (info)|The loader thread is exiting.
+[2024-09-29 22:57:49] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-29 22:57:49] (info)|The loader thread is exiting.
+[2024-09-29 22:57:49] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-29 22:57:49] (info)|The loader thread is exiting.
+[2024-09-29 22:57:49] (info)|All frames of the dataset loaded into cache. Terminating loading Thread.
+[2024-09-29 22:57:49] (info)|The loader thread is exiting.
+[2024-09-29 22:57:49] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:49] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:49] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:49] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:49] (warning)|[FilePathParam] Omitting value 'colors.txt'. File does not exist.
+[2024-09-29 22:57:49] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:49] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:49] (warning)|[FilePathParam] Omitting value 'colors.txt'. File does not exist.
+[2024-09-29 22:57:49] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:49] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:49] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:49] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:49] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:49] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:49] (info)|[GUI] Reading 290 available modules ... DONE (duration: 0.102 seconds)
+[2024-09-29 22:57:49] (info)|[GUI] Initialized ImGui render backend for Open GL.
+[2024-09-29 22:57:49] (warning)|Version info in project (852622f72f52449f-dirty) does not match MegaMol version (b14d04adcd5fb6ca-dirty)!
+[2024-09-29 22:57:49] (info)|Created module "N7megamol8mmstd_gl4view8View3DGLE"
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create module: ::Group_1::View3DGL1
+[2024-09-29 22:57:49] (info)|MegaMolGraph: set graph entry point: ::Group_1::View3DGL1
+[2024-09-29 22:57:49] (info)|Created module "N7megamol4core4view5light12DistantLightE"
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create module: ::Lighting&Post::DistantLight1
+[2024-09-29 22:57:49] (info)|Created module "N7megamol14compositing_gl14TextureCombineE"
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create module: ::Lighting&Post::TextureCombine1
+[2024-09-29 22:57:49] (info)|Created module "N7megamol14compositing_gl13LocalLightingE"
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create module: ::Lighting&Post::LocalLighting1
+[2024-09-29 22:57:49] (info)|Created module "N7megamol14compositing_gl18SimpleRenderTargetE"
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create module: ::Group_2::SimpleRenderTarget1
+[2024-09-29 22:57:49] (info)|Created module "N7megamol4mesh14GlTFFileLoaderE"
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create module: ::Group_2::GlTFFileLoader1
+[2024-09-29 22:57:49] (info)|Created module "N7megamol8mmstd_gl19BoundingBoxRendererE"
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create module: ::Group_1::BoundingBoxRenderer1
+[2024-09-29 22:57:49] (info)|Created module "N7megamol14compositing_gl12DrawToScreenE"
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create module: ::Group_1::DrawToScreen1
+[2024-09-29 22:57:49] (info)|Created module "N7megamol7mesh_gl20DeferredGltfRendererE"
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create module: ::Group_2::DeferredGltfRenderer_1
+[2024-09-29 22:57:49] (info)|Created module "N7megamol14compositing_gl8ContoursE"
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create module: ::Lighting&Post::Contours_1
+[2024-09-29 22:57:49] (info)|Created module "N7megamol4core4view5light12AmbientLightE"
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create module: ::Lighting&Post::AmbientLight_1
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Group_1::View3DGL1::rendering -> ::Group_1::BoundingBoxRenderer1::rendering (CallRender3DGL)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Lighting&Post::DistantLight1::getLightSlot -> ::Lighting&Post::AmbientLight_1::deployLightSlot (CallLight)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Lighting&Post::TextureCombine1::InputTexture0 -> ::Lighting&Post::LocalLighting1::OutputTexture (CallTexture2D)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Lighting&Post::TextureCombine1::InputTexture1 -> ::Lighting&Post::Contours_1::OutputTexture (CallTexture2D)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Lighting&Post::LocalLighting1::AlbedoTexture -> ::Group_2::SimpleRenderTarget1::Color (CallTexture2D)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Lighting&Post::LocalLighting1::NormalTexture -> ::Group_2::SimpleRenderTarget1::Normals (CallTexture2D)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Lighting&Post::LocalLighting1::DepthTexture -> ::Group_2::SimpleRenderTarget1::Depth (CallTexture2D)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Lighting&Post::LocalLighting1::lights -> ::Lighting&Post::DistantLight1::deployLightSlot (CallLight)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Lighting&Post::LocalLighting1::Camera -> ::Group_2::SimpleRenderTarget1::Camera (CallCamera)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Group_2::SimpleRenderTarget1::chainRendering -> ::Group_2::DeferredGltfRenderer_1::rendering (CallRender3DGL)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Group_1::BoundingBoxRenderer1::chainRendering -> ::Group_1::DrawToScreen1::rendering (CallRender3DGL)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Group_1::DrawToScreen1::chainRendering -> ::Group_2::SimpleRenderTarget1::rendering (CallRender3DGL)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Group_1::DrawToScreen1::DepthTexture -> ::Group_2::SimpleRenderTarget1::Normals (CallTexture2D)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Group_2::DeferredGltfRenderer_1::meshes -> ::Group_2::GlTFFileLoader1::meshes (CallMesh)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Group_2::DeferredGltfRenderer_1::gltfModels -> ::Group_2::GlTFFileLoader1::gltfModels (CallGlTFData)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Lighting&Post::Contours_1::NormalTexture -> ::Group_2::SimpleRenderTarget1::Normals (CallTexture2D)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Lighting&Post::Contours_1::ColorTexture -> ::Group_2::SimpleRenderTarget1::Color (CallTexture2D)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Lighting&Post::Contours_1::DepthTexture -> ::Group_2::SimpleRenderTarget1::Depth (CallTexture2D)
+[2024-09-29 22:57:49] (info)|MegaMolGraph: create call: ::Lighting&Post::Contours_1::Camera -> ::Group_2::SimpleRenderTarget1::Camera (CallCamera)
+[2024-09-29 22:57:49] (info)|ProjectLoader_Service: loaded file gitf_thesis.lua
+[2024-09-29 22:57:49] (warning)|The camera output file at 'gitf_thesis_cam.json' could not be opened.
+[2024-09-29 22:57:58] (info)|MegaMolGraph: rename module ::Lighting&Post::LocalLighting1 to ::LocalLighting1
+[2024-09-29 22:57:58] (info)|MegaMolGraph: rename call at slot ::Lighting&Post::LocalLighting1::Camera to ::LocalLighting1::Camera
+[2024-09-29 22:57:58] (info)|MegaMolGraph: rename call at slot ::Lighting&Post::LocalLighting1::lights to ::LocalLighting1::lights
+[2024-09-29 22:57:58] (info)|MegaMolGraph: rename call at slot ::Lighting&Post::LocalLighting1::DepthTexture to ::LocalLighting1::DepthTexture
+[2024-09-29 22:57:58] (info)|MegaMolGraph: rename call at slot ::Lighting&Post::LocalLighting1::NormalTexture to ::LocalLighting1::NormalTexture
+[2024-09-29 22:57:58] (info)|MegaMolGraph: rename call at slot ::Lighting&Post::LocalLighting1::AlbedoTexture to ::LocalLighting1::AlbedoTexture
+[2024-09-29 22:57:58] (info)|MegaMolGraph: rename call at slot ::Lighting&Post::LocalLighting1::OutputTexture to ::LocalLighting1::OutputTexture
+[2024-09-29 22:57:58] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:58] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:58] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:58] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:58] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:58] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:58] (info)|Released module "N7megamol14compositing_gl13LocalLightingE"
+[2024-09-29 22:57:58] (info)|MegaMolGraph: release module: ::LocalLighting1
+[2024-09-29 22:57:58] (warning)|Possible memory problem detected: NamedObjectContainer (::::::LocalLighting1) with children destructed
+[2024-09-29 22:57:59] (info)|MegaMolGraph: rename module ::Lighting&Post::DistantLight1 to ::DistantLight1
+[2024-09-29 22:57:59] (info)|MegaMolGraph: rename call at slot ::Lighting&Post::DistantLight1::getLightSlot to ::DistantLight1::getLightSlot
+[2024-09-29 22:57:59] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:57:59] (info)|Released module "N7megamol4core4view5light12DistantLightE"
+[2024-09-29 22:57:59] (info)|MegaMolGraph: release module: ::DistantLight1
+[2024-09-29 22:57:59] (warning)|Possible memory problem detected: NamedObjectContainer (::::::DistantLight1) with children destructed
+[2024-09-29 22:58:00] (info)|MegaMolGraph: rename module ::Lighting&Post::AmbientLight_1 to ::AmbientLight_1
+[2024-09-29 22:58:00] (info)|Released module "N7megamol4core4view5light12AmbientLightE"
+[2024-09-29 22:58:00] (info)|MegaMolGraph: release module: ::AmbientLight_1
+[2024-09-29 22:58:00] (warning)|Possible memory problem detected: NamedObjectContainer (::::::AmbientLight_1) with children destructed
+[2024-09-29 22:58:01] (info)|MegaMolGraph: rename module ::Lighting&Post::TextureCombine1 to ::TextureCombine1
+[2024-09-29 22:58:01] (info)|MegaMolGraph: rename call at slot ::Lighting&Post::TextureCombine1::InputTexture1 to ::TextureCombine1::InputTexture1
+[2024-09-29 22:58:01] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:58:01] (info)|Released module "N7megamol14compositing_gl14TextureCombineE"
+[2024-09-29 22:58:01] (info)|MegaMolGraph: release module: ::TextureCombine1
+[2024-09-29 22:58:01] (warning)|Possible memory problem detected: NamedObjectContainer (::::::TextureCombine1) with children destructed
+[2024-09-29 22:58:08] (info)|Created module "N7megamol14compositing_gl12MedianFilterE"
+[2024-09-29 22:58:08] (info)|MegaMolGraph: create module: ::MedianFilter_1
+[2024-09-29 22:58:12] (info)|MegaMolGraph: rename module ::MedianFilter_1 to ::Lighting&Post::MedianFilter_1
+[2024-09-29 22:58:14] (info)|MegaMolGraph: create call: ::Lighting&Post::MedianFilter_1::ColorTexture -> ::Lighting&Post::Contours_1::OutputTexture (CallTexture2D)
+[2024-09-29 22:58:16] (info)|MegaMolGraph: create call: ::Group_1::DrawToScreen1::InputTexture -> ::Lighting&Post::MedianFilter_1::OutputTexture (CallTexture2D)
+[2024-09-29 22:58:20] (info)|MegaMolGraph: rename module ::Group_1::BoundingBoxRenderer1 to ::BoundingBoxRenderer1
+[2024-09-29 22:58:20] (info)|MegaMolGraph: rename call at slot ::Group_1::BoundingBoxRenderer1::chainRendering to ::BoundingBoxRenderer1::chainRendering
+[2024-09-29 22:58:20] (info)|MegaMolGraph: rename call at slot ::Group_1::BoundingBoxRenderer1::rendering to ::BoundingBoxRenderer1::rendering
+[2024-09-29 22:58:20] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:58:20] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:58:20] (info)|Released module "N7megamol8mmstd_gl19BoundingBoxRendererE"
+[2024-09-29 22:58:20] (info)|MegaMolGraph: release module: ::BoundingBoxRenderer1
+[2024-09-29 22:58:20] (warning)|Possible memory problem detected: NamedObjectContainer (::::::BoundingBoxRenderer1) with children destructed
+[2024-09-29 22:58:22] (info)|MegaMolGraph: create call: ::Group_1::View3DGL1::rendering -> ::Group_1::DrawToScreen1::rendering (CallRender3DGL)
+[2024-09-29 22:59:18] (info)|FrontendServiceCollection: OpenGL_GLFW_Service requests shutdown
+[2024-09-29 22:59:18] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:59:18] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:59:18] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:59:18] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:59:18] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:59:18] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:59:18] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:59:18] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:59:18] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:59:18] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:59:18] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:59:18] (info)|destructed call "N7megamol4core4CallE"
+[2024-09-29 22:59:18] (info)|Released module "N7megamol14compositing_gl12MedianFilterE"
+[2024-09-29 22:59:18] (info)|MegaMolGraph: release module: ::Lighting&Post::MedianFilter_1
+[2024-09-29 22:59:18] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Lighting&Post::MedianFilter_1) with children destructed
+[2024-09-29 22:59:18] (info)|Released module "N7megamol14compositing_gl8ContoursE"
+[2024-09-29 22:59:18] (info)|MegaMolGraph: release module: ::Lighting&Post::Contours_1
+[2024-09-29 22:59:18] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Lighting&Post::Contours_1) with children destructed
+[2024-09-29 22:59:18] (info)|Released module "N7megamol7mesh_gl20DeferredGltfRendererE"
+[2024-09-29 22:59:18] (info)|MegaMolGraph: release module: ::Group_2::DeferredGltfRenderer_1
+[2024-09-29 22:59:18] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_2::DeferredGltfRenderer_1) with children destructed
+[2024-09-29 22:59:18] (info)|Released module "N7megamol14compositing_gl12DrawToScreenE"
+[2024-09-29 22:59:18] (info)|MegaMolGraph: release module: ::Group_1::DrawToScreen1
+[2024-09-29 22:59:18] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_1::DrawToScreen1) with children destructed
+[2024-09-29 22:59:18] (info)|Released module "N7megamol4mesh14GlTFFileLoaderE"
+[2024-09-29 22:59:18] (info)|MegaMolGraph: release module: ::Group_2::GlTFFileLoader1
+[2024-09-29 22:59:18] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_2::GlTFFileLoader1) with children destructed
+[2024-09-29 22:59:18] (info)|Released module "N7megamol14compositing_gl18SimpleRenderTargetE"
+[2024-09-29 22:59:18] (info)|MegaMolGraph: release module: ::Group_2::SimpleRenderTarget1
+[2024-09-29 22:59:18] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_2::SimpleRenderTarget1) with children destructed
+[2024-09-29 22:59:18] (info)|MegaMolGraph: remove graph entry point: ::Group_1::View3DGL1
+[2024-09-29 22:59:18] (info)|Released module "N7megamol8mmstd_gl4view8View3DGLE"
+[2024-09-29 22:59:18] (info)|MegaMolGraph: release module: ::Group_1::View3DGL1
+[2024-09-29 22:59:18] (warning)|Possible memory problem detected: NamedObjectContainer (::::::Group_1::View3DGL1) with children destructed
+[2024-09-29 22:59:18] (info)|LRH Server socket closed
+[2024-09-29 22:59:18] (info)|[GUI] Destroyed ImGui context.

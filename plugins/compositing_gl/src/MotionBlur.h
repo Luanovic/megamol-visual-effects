@@ -112,6 +112,7 @@ private:
     core::param::ParamSlot sampleTaps_;
     core::param::ParamSlot exposureTime_;
     core::param::ParamSlot frameRate_;
+    core::param::ParamSlot zExtendScalar_;
 
     /** version identifier */
     uint32_t version_;

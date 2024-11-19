@@ -1,12 +1,11 @@
 #version 460
-#define OPTIMIZED 0
-#define USEROOT 1
 
 uniform sampler2D color_tex_2D;
 uniform sampler2D intensity_tex;
 
 uniform int radius;
 uniform float threshold;
+uniform bool useMidpointCircle;
 
 layout(rgba16) writeonly uniform image2D target_tex;
 
@@ -28,12 +27,7 @@ bool isValley(ivec2 pixel_coords) {
             ivec2 current_pos = ivec2(i, j);
             float current_pos_intensity = texelFetch(intensity_tex, current_pos, 0).x;
 
-            #if USEROOT
-                vec2 vec = pixel_coords - current_pos;
-                bool condition = pow(vec.x, 2) + pow(vec.y, 2) < pow(radius, 2);
-            #else
-                bool condition = distance(pixel_coords, current_pos) < radius;
-            #endif
+            bool condition = distance(pixel_coords, current_pos) <= radius;
 
             if(condition) {
                 pixel_count++;
@@ -141,19 +135,19 @@ void main() {
     vec4 white = vec4(1, 1, 1, 1);
     float current_intensity = texelFetch(intensity_tex, pixel_coords, 0).x;
 
-
-    #if OPTIMIZED 
-        if(optimizedValleyDetection(pixel_coords) || current_intensity == 0) {
+    if (useMidpointCircle) {
+        if(optimizedValleyDetection(pixel_coords)) {
             imageStore(target_tex, pixel_coords, black);
         } else {
             imageStore(target_tex, pixel_coords, white);
         }
-    #else
-        if(isValley(pixel_coords)) {
+    }
+    else {
+        if(isValley(pixel_coords)) { 
             imageStore(target_tex, pixel_coords, black);
         } else {
             imageStore(target_tex, pixel_coords, white);
         }
-    #endif
+    }
 }
 

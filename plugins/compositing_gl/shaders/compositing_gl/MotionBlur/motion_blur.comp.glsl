@@ -7,11 +7,12 @@ layout(binding = 1) uniform sampler2D depthBuffer;
 layout(binding = 2) uniform sampler2D neighborMaxBuffer;
 
 uniform int numSamples;          
+uniform int zExtendScalar;
 
 layout(rgba16f, binding = 0) writeonly uniform image2D outputTex;
 
 float softDepthCompare(float depthA, float depthB) {
-    const float SOFT_Z_EXTENT = 0.1;
+    const float SOFT_Z_EXTENT = pow(0.1, zExtendScalar);
     return clamp(1.0 - (depthA - depthB) / SOFT_Z_EXTENT, 0.0, 1.0);
 }
 

@@ -35,6 +35,7 @@ megamol::compositing_gl::MotionBlur::MotionBlur()
         , sampleTaps_("NumSamples", "Number of Samples to be taken")
         , exposureTime_("ExposureTime", "Exposure Time")
         , frameRate_("FrameRate", "Framerate of the animation")
+        , zExtendScalar_("Z-Extend", "Scales z-extend by 0.1**Z-Extend")
 {
 
     outputTexSlot_.SetCallback(
@@ -73,6 +74,10 @@ megamol::compositing_gl::MotionBlur::MotionBlur()
     frameRate_.SetParameter(new core::param::IntParam(60, 0 , 500, 1));
     this->MakeSlotAvailable(&this->frameRate_);
     frameRate_.ForceSetDirty();
+
+    zExtendScalar_.SetParameter(new core::param::IntParam(1, 0 , 5, 1));
+    this->MakeSlotAvailable(&this->zExtendScalar_);
+    zExtendScalar_.ForceSetDirty();
 }
 
 
@@ -125,7 +130,7 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
     auto lhs_tc = dynamic_cast<CallTexture2D*>(&caller);
     auto call_color  = inputColorSlot_.CallAs<CallTexture2D>();
     auto call_depth = inputDepthSlot_.CallAs<CallTexture2D>();
-    auto call_flow = inputFlowSlot_.CallAs<CallTexture2D>();
+    auto call_flow = inputFlowSlot_.CallAs<CallTexture2D>()n;
 
     if (lhs_tc == nullptr) {
         return false;
@@ -153,6 +158,7 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
                         call_depth != nullptr && call_depth->hasUpdate() ||
                         call_flow != nullptr && call_flow->hasUpdate() ||
                         maxBlurRadius_.IsDirty() || sampleTaps_.IsDirty() || 
+                        zExtendScalar_.IsDirty() ||
                         exposureTime_.IsDirty() || frameRate_.IsDirty();
 
     if (incomingChange) {
@@ -162,6 +168,7 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
         sampleTaps_.ResetDirty();
         exposureTime_.ResetDirty();
         frameRate_.ResetDirty();
+        zExtendScalar_.ResetDirty();
 
         auto color_tex_2D = call_color->getData();
         auto depth_tex_2D = call_depth->getData();
@@ -175,7 +182,7 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
         auto sampleTapsVal = sampleTaps_.Param<core::param::IntParam>()->Value();
         auto frameRateVal = frameRate_.Param<core::param::IntParam>()->Value();
         auto exposureTimeVal = exposureTime_.Param<core::param::FloatParam>()->Value();
-        int tileSize = maxBlurRadiusVal * 2 + 1;
+        auto zExtendVal = zExtendScalar_.Param<core::param::IntParam>()->Value();
 
 
         if (m_last_tex_size != glm::ivec2(color_tex_2D->getWidth(), color_tex_2D->getHeight())) {
@@ -234,6 +241,7 @@ bool megamol::compositing_gl::MotionBlur::getDataCallback(core::Call& caller) {
         if(blurShaderProgram_ != nullptr) {
             blurShaderProgram_->use();
             blurShaderProgram_->setUniform("numSamples", sampleTapsVal);
+            blurShaderProgram_->setUniform("zExtendScalar", zExtendVal);
             bindTextureToShader(blurShaderProgram_, color_tex_2D, "colorBuffer", 0);
             bindTextureToShader(blurShaderProgram_, depth_tex_2D, "depthBuffer", 1);
             bindTextureToShader(blurShaderProgram_, neighborMaxBuffer_, "neighborMaxBuffer", 2);

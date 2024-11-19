@@ -124,6 +124,9 @@ private:
     /** Param for suggestive contour intensitiy threshold */
     core::param::ParamSlot suggestiveThreshold_;
 
+
+    core::param::ParamSlot useMidpointCircle_;
+
     /** Mode (Sobel, Suggestive) */
     core::param::ParamSlot mode_;
 

@@ -33,6 +33,7 @@ megamol::compositing_gl::Contours::Contours()
         , radius_("Radius", "Radius for Valey detection inside suggestive contour algorithm.")
         , suggestiveThreshold_("Suggestive_Threshold", "Threshold for p_max - p_i")
         , mode_("contourMode", "Sets Contour Mode to different algorithms.") 
+        , useMidpointCircle_("MidpointCircle", "Activate the midpoint circle optimization for suggestive contours")
 {
 
     outputTexSlot_.SetCallback(
@@ -70,6 +71,10 @@ megamol::compositing_gl::Contours::Contours()
     suggestiveThreshold_.SetParameter(new core::param::FloatParam(0.430000f, 0.0f, 2.f, 0.001f));
     this->MakeSlotAvailable(&suggestiveThreshold_);
     suggestiveThreshold_.ForceSetDirty();
+
+    useMidpointCircle_.SetParameter(new core::param::BoolParam(false));
+    this->MakeSlotAvailable(&useMidpointCircle_);
+    useMidpointCircle_.ForceSetDirty();
 
     this->mode_ << new megamol::core::param::EnumParam(0);
     this->mode_.Param<megamol::core::param::EnumParam>()->SetTypePair(0, "Sobel");
@@ -153,13 +158,14 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
     
 
     bool incomingChange = call_normal != nullptr && call_normal->hasUpdate() ||
-                          call_camera !=nullptr && call_camera->hasUpdate() ||
-                          call_depth != nullptr && call_depth->hasUpdate() ||
-                          call_color != nullptr && call_color->hasUpdate() || 
-                          radius_.IsDirty() ||
-                          sobelThreshold_.IsDirty() ||
-                          suggestiveThreshold_.IsDirty() ||
-                          mode_.IsDirty();
+                        call_camera !=nullptr && call_camera->hasUpdate() ||
+                        call_depth != nullptr && call_depth->hasUpdate() ||
+                        call_color != nullptr && call_color->hasUpdate() || 
+                        radius_.IsDirty() ||
+                        sobelThreshold_.IsDirty() ||
+                        suggestiveThreshold_.IsDirty() ||
+                        useMidpointCircle_.IsDirty() || 
+                        mode_.IsDirty();
 
     if (incomingChange) {
         ++version_;
@@ -168,11 +174,14 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
         radius_.ResetDirty();
         suggestiveThreshold_.ResetDirty();
         mode_.ResetDirty();
+        useMidpointCircle_.ResetDirty();
 
         auto sobleThresholdVal = sobelThreshold_.Param<core::param::FloatParam>()->Value();
         auto radiusVal = radius_.Param<core::param::IntParam>()->Value();
         auto suggestiveThresholdVal = suggestiveThreshold_.Param<core::param::FloatParam>()->Value();
         auto current_mode = mode_.Param<core::param::EnumParam>()->Value();
+        auto useMidpointCircleVal = useMidpointCircle_.Param<core::param::BoolParam>()->Value();
+
 
         auto normal_tex_2D = call_normal->getData();
         auto color_tex_2D = call_color->getData();
@@ -209,7 +218,6 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
             this->setGUIState(current_mode);
 
             intensityShader_->use();
-
             this->bindTexture(intensityShader_, depth_tex_2D, "depth_tex_2D", 0);
             this->bindTexture(intensityShader_, normal_tex_2D, "normal_tex_2D", 1);
 
@@ -241,8 +249,9 @@ bool megamol::compositing_gl::Contours::getDataCallback(core::Call& caller) {
 
             suggestiveContoursShader_->use();
 
-            suggestiveContoursShader_->setUniform("radius", radius_.Param<core::param::IntParam>()->Value());
-            suggestiveContoursShader_->setUniform("threshold", suggestiveThreshold_.Param<core::param::FloatParam>()->Value());
+            suggestiveContoursShader_->setUniform("radius", radiusVal);
+            suggestiveContoursShader_->setUniform("threshold", suggestiveThresholdVal);
+            suggestiveContoursShader_->setUniform("useMidpointCircle", useMidpointCircleVal);
 
             this->bindTexture(suggestiveContoursShader_, color_tex_2D, "color_tex_2D", 0);
             this->bindTexture(suggestiveContoursShader_, intensityTex_, "intensity_tex", 1);
@@ -297,12 +306,11 @@ void megamol::compositing_gl::Contours::setGUIState(int mode) {
         suggestiveThreshold_.Param<megamol::core::param::FloatParam>()->SetGUIVisible(false);
         break;
     
-    case 1:
+
+    default:
         sobelThreshold_.Param<core::param::FloatParam>()->SetGUIVisible(false);
         radius_.Param<core::param::IntParam>()->SetGUIVisible(true);
         suggestiveThreshold_.Param<core::param::FloatParam>()->SetGUIVisible(true);
-
-    default:
         break;
     }
 }
